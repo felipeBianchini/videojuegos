@@ -33,6 +33,12 @@
 
 # VS Code
 .vs/
+*.sln
+*.vcxproj
+*.vcxproj.filters
 
 # Carpetas generadas automáticamente
 Debug/
+Release/
+
+
