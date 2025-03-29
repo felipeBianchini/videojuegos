@@ -135,4 +135,6 @@ void Entity::setTexture(SDL_Texture* texture)
     this->imgTexture = texture;
 }
 
-Entity::~Entity() {}
+Entity::~Entity() {
+    SDL_DestroyTexture(this->imgTexture);
+}

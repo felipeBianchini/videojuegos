@@ -61,8 +61,6 @@ void Game::init()
 
 	for (auto entity : entities)
 	{
-		entity->setImgPosX((this->windw->width / 2) - (entity->getWidth() / 2));
-		entity->setImgPosY((this->windw->height / 2) - (entity->getHeight() / 2));
 		SDL_Surface* imgSurface = IMG_Load(entity->getFilename().c_str());
 		SDL_Texture* imgTexture = SDL_CreateTextureFromSurface(this->renderer, imgSurface);
 		entity->setTexture(imgTexture);
