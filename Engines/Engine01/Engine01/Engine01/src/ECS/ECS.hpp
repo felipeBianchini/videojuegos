@@ -116,13 +116,6 @@ private:
 	std::deque<int> freeIds;
 };
 
-class ECS {
-public:
-private:
-};
-
-#endif // !ECS_HPP
-
 template<typename TComponent>
 void System::RequiredComponent()
 {
@@ -150,6 +143,7 @@ void Registry::AddComponent(Entity entity, TArgs && ...args)
 	TComponent newComponent(std::forward<TArgs>(args)...);
 	componentPool->Set(entityId, newComponent);
 	entityComponentSignatures[entityId].set(componentId);
+	std::cout << "[Registry] Se agrega componente " << componentId << " a la entidad " << entityId << std::endl;
 }
 
 template<typename TComponent, typename ...TArgs>
@@ -227,3 +221,5 @@ TComponent& Entity::GetComponent() const
 {
 	return registry->GetComponent<TComponent>(*this);
 }
+
+#endif // !ECS_HPP

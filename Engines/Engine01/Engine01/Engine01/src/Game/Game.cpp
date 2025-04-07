@@ -2,6 +2,10 @@
 
 #include "Game.hpp"
 #include "../Components/TransformComponent.hpp"
+#include "../Components/RigidBodyComponent.hpp"
+#include "../Components/SpriteComponent.hpp"
+#include "../Systems/RenderSystem.hpp"
+#include "../Systems/MovementSystem.hpp"
 
 Game::Game()
 {
@@ -12,6 +16,7 @@ Game::Game()
 	this->window_height = 600;
 	this->registry = std::make_unique<Registry>();
 	std::cout << "GAME se ejecuta constructor" << std::endl;
+	assetManager = std::make_unique<AssetManager>();
 }
 
 Game& Game::GetInstance()
@@ -53,20 +58,15 @@ void Game::Create() {
 	}
 }
 
-void Game::Run()
-{
-	this->Setup();
-	while (this->isRunning) {
-		this->ProcessInput();
-		this->Update();
-		this->Render();
-	}
-}
-
 void Game::Setup()
 {
-	Entity e = this->registry->CreateEntity();
-	e.AddComponent<TransformComponent>(glm::vec2(100.0, 100.0), glm::vec2(1.0, 1.0), 0.0);
+	registry->AddSystem<MovementSystem>();
+	registry->AddSystem<RenderSystem>();
+	assetManager->AddTexture(renderer, "enemy_alan", "./assets/images/enemy_alan.png");
+	Entity enemy = this->registry->CreateEntity();
+	enemy.AddComponent<RigidBodyComponent>(glm::vec2(50, 0));
+	enemy.AddComponent<SpriteComponent>("enemy_alan", 16, 16, 0, 0);
+	enemy.AddComponent<TransformComponent>(glm::vec2(100.0, 100.0), glm::vec2(2.0, 2.0), 0.0);
 }
 
 void Game::ProcessInput()
@@ -90,10 +90,32 @@ void Game::ProcessInput()
 
 void Game::Update()
 {
+	int timeToWait = MILISECS_PER_FRAME - (SDL_GetTicks() - millisecsPreviousFrame);
+	if (0 < timeToWait && timeToWait <= MILISECS_PER_FRAME) {
+		SDL_Delay(timeToWait);
+	}
+	double deltaTime = (SDL_GetTicks() - millisecsPreviousFrame) / 1000.0;
+	millisecsPreviousFrame = SDL_GetTicks();
+	registry->Update();
+	registry->GetSystem<MovementSystem>().Update(deltaTime);
 }
 
 void Game::Render()
 {
+	SDL_SetRenderDrawColor(renderer, 31, 31, 31, 255);
+	SDL_RenderClear(renderer);
+	registry->GetSystem<RenderSystem>().Update(renderer, assetManager);
+	SDL_RenderPresent(renderer);
+}
+
+void Game::Run()
+{
+	this->Setup();
+	while (this->isRunning) {
+		this->ProcessInput();
+		this->Update();
+		this->Render();
+	}
 }
 
 void Game::Destroy()
@@ -110,4 +132,5 @@ Game::~Game()
 	registry.reset();
 	this->window = nullptr;
 	this->renderer = nullptr;
+	this->assetManager.reset();
 }

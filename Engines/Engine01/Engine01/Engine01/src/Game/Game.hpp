@@ -9,6 +9,10 @@
 #include <memory>
 
 #include "../ECS/ECS.hpp"
+#include "../AssetManager/AssetManager.hpp"
+
+const int FPS = 30;
+const int MILISECS_PER_FRAME = 1000 / FPS;
 
 class Game {
 public:
@@ -33,7 +37,11 @@ private:
 	int window_width;
 	int window_height;
 
+	int millisecsPreviousFrame = 0;
+
 	std::unique_ptr<Registry> registry;
+
+	std::unique_ptr<AssetManager> assetManager;
 
 };
 
