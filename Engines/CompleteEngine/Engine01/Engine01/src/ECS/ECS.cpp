@@ -14,6 +14,11 @@ int Entity::GetId() const
 	return this->id;
 }
 
+void Entity::Kill()
+{
+	registry->KillEntity(*this);
+}
+
 void System::AddEntityToSystem(Entity entity)
 {
 	entities.push_back(entity);

@@ -4,8 +4,13 @@
 #include "../Components/TransformComponent.hpp"
 #include "../Components/RigidBodyComponent.hpp"
 #include "../Components/SpriteComponent.hpp"
+#include "../Components/CircleColliderComponent.hpp"
+#include "../Components/AnimationComponent.hpp"
 #include "../Systems/RenderSystem.hpp"
 #include "../Systems/MovementSystem.hpp"
+#include "../Systems/CollisionSystem.hpp"
+#include "../Systems/DamageSystem.hpp"
+#include "../Systems/AnimationSystem.hpp"
 
 Game::Game()
 {
@@ -17,6 +22,7 @@ Game::Game()
 	this->registry = std::make_unique<Registry>();
 	std::cout << "GAME se ejecuta constructor" << std::endl;
 	assetManager = std::make_unique<AssetManager>();
+	eventManager = std::make_unique<EventManager>();
 }
 
 Game& Game::GetInstance()
@@ -62,11 +68,25 @@ void Game::Setup()
 {
 	registry->AddSystem<MovementSystem>();
 	registry->AddSystem<RenderSystem>();
-	assetManager->AddTexture(renderer, "enemy_alan", "./assets/images/enemy_alan.png");
-	Entity enemy = this->registry->CreateEntity();
-	enemy.AddComponent<RigidBodyComponent>(glm::vec2(50, 0));
-	enemy.AddComponent<SpriteComponent>("enemy_alan", 16, 16, 0, 0);
-	enemy.AddComponent<TransformComponent>(glm::vec2(100.0, 100.0), glm::vec2(2.0, 2.0), 0.0);
+	registry->AddSystem<CollisionSystem>();
+	registry->AddSystem<DamageSystem>();
+	registry->AddSystem<AnimationSystem>();
+	assetManager->AddTexture(renderer, "blindedGrimlock", "./assets/images/BlindedGrimlock.png");
+	assetManager->AddTexture(renderer, "crushingCyclop", "./assets/images/CrushingCyclops.png");
+	Entity enemy1 = this->registry->CreateEntity();
+	enemy1.AddComponent<CircleColliderComponent>(8, 16, 16);
+	enemy1.AddComponent<RigidBodyComponent>(glm::vec2(50, 0));
+	enemy1.AddComponent<SpriteComponent>("blindedGrimlock", 16, 16, 0, 0);
+	enemy1.AddComponent<TransformComponent>(glm::vec2(200.0, 100.0), glm::vec2(2.0, 2.0), 0.0);
+	enemy1.AddComponent<AnimationComponent>(4
+		, 10, true);
+
+	Entity enemy2 = this->registry->CreateEntity();
+	enemy2.AddComponent<CircleColliderComponent>(8, 16, 16);
+	enemy2.AddComponent<RigidBodyComponent>(glm::vec2(-50, 0));
+	enemy2.AddComponent<SpriteComponent>("crushingCyclop", 16, 16, 0, 0);
+	enemy2.AddComponent<TransformComponent>(glm::vec2(600.0, 100.0), glm::vec2(2.0, 2.0), 0.0);
+	enemy2.AddComponent<AnimationComponent>(4, 10, true);
 }
 
 void Game::ProcessInput()
@@ -96,8 +116,12 @@ void Game::Update()
 	}
 	double deltaTime = (SDL_GetTicks() - millisecsPreviousFrame) / 1000.0;
 	millisecsPreviousFrame = SDL_GetTicks();
+	eventManager->Reset();
+	registry->GetSystem<DamageSystem>().SubscribeToCollisionEvent(eventManager);
 	registry->Update();
 	registry->GetSystem<MovementSystem>().Update(deltaTime);
+	registry->GetSystem<CollisionSystem>().Update(eventManager);
+	registry->GetSystem<AnimationSystem>().Update();
 }
 
 void Game::Render()

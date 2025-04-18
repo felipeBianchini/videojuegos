@@ -10,8 +10,9 @@
 
 #include "../ECS/ECS.hpp"
 #include "../AssetManager/AssetManager.hpp"
+#include "../EventManager/EventManager.hpp"
 
-const int FPS = 30;
+const int FPS = 40;
 const int MILISECS_PER_FRAME = 1000 / FPS;
 
 class Game {
@@ -43,6 +44,7 @@ private:
 
 	std::unique_ptr<AssetManager> assetManager;
 
+	std::unique_ptr<EventManager> eventManager;
 };
 
 #endif // !GAME_HPP
