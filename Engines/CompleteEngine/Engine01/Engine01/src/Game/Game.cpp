@@ -6,11 +6,15 @@
 #include "../Components/SpriteComponent.hpp"
 #include "../Components/CircleColliderComponent.hpp"
 #include "../Components/AnimationComponent.hpp"
+#include "../Components/ScriptComponent.hpp"
+
+
 #include "../Systems/RenderSystem.hpp"
 #include "../Systems/MovementSystem.hpp"
 #include "../Systems/CollisionSystem.hpp"
 #include "../Systems/DamageSystem.hpp"
 #include "../Systems/AnimationSystem.hpp"
+#include "../Systems/ScriptSystem.hpp"
 
 Game::Game()
 {
@@ -23,6 +27,7 @@ Game::Game()
 	std::cout << "GAME se ejecuta constructor" << std::endl;
 	assetManager = std::make_unique<AssetManager>();
 	eventManager = std::make_unique<EventManager>();
+	controllerManager = std::make_unique<ControllerManager>();
 }
 
 Game& Game::GetInstance()
@@ -71,22 +76,35 @@ void Game::Setup()
 	registry->AddSystem<CollisionSystem>();
 	registry->AddSystem<DamageSystem>();
 	registry->AddSystem<AnimationSystem>();
-	assetManager->AddTexture(renderer, "blindedGrimlock", "./assets/images/BlindedGrimlock.png");
-	assetManager->AddTexture(renderer, "crushingCyclop", "./assets/images/CrushingCyclops.png");
+	registry->AddSystem<ScriptSystem>();
+
+	lua.open_libraries(sol::lib::base);
+	lua.script_file("./assets/scripts/player.lua");
+	sol::function update = lua["update"];
+	registry->GetSystem<ScriptSystem>().CreateLuaBinding(lua);
+
+	assetManager->AddTexture(renderer, "alan", "./assets/images/enemy_alan.png");
+	assetManager->AddTexture(renderer, "crushingCyclops", "./assets/images/CrushingCyclops.png");
+	
+	controllerManager->AddActionKey("up", SDLK_w); // keyCode = 119
+	controllerManager->AddActionKey("left", SDLK_a); // keyCode = 97
+	controllerManager->AddActionKey("down", SDLK_s); // keyCode = 115
+	controllerManager->AddActionKey("right", SDLK_d); // keyCode = 100
+
+	Entity player = this->registry->CreateEntity();
+	player.AddComponent<CircleColliderComponent>(8, 16, 16);
+	player.AddComponent<RigidBodyComponent>(glm::vec2(0, 0));
+	player.AddComponent<ScriptComponent>(update);
+	player.AddComponent<SpriteComponent>("alan", 16, 16, 16, 0);
+	player.AddComponent<TransformComponent>(glm::vec2(400.0, 300.0), glm::vec2(2.0, 2.0), 0.0);
+	player.AddComponent<AnimationComponent>(4, 10, true);
+
 	Entity enemy1 = this->registry->CreateEntity();
 	enemy1.AddComponent<CircleColliderComponent>(8, 16, 16);
-	enemy1.AddComponent<RigidBodyComponent>(glm::vec2(50, 0));
-	enemy1.AddComponent<SpriteComponent>("blindedGrimlock", 16, 16, 0, 0);
-	enemy1.AddComponent<TransformComponent>(glm::vec2(200.0, 100.0), glm::vec2(2.0, 2.0), 0.0);
-	enemy1.AddComponent<AnimationComponent>(4
-		, 10, true);
-
-	Entity enemy2 = this->registry->CreateEntity();
-	enemy2.AddComponent<CircleColliderComponent>(8, 16, 16);
-	enemy2.AddComponent<RigidBodyComponent>(glm::vec2(-50, 0));
-	enemy2.AddComponent<SpriteComponent>("crushingCyclop", 16, 16, 0, 0);
-	enemy2.AddComponent<TransformComponent>(glm::vec2(600.0, 100.0), glm::vec2(2.0, 2.0), 0.0);
-	enemy2.AddComponent<AnimationComponent>(4, 10, true);
+	enemy1.AddComponent<RigidBodyComponent>(glm::vec2(-50, 0));
+	enemy1.AddComponent<SpriteComponent>("crushingCyclops", 16, 16, 0, 0);
+	enemy1.AddComponent<TransformComponent>(glm::vec2(600.0, 100.0), glm::vec2(2.0, 2.0), 0.0);
+	enemy1.AddComponent<AnimationComponent>(4, 10, true);
 }
 
 void Game::ProcessInput()
@@ -100,7 +118,12 @@ void Game::ProcessInput()
 		case SDL_KEYDOWN:
 			if (sdlEvent.key.keysym.sym == SDLK_ESCAPE) {
 				isRunning = false;
+				break;
 			}
+			controllerManager->KeyDown(sdlEvent.key.keysym.sym);
+			break;
+		case SDL_KEYUP:
+			controllerManager->KeyUp(sdlEvent.key.keysym.sym);
 			break;
 		default:
 			break;
@@ -119,6 +142,7 @@ void Game::Update()
 	eventManager->Reset();
 	registry->GetSystem<DamageSystem>().SubscribeToCollisionEvent(eventManager);
 	registry->Update();
+	registry->GetSystem<ScriptSystem>().Update();
 	registry->GetSystem<MovementSystem>().Update(deltaTime);
 	registry->GetSystem<CollisionSystem>().Update(eventManager);
 	registry->GetSystem<AnimationSystem>().Update();
@@ -153,8 +177,10 @@ void Game::Destroy()
 Game::~Game()
 {
 	std::cout << "GAME se ejecuta destructor" << std::endl;
-	registry.reset();
 	this->window = nullptr;
 	this->renderer = nullptr;
+	this->registry.reset();
+	this->eventManager.reset();
 	this->assetManager.reset();
+	this->controllerManager.reset();
 }
