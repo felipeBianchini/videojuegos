@@ -13,6 +13,7 @@
 #include "../AssetManager/AssetManager.hpp"
 #include "../EventManager/EventManager.hpp"
 #include "../ControllerManager/ControllerManager.hpp"
+#include "../SceneManager/SceneLoader.hpp"
 
 const int FPS = 40;
 const int MILISECS_PER_FRAME = 1000 / FPS;
@@ -43,6 +44,8 @@ private:
 	std::unique_ptr<EventManager> eventManager;
 
 	sol::state lua;
+
+	std::unique_ptr<SceneLoader> sceneLoader;
 
 public:
 

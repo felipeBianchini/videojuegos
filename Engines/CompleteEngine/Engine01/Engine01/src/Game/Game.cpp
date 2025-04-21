@@ -28,6 +28,7 @@ Game::Game()
 	assetManager = std::make_unique<AssetManager>();
 	eventManager = std::make_unique<EventManager>();
 	controllerManager = std::make_unique<ControllerManager>();
+	sceneLoader = std::make_unique<SceneLoader>();
 }
 
 Game& Game::GetInstance()
@@ -51,7 +52,7 @@ void Game::Init()
 
 void Game::Create() {
 	if ((this->window = SDL_CreateWindow(
-		"Game Engine 01: Patron ECS",
+		"Game Engine",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		this->window_width,
@@ -78,33 +79,34 @@ void Game::Setup()
 	registry->AddSystem<AnimationSystem>();
 	registry->AddSystem<ScriptSystem>();
 
-	lua.open_libraries(sol::lib::base);
-	lua.script_file("./assets/scripts/player.lua");
-	sol::function update = lua["update"];
+	lua.open_libraries(sol::lib::base, sol::lib::math);
+	//lua.script_file("./assets/scripts/player.lua");
+	//sol::function update = lua["update"];
 	registry->GetSystem<ScriptSystem>().CreateLuaBinding(lua);
 
-	assetManager->AddTexture(renderer, "alan", "./assets/images/enemy_alan.png");
-	assetManager->AddTexture(renderer, "crushingCyclops", "./assets/images/CrushingCyclops.png");
+	sceneLoader->LoadScene("./assets/scripts/scene_01.lua", lua, renderer, assetManager, controllerManager, registry);
+
+	//assetManager->AddTexture(renderer, "alan", "./assets/images/enemy_alan.png");
+	//assetManager->AddTexture(renderer, "crushingCyclops", "./assets/images/CrushingCyclops.png");
 	
-	controllerManager->AddActionKey("up", SDLK_w); // keyCode = 119
-	controllerManager->AddActionKey("left", SDLK_a); // keyCode = 97
-	controllerManager->AddActionKey("down", SDLK_s); // keyCode = 115
-	controllerManager->AddActionKey("right", SDLK_d); // keyCode = 100
+	//controllerManager->AddActionKey("up", SDLK_w); // keyCode = 119
+	//controllerManager->AddActionKey("left", SDLK_a); // keyCode = 97
+	//controllerManager->AddActionKey("down", SDLK_s); // keyCode = 115
+	//controllerManager->AddActionKey("right", SDLK_d); // keyCode = 100
 
-	Entity player = this->registry->CreateEntity();
-	player.AddComponent<CircleColliderComponent>(8, 16, 16);
-	player.AddComponent<RigidBodyComponent>(glm::vec2(0, 0));
-	player.AddComponent<ScriptComponent>(update);
-	player.AddComponent<SpriteComponent>("alan", 16, 16, 16, 0);
-	player.AddComponent<TransformComponent>(glm::vec2(400.0, 300.0), glm::vec2(2.0, 2.0), 0.0);
-	player.AddComponent<AnimationComponent>(4, 10, true);
+	//Entity player = this->registry->CreateEntity();
+	//player.AddComponent<CircleColliderComponent>(8, 16, 16);
+	//player.AddComponent<RigidBodyComponent>(glm::vec2(0, 0));
+	//player.AddComponent<ScriptComponent>(update);
+	//player.AddComponent<SpriteComponent>("alan", 16, 16, 0, 0);
+	//player.AddComponent<TransformComponent>(glm::vec2(400.0, 300.0), glm::vec2(1.0, 1.0), 0.0);
 
-	Entity enemy1 = this->registry->CreateEntity();
-	enemy1.AddComponent<CircleColliderComponent>(8, 16, 16);
-	enemy1.AddComponent<RigidBodyComponent>(glm::vec2(-50, 0));
-	enemy1.AddComponent<SpriteComponent>("crushingCyclops", 16, 16, 0, 0);
-	enemy1.AddComponent<TransformComponent>(glm::vec2(600.0, 100.0), glm::vec2(2.0, 2.0), 0.0);
-	enemy1.AddComponent<AnimationComponent>(4, 10, true);
+	//Entity enemy1 = this->registry->CreateEntity();
+	//enemy1.AddComponent<CircleColliderComponent>(8, 16, 16);
+	//enemy1.AddComponent<RigidBodyComponent>(glm::vec2(-25, 0));
+	//enemy1.AddComponent<SpriteComponent>("crushingCyclops", 16, 16, 16, 0);
+	//enemy1.AddComponent<TransformComponent>(glm::vec2(600.0, 100.0), glm::vec2(2.0, 2.0), 0.0);
+	//enemy1.AddComponent<AnimationComponent>(4, 4, true);
 }
 
 void Game::ProcessInput()
@@ -142,7 +144,7 @@ void Game::Update()
 	eventManager->Reset();
 	registry->GetSystem<DamageSystem>().SubscribeToCollisionEvent(eventManager);
 	registry->Update();
-	registry->GetSystem<ScriptSystem>().Update();
+	registry->GetSystem<ScriptSystem>().Update(lua);
 	registry->GetSystem<MovementSystem>().Update(deltaTime);
 	registry->GetSystem<CollisionSystem>().Update(eventManager);
 	registry->GetSystem<AnimationSystem>().Update();
