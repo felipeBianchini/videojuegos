@@ -127,6 +127,19 @@ void Game::ProcessInput()
 		case SDL_KEYUP:
 			controllerManager->KeyUp(sdlEvent.key.keysym.sym);
 			break;
+		case SDL_MOUSEMOTION:
+			int x, y;
+			SDL_GetMouseState(&x, &y);
+			controllerManager->SetMousePosition(x,y);
+			break;
+		case SDL_MOUSEBUTTONDOWN:
+			controllerManager->SetMousePosition(sdlEvent.button.x, sdlEvent.button.y);
+			controllerManager->MouseButtonDown(static_cast<int>(sdlEvent.button.button));
+			break;
+		case SDL_MOUSEBUTTONUP:
+			controllerManager->SetMousePosition(sdlEvent.button.x, sdlEvent.button.y);
+			controllerManager->MouseButtonUp(static_cast<int>(sdlEvent.button.button));
+			break;
 		default:
 			break;
 		}
