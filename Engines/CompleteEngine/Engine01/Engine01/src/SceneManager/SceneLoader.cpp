@@ -68,6 +68,11 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 					components["circle_collider"]["heigth"]
 				);
 			}
+			// ClickableComponent
+			sol::optional<sol::table> hasClickable = components["clickable"];
+			if (hasClickable != sol::nullopt) {
+				newEntity.AddComponent<ClickableComponent>();
+			}
 			// RigidBodyComponent
 			sol::optional<sol::table> hasRigidBody = components["rigid_body"];
 			if (hasRigidBody != sol::nullopt) {
@@ -102,6 +107,18 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 					components["sprite"]["src_rect"]["y"]
 				);
 			}
+			// TextComponent
+			sol::optional<sol::table> hasText = components["text"];
+			if (hasText != sol::nullopt) {
+				newEntity.AddComponent<TextComponent>(
+					components["text"]["text"],
+					components["text"]["fontId"],
+					components["text"]["r"],
+					components["text"]["g"],
+					components["text"]["b"],
+					components["text"]["a"]
+				);
+			}
 			// TransformComponent
 			sol::optional<sol::table> hasTransform = components["transform"];
 			if (hasTransform != sol::nullopt) {
@@ -122,6 +139,39 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 	}
 }
 
+void SceneLoader::LoadFonts(const sol::table& fonts, std::unique_ptr<AssetManager>& assetManager)
+{
+	int index = 1;
+	while (true) {
+		sol::optional<sol::table> hasFont = fonts[index];
+		if (hasFont == sol::nullopt) {
+			break;
+		}
+		sol::table font = fonts[index];
+		std::string fontId = font["fontId"];
+		std::string filePath = font["filePath"];
+		int fontSize = font["fontSize"];
+		assetManager->AddFont(fontId, filePath, fontSize);
+		index++;
+	}
+}
+
+void SceneLoader::LoadButtons(const sol::table& buttons, std::unique_ptr<ControllerManager>& controllerManager)
+{
+	int index = 1;
+	while (true) {
+		sol::optional<sol::table> hasButton = buttons[index];
+		if (hasButton == sol::nullopt) {
+			break;
+		}
+		sol::table button = buttons[index];
+		std::string name = button["name"];
+		int buttonCode = button["button"];
+		controllerManager->AddMouseButton(name, buttonCode);
+		index++;
+	}
+}
+
 void SceneLoader::LoadScene(const std::string& scenePath, sol::state& lua, SDL_Renderer* renderer, std::unique_ptr<AssetManager>& assetManager, std::unique_ptr<ControllerManager>& controllerManager, std::unique_ptr<Registry>& registry)
 {
 	sol::load_result script_result = lua.load_file(scenePath);
@@ -135,6 +185,10 @@ void SceneLoader::LoadScene(const std::string& scenePath, sol::state& lua, SDL_R
 	sol::table scene = lua["scene"];
 	sol::table sprites = scene["sprites"];
 	LoadSprites(renderer, sprites, assetManager);
+	sol::table fonts = scene["fonts"];
+	LoadFonts(fonts, assetManager);
+	sol::table buttons = scene["buttons"];
+	LoadButtons(buttons, controllerManager);
 	sol::table keys = scene["keys"];
 	LoadKeys(keys, controllerManager);
 	sol::table entities = scene["entities"];

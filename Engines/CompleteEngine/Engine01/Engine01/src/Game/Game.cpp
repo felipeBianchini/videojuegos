@@ -7,7 +7,10 @@
 #include "../Components/CircleColliderComponent.hpp"
 #include "../Components/AnimationComponent.hpp"
 #include "../Components/ScriptComponent.hpp"
+#include "../Components/TextComponent.hpp"
+#include "../Components/ClickableComponent.hpp"
 
+#include "../Events/ClickEvent.hpp"
 
 #include "../Systems/RenderSystem.hpp"
 #include "../Systems/MovementSystem.hpp"
@@ -15,6 +18,8 @@
 #include "../Systems/DamageSystem.hpp"
 #include "../Systems/AnimationSystem.hpp"
 #include "../Systems/ScriptSystem.hpp"
+#include "../Systems/RenderTextSystem.hpp"
+#include "../Systems/UISystem.hpp"
 
 Game::Game()
 {
@@ -77,7 +82,9 @@ void Game::Setup()
 	registry->AddSystem<CollisionSystem>();
 	registry->AddSystem<DamageSystem>();
 	registry->AddSystem<AnimationSystem>();
+	registry->AddSystem<RenderTextSystem>();
 	registry->AddSystem<ScriptSystem>();
+	registry->AddSystem<UISystem>();
 
 	lua.open_libraries(sol::lib::base, sol::lib::math);
 	//lua.script_file("./assets/scripts/player.lua");
@@ -85,6 +92,11 @@ void Game::Setup()
 	registry->GetSystem<ScriptSystem>().CreateLuaBinding(lua);
 
 	sceneLoader->LoadScene("./assets/scripts/scene_01.lua", lua, renderer, assetManager, controllerManager, registry);
+
+	//assetManager->AddFont("press_start", "./assets/fonts/press_start.ttf", 24);
+	//Entity text = registry->CreateEntity();
+	//text.AddComponent<TextComponent>("Score: 100", "press_start", 150, 0, 150, 255);
+	//text.AddComponent<TransformComponent>(glm::vec2(500.0, 50.0), glm::vec2(1.0, 1.0), 0.0);
 
 	//assetManager->AddTexture(renderer, "alan", "./assets/images/enemy_alan.png");
 	//assetManager->AddTexture(renderer, "crushingCyclops", "./assets/images/CrushingCyclops.png");
@@ -135,6 +147,7 @@ void Game::ProcessInput()
 		case SDL_MOUSEBUTTONDOWN:
 			controllerManager->SetMousePosition(sdlEvent.button.x, sdlEvent.button.y);
 			controllerManager->MouseButtonDown(static_cast<int>(sdlEvent.button.button));
+			eventManager->EmitEvent<ClickEvent>(static_cast<int>(sdlEvent.button.button), sdlEvent.button.x, sdlEvent.button.y);
 			break;
 		case SDL_MOUSEBUTTONUP:
 			controllerManager->SetMousePosition(sdlEvent.button.x, sdlEvent.button.y);
@@ -155,6 +168,7 @@ void Game::Update()
 	double deltaTime = (SDL_GetTicks() - millisecsPreviousFrame) / 1000.0;
 	millisecsPreviousFrame = SDL_GetTicks();
 	eventManager->Reset();
+	registry->GetSystem<UISystem>().SubscribeToClickEvent(eventManager);
 	registry->GetSystem<DamageSystem>().SubscribeToCollisionEvent(eventManager);
 	registry->Update();
 	registry->GetSystem<ScriptSystem>().Update(lua);
@@ -168,6 +182,7 @@ void Game::Render()
 	SDL_SetRenderDrawColor(renderer, 31, 31, 31, 255);
 	SDL_RenderClear(renderer);
 	registry->GetSystem<RenderSystem>().Update(renderer, assetManager);
+	registry->GetSystem<RenderTextSystem>().Update(renderer, assetManager);
 	SDL_RenderPresent(renderer);
 }
 
