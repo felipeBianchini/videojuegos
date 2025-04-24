@@ -9,6 +9,7 @@
 #include "../Components/TextComponent.hpp"
 #include "../Components/ClickableComponent.hpp"
 #include "../Components/TransformComponent.hpp"
+#include "../Components/ScriptComponent.hpp"
 #include "../EventManager/EventManager.hpp"
 #include "../Events/ClickEvent.hpp"
 
@@ -30,7 +31,12 @@ public:
 				&& e.posX < transform.position.x + text.width 
 				&& transform.position.y < e.posY 
 				&& e.posY < transform.position.y + text.height) {
-				std::cout << "Se dio click sobre la entidad" << entity.GetId() << std::endl;
+				if (entity.HasComponent<ScriptComponent>()) {
+					const auto& script = entity.GetComponent<ScriptComponent>();
+					if (script.onClick != sol::nil) {
+						script.onClick();
+					}
+				}
 			}
 		}
 	}

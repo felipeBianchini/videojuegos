@@ -21,4 +21,9 @@ void SetVelocity(Entity entity, float x, float y) {
 	rigidBody.velocity.y = y;
 }
 
+void GoToScene(const std::string& sceneName) {
+	Game::GetInstance().sceneManager->SetNextScene(sceneName);
+	Game::GetInstance().sceneManager->StopScene();
+}
+
 #endif // !LUABINDING_HPP
