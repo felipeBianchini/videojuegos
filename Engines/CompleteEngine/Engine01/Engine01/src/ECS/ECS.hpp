@@ -104,6 +104,9 @@ public:
 	void AddEntityToSystems(Entity entity);
 	void RemoveEntityFromSystems(Entity entity);
 
+	// Reset Registry
+	void ClearAllEntities();
+
 private:
 	int numEntity = 0;
 	std::vector<std::shared_ptr<IPool>> componentsPools;

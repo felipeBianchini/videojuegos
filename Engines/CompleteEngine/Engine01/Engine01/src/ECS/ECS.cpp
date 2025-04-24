@@ -109,3 +109,12 @@ void Registry::RemoveEntityFromSystems(Entity entity)
 		system.second->RemoveEntityFromSystem(entity);
 	}
 }
+
+void Registry::ClearAllEntities()
+{
+	for (int i = 0; i < numEntity; i++) {
+		RemoveEntityFromSystems(Entity(i));
+		entityComponentSignatures[i].reset();
+		freeIds.push_back(i);
+	}
+}

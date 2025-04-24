@@ -1,14 +1,6 @@
 #include <iostream>
 
 #include "Game.hpp"
-#include "../Components/TransformComponent.hpp"
-#include "../Components/RigidBodyComponent.hpp"
-#include "../Components/SpriteComponent.hpp"
-#include "../Components/CircleColliderComponent.hpp"
-#include "../Components/AnimationComponent.hpp"
-#include "../Components/ScriptComponent.hpp"
-#include "../Components/TextComponent.hpp"
-#include "../Components/ClickableComponent.hpp"
 
 #include "../Events/ClickEvent.hpp"
 
@@ -23,17 +15,17 @@
 
 Game::Game()
 {
+	std::cout << "GAME se ejecuta constructor" << std::endl;
 	this->window = nullptr;
 	this->renderer = nullptr;
 	this->isRunning = true;
 	this->window_width = 800;
 	this->window_height = 600;
 	this->registry = std::make_unique<Registry>();
-	std::cout << "GAME se ejecuta constructor" << std::endl;
 	assetManager = std::make_unique<AssetManager>();
 	eventManager = std::make_unique<EventManager>();
 	controllerManager = std::make_unique<ControllerManager>();
-	sceneLoader = std::make_unique<SceneLoader>();
+	sceneManager = std::make_unique<SceneManager>();
 }
 
 Game& Game::GetInstance()
@@ -86,39 +78,11 @@ void Game::Setup()
 	registry->AddSystem<ScriptSystem>();
 	registry->AddSystem<UISystem>();
 
+	sceneManager->LoadSceneFromScript("./assets/scripts/scenes.lua", lua);
+
 	lua.open_libraries(sol::lib::base, sol::lib::math);
-	//lua.script_file("./assets/scripts/player.lua");
-	//sol::function update = lua["update"];
+
 	registry->GetSystem<ScriptSystem>().CreateLuaBinding(lua);
-
-	sceneLoader->LoadScene("./assets/scripts/scene_01.lua", lua, renderer, assetManager, controllerManager, registry);
-
-	//assetManager->AddFont("press_start", "./assets/fonts/press_start.ttf", 24);
-	//Entity text = registry->CreateEntity();
-	//text.AddComponent<TextComponent>("Score: 100", "press_start", 150, 0, 150, 255);
-	//text.AddComponent<TransformComponent>(glm::vec2(500.0, 50.0), glm::vec2(1.0, 1.0), 0.0);
-
-	//assetManager->AddTexture(renderer, "alan", "./assets/images/enemy_alan.png");
-	//assetManager->AddTexture(renderer, "crushingCyclops", "./assets/images/CrushingCyclops.png");
-	
-	//controllerManager->AddActionKey("up", SDLK_w); // keyCode = 119
-	//controllerManager->AddActionKey("left", SDLK_a); // keyCode = 97
-	//controllerManager->AddActionKey("down", SDLK_s); // keyCode = 115
-	//controllerManager->AddActionKey("right", SDLK_d); // keyCode = 100
-
-	//Entity player = this->registry->CreateEntity();
-	//player.AddComponent<CircleColliderComponent>(8, 16, 16);
-	//player.AddComponent<RigidBodyComponent>(glm::vec2(0, 0));
-	//player.AddComponent<ScriptComponent>(update);
-	//player.AddComponent<SpriteComponent>("alan", 16, 16, 0, 0);
-	//player.AddComponent<TransformComponent>(glm::vec2(400.0, 300.0), glm::vec2(1.0, 1.0), 0.0);
-
-	//Entity enemy1 = this->registry->CreateEntity();
-	//enemy1.AddComponent<CircleColliderComponent>(8, 16, 16);
-	//enemy1.AddComponent<RigidBodyComponent>(glm::vec2(-25, 0));
-	//enemy1.AddComponent<SpriteComponent>("crushingCyclops", 16, 16, 16, 0);
-	//enemy1.AddComponent<TransformComponent>(glm::vec2(600.0, 100.0), glm::vec2(2.0, 2.0), 0.0);
-	//enemy1.AddComponent<AnimationComponent>(4, 4, true);
 }
 
 void Game::ProcessInput()
@@ -127,10 +91,12 @@ void Game::ProcessInput()
 	while (SDL_PollEvent(&sdlEvent)) {
 		switch (sdlEvent.type) {
 		case SDL_QUIT:
+			sceneManager->StopScene();
 			isRunning = false;
 			break;
 		case SDL_KEYDOWN:
 			if (sdlEvent.key.keysym.sym == SDLK_ESCAPE) {
+				sceneManager->StopScene();
 				isRunning = false;
 				break;
 			}
@@ -186,13 +152,24 @@ void Game::Render()
 	SDL_RenderPresent(renderer);
 }
 
+void Game::RunScene()
+{
+	sceneManager->LoadScene();
+	while (sceneManager->IsSceneRunning()) {
+		ProcessInput();
+		Update();
+		Render();
+	}
+	assetManager->ClearAssets();
+	registry->ClearAllEntities();
+}
+
 void Game::Run()
 {
 	this->Setup();
 	while (this->isRunning) {
-		this->ProcessInput();
-		this->Update();
-		this->Render();
+		sceneManager->StartScene();
+		RunScene();
 	}
 }
 
@@ -213,4 +190,5 @@ Game::~Game()
 	this->eventManager.reset();
 	this->assetManager.reset();
 	this->controllerManager.reset();
+	this->sceneManager.reset();
 }
