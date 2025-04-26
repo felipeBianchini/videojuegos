@@ -22,8 +22,8 @@ scene = {
             components = {
                 sprite = {
                     assetId = "background1",
-                    width = 800,
-                    heigth = 600,
+                    width = 1200,
+                    heigth = 800,
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
@@ -66,7 +66,7 @@ scene = {
                     a = 255
                 },
                 transform = {
-                    position = {x = 50.0, y = 150.0},
+                    position = {x = 50.0, y = 250.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 }
@@ -87,7 +87,7 @@ scene = {
                     a = 255
                 },
                 transform = {
-                    position = {x = 50.0, y = 250.0},
+                    position = {x = 50.0, y = 350.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 }
@@ -108,7 +108,28 @@ scene = {
                     a = 255
                 },
                 transform = {
-                    position = {x = 50.0, y = 350.0},
+                    position = {x = 50.0, y = 450.0},
+                    scale = {x = 1.0, y = 1.0},
+                    rotation = 0.0,
+                }
+            }
+        },    
+        [6] = {
+            components = {
+                clickable = {},
+                script = {
+                    path = "./assets/scripts/menu_button_04.lua"
+                },
+                text = {
+                    text = "Top Scores",
+                    fontId = "press_start_24",
+                    r = 150,
+                    g = 150,
+                    b = 0,
+                    a = 255
+                },
+                transform = {
+                    position = {x = 50.0, y = 550.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 }
