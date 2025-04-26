@@ -5,6 +5,9 @@ scene = {
         [2] = {fontId = "press_start_32", filePath = "./assets/fonts/press_start.ttf", fontSize = 32},
 
     },
+    backgrounds = {
+        [1] = {backgroundId = "background1", filePath = "./assets/backgrounds/menu_background.png"},
+    },
     keys = {
         [1] = {name = "up", key = 119},
         [2] = {name = "down", key = 115},
@@ -16,6 +19,21 @@ scene = {
     },
     entities = {
         [1] = {
+            components = {
+                sprite = {
+                    assetId = "background1",
+                    width = 800,
+                    heigth = 600,
+                    src_rect = {x = 0, y = 0},
+                },
+                transform = {
+                    position = {x = 0.0, y = 0.0},
+                    scale = {x = 1.0, y = 1.0},
+                    rotation = 0.0,
+                }
+            }
+        },
+        [2] = {
             components = {
                 clickable = {},
                 text = {
@@ -33,7 +51,7 @@ scene = {
                 }
             }
         },
-        [2] = {
+        [3] = {
             components = {
                 clickable = {},
                 script = {
@@ -49,6 +67,48 @@ scene = {
                 },
                 transform = {
                     position = {x = 50.0, y = 150.0},
+                    scale = {x = 1.0, y = 1.0},
+                    rotation = 0.0,
+                }
+            }
+        },
+        [4] = {
+            components = {
+                clickable = {},
+                script = {
+                    path = "./assets/scripts/menu_button_02.lua"
+                },
+                text = {
+                    text = "Level 02",
+                    fontId = "press_start_24",
+                    r = 150,
+                    g = 150,
+                    b = 0,
+                    a = 255
+                },
+                transform = {
+                    position = {x = 50.0, y = 250.0},
+                    scale = {x = 1.0, y = 1.0},
+                    rotation = 0.0,
+                }
+            }
+        },        
+        [5] = {
+            components = {
+                clickable = {},
+                script = {
+                    path = "./assets/scripts/menu_button_03.lua"
+                },
+                text = {
+                    text = "Level 03",
+                    fontId = "press_start_24",
+                    r = 150,
+                    g = 150,
+                    b = 0,
+                    a = 255
+                },
+                transform = {
+                    position = {x = 50.0, y = 350.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 }

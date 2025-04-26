@@ -1,9 +1,9 @@
 scene = {
     sprites = {
-        [1] = {assetId = "ship", filePath = "./assets/images/ship3.png"},
+        [1] = {assetId = "ship", filePath = "./assets/images/ship1.png"},
     },
     backgrounds = {
-        [1] = {backgroundId = "background1", filePath = "./assets/backgrounds/background1.png"},
+        [1] = {backgroundId = "background3", filePath = "./assets/backgrounds/background3.png"},
     },
     fonts = {
         [1] = {fontId = "press_start", filePath = "./assets/fonts/press_start.ttf", fontSize = 24},
@@ -21,7 +21,7 @@ scene = {
         [1] = {
             components = {
                 sprite = {
-                    assetId = "background1",
+                    assetId = "background3",
                     width = 800,
                     heigth = 600,
                     src_rect = {x = 0, y = 0},

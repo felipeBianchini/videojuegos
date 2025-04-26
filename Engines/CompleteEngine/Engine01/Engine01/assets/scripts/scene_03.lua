@@ -1,9 +1,10 @@
 scene = {
     sprites = {
-        [1] = {assetId = "ship", filePath = "./assets/images/ship3.png"},
+        [1] = {assetId = "ship", filePath = "./assets/images/ship4.png"},
+        [2] = {assetId = "boss", filePath = "./assets/images/boss2.png"},
     },
     backgrounds = {
-        [1] = {backgroundId = "background1", filePath = "./assets/backgrounds/background1.png"},
+        [1] = {backgroundId = "background2", filePath = "./assets/backgrounds/background2.png"},
     },
     fonts = {
         [1] = {fontId = "press_start", filePath = "./assets/fonts/press_start.ttf", fontSize = 24},
@@ -21,7 +22,7 @@ scene = {
         [1] = {
             components = {
                 sprite = {
-                    assetId = "background1",
+                    assetId = "background2",
                     width = 800,
                     heigth = 600,
                     src_rect = {x = 0, y = 0},
@@ -60,6 +61,29 @@ scene = {
             }
         },
         [3] = {
+            components = {
+                circle_collider = {
+                    radius = 8,
+                    width = 16,
+                    heigth = 16
+                },
+                rigid_body = {
+                    velocity = {x = 0, y = 0},
+                },
+                sprite = {
+                    assetId = "boss",
+                    width = 256,
+                    heigth = 256,
+                    src_rect = {x = 0, y = 0},
+                },
+                transform = {
+                    position = {x = 0.0, y = 0.0},
+                    scale = {x = 1.0, y = 1.0},
+                    rotation = 0.0,
+                }
+            }
+        },
+        [4] = {
             components = {
                 clickable = {},
                 text = {
