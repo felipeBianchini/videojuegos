@@ -29,6 +29,22 @@ void SceneLoader::LoadSprites(SDL_Renderer* renderer, const sol::table& sprites,
 	}
 }
 
+void SceneLoader::LoadBackgrounds(SDL_Renderer* renderer, const sol::table& backgrounds, std::unique_ptr<AssetManager>& assetManager)
+{
+	int index = 1;
+	while (true) {
+		sol::optional<sol::table> hasBackground = backgrounds[index];
+		if (hasBackground == sol::nullopt) {
+			break;
+		}
+		sol::table background = backgrounds[index];
+		std::string backgroundId = background["backgroundId"];
+		std::string filePath = background["filePath"];
+		assetManager->SetBackground(renderer, backgroundId, filePath);
+		index++;
+	}
+}
+
 void SceneLoader::LoadKeys(const sol::table& keys, std::unique_ptr<ControllerManager>& controllerManager)
 {
 	int index = 1;
@@ -191,6 +207,8 @@ void SceneLoader::LoadScene(const std::string& scenePath, sol::state& lua, SDL_R
 	sol::table scene = lua["scene"];
 	sol::table sprites = scene["sprites"];
 	LoadSprites(renderer, sprites, assetManager);
+	sol::table backgrounds = scene["backgrounds"];
+	LoadBackgrounds(renderer, backgrounds, assetManager);
 	sol::table fonts = scene["fonts"];
 	LoadFonts(fonts, assetManager);
 	sol::table buttons = scene["buttons"];

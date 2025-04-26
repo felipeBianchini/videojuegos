@@ -25,6 +25,7 @@ private:
 	void LoadEntities(sol::state& lua, const sol::table& entities, std::unique_ptr<Registry>& registry);
 	void LoadFonts(const sol::table& fonts, std::unique_ptr<AssetManager>& assetManager);
 	void LoadButtons(const sol::table& buttons, std::unique_ptr<ControllerManager>& controllerManager);
+	void LoadBackgrounds(SDL_Renderer* renderer, const sol::table& backgrounds, std::unique_ptr<AssetManager>& assetManager);
 public:
 	SceneLoader();
 	~SceneLoader();
