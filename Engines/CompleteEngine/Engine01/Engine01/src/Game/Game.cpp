@@ -19,8 +19,9 @@ Game::Game()
 	this->window = nullptr;
 	this->renderer = nullptr;
 	this->isRunning = true;
-	this->window_width = 800;
-	this->window_height = 600;
+	this->keepRunning = true;
+	this->window_width = 1200;
+	this->window_height = 800;
 	this->registry = std::make_unique<Registry>();
 	assetManager = std::make_unique<AssetManager>();
 	eventManager = std::make_unique<EventManager>();
@@ -100,6 +101,9 @@ void Game::ProcessInput()
 				isRunning = false;
 				break;
 			}
+			else if (sdlEvent.key.keysym.sym == SDLK_p) {
+				this->keepRunning = !keepRunning;
+			}
 			controllerManager->KeyDown(sdlEvent.key.keysym.sym);
 			break;
 		case SDL_KEYUP:
@@ -157,7 +161,9 @@ void Game::RunScene()
 	sceneManager->LoadScene();
 	while (sceneManager->IsSceneRunning()) {
 		ProcessInput();
-		Update();
+		if (this->keepRunning) {
+			Update();
+		}
 		Render();
 	}
 	assetManager->ClearAssets();

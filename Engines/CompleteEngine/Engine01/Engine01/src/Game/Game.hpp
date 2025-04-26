@@ -32,6 +32,7 @@ private:
 	SDL_Window* window;
 
 	bool isRunning;
+	bool keepRunning;
 	int window_width;
 	int window_height;
 
