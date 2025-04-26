@@ -22,8 +22,8 @@ scene = {
             components = {
                 sprite = {
                     assetId = "background1",
-                    width = 800,
-                    heigth = 600,
+                    width = 1200,
+                    heigth = 800,
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
@@ -65,13 +65,13 @@ scene = {
                 text = {
                     text = "Score: 100",
                     fontId = "press_start",
-                    r = 150,
-                    g = 0,
-                    b = 150,
+                    r = 255,
+                    g = 255,
+                    b = 255,
                     a = 255
                 },
                 transform = {
-                    position = {x = 500.0, y = 50.0},
+                    position = {x = 960.0, y = 775.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 }
