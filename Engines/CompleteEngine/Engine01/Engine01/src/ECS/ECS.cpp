@@ -58,7 +58,7 @@ void Registry::Update()
 	}
 	entitiesToBeAdded.clear();
 	for (auto entity : entitiesToBeKilled) {
-		freeIds.push_back(entity.GetId());
+		//freeIds.push_back(entity.GetId());
 		RemoveEntityFromSystems(entity);
 		entityComponentSignatures[entity.GetId()].reset();
 	}
@@ -68,20 +68,21 @@ void Registry::Update()
 Entity Registry::CreateEntity()
 {
 	int entityId;
-	if (freeIds.empty()) {
+	//if (freeIds.empty()) {
 		entityId = numEntity++;
 		if (static_cast<long unsigned int>(entityId) >= entityComponentSignatures.size()) {
 			entityComponentSignatures.resize(entityId + 100);
 		}
-	}
-	else {
-		entityId = freeIds.front();
-		freeIds.pop_front();
-	}
+	//}
+	//else {
+	//	entityId = freeIds.front();
+	//	freeIds.pop_front();
+		//std::cout << "[Registry] Se reutiliza el ID: " << entityId << std::endl;
+	//}
+	//std::cout << "[Registry] Se crea entidad con ID: " << entityId << std::endl;
 	Entity entity(entityId);
 	entity.registry = this;
 	entitiesToBeAdded.insert(entity);
-	std::cout << "[Registry] Se crea entidad " << entity.GetId() << std::endl;
 	return entity;
 }
 
@@ -115,6 +116,6 @@ void Registry::ClearAllEntities()
 	for (int i = 0; i < numEntity; i++) {
 		RemoveEntityFromSystems(Entity(i));
 		entityComponentSignatures[i].reset();
-		freeIds.push_back(i);
+		//freeIds.push_back(i);
 	}
 }

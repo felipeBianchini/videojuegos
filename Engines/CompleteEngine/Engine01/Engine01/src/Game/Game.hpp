@@ -47,7 +47,6 @@ public:
 	std::unique_ptr<Registry> registry;
 	std::unique_ptr<SceneManager> sceneManager;
 
-
 	static Game& GetInstance();
 	void Init();
 	void Run();

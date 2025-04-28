@@ -12,6 +12,7 @@
 #include "../Systems/ScriptSystem.hpp"
 #include "../Systems/RenderTextSystem.hpp"
 #include "../Systems/UISystem.hpp"
+#include "../Systems/GameManagerSystem.hpp"
 
 Game::Game()
 {
@@ -78,10 +79,14 @@ void Game::Setup()
 	registry->AddSystem<RenderTextSystem>();
 	registry->AddSystem<ScriptSystem>();
 	registry->AddSystem<UISystem>();
+	registry->AddSystem<GameManagerSystem>();
 
 	sceneManager->LoadSceneFromScript("./assets/scripts/scenes.lua", lua);
 
 	lua.open_libraries(sol::lib::base, sol::lib::math);
+
+	lua.script_file("./assets/scripts/endGameConditions.lua");
+	lua.script_file("./assets/scripts/go_to_next_scene.lua");
 
 	registry->GetSystem<ScriptSystem>().CreateLuaBinding(lua);
 }
@@ -141,6 +146,7 @@ void Game::Update()
 	registry->GetSystem<UISystem>().SubscribeToClickEvent(eventManager);
 	registry->GetSystem<DamageSystem>().SubscribeToCollisionEvent(eventManager);
 	registry->Update();
+	registry->GetSystem<GameManagerSystem>().Update(deltaTime, sceneManager->GetCurrentSceneType(), lua);
 	registry->GetSystem<ScriptSystem>().Update(lua);
 	registry->GetSystem<MovementSystem>().Update(deltaTime);
 	registry->GetSystem<CollisionSystem>().Update(eventManager);
@@ -159,6 +165,7 @@ void Game::Render()
 void Game::RunScene()
 {
 	sceneManager->LoadScene();
+	registry->GetSystem<GameManagerSystem>().SetGameTimer(sceneManager->GetCurrentSceneTimer(), sceneManager->GetNextScene());
 	while (sceneManager->IsSceneRunning()) {
 		ProcessInput();
 		if (this->keepRunning) {

@@ -64,8 +64,10 @@ void SceneLoader::LoadKeys(const sol::table& keys, std::unique_ptr<ControllerMan
 void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std::unique_ptr<Registry>& registry)
 {
 	int index = 1;
+	//std::cout << "------------------------------------------------------------------------------------------------------" << std::endl;
 	while (true) {
 		sol::optional<sol::table> hasEntity = entities[index];
+		//std::cout << "[LoadEntities] Cargando entidad #" << index << std::endl;
 		if (hasEntity == sol::nullopt) {
 			break;
 		}

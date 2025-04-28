@@ -9,10 +9,15 @@
 #include "SceneLoader.hpp"
 
 class SceneManager {
-private: std::map<std::string, std::string> scenes;
-	   std::string nextScene;
-	   bool isSceneRunning = false;
-	   std::unique_ptr<SceneLoader> sceneLoader;
+private: 
+	std::map<std::string, std::string> scenes;
+	std::string nextScene;
+	bool isSceneRunning = false;
+	std::unique_ptr<SceneLoader> sceneLoader;
+	std::unordered_map<std::string, std::string> sceneTypes;
+	std::unordered_map<std::string, double> sceneTimers;
+	std::string currentSceneType;
+	double currentSceneTimer;
 
 public:
 	SceneManager();
@@ -24,6 +29,8 @@ public:
 	bool IsSceneRunning() const;
 	void StartScene();
 	void StopScene();
+	std::string GetCurrentSceneType();
+	double GetCurrentSceneTimer();
 };
 
 #endif // !SCENEMANAGER_HPP

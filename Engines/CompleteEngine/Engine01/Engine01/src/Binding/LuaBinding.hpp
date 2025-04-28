@@ -3,6 +3,7 @@
 
 #include <string>
 
+#include "../Systems/GameManagerSystem.hpp"
 #include "../Components/RigidBodyComponent.hpp"
 #include "../Game/Game.hpp"
 #include "../ECS/ECS.hpp"
@@ -24,6 +25,10 @@ void SetVelocity(Entity entity, float x, float y) {
 void GoToScene(const std::string& sceneName) {
 	Game::GetInstance().sceneManager->SetNextScene(sceneName);
 	Game::GetInstance().sceneManager->StopScene();
+}
+
+void GoToNextScene() {
+	Game::GetInstance().registry->GetSystem<GameManagerSystem>().GoToNextScene(Game::GetInstance().lua);
 }
 
 #endif // !LUABINDING_HPP

@@ -8,6 +8,7 @@
 
 #include "../AssetManager/AssetManager.hpp"
 #include "../ControllerManager/ControllerManager.hpp"
+
 #include "../Components/TransformComponent.hpp"
 #include "../Components/RigidBodyComponent.hpp"
 #include "../Components/SpriteComponent.hpp"
@@ -16,6 +17,7 @@
 #include "../Components/ScriptComponent.hpp"
 #include "../Components/TextComponent.hpp"
 #include "../Components/ClickableComponent.hpp"
+
 #include "../ECS/ECS.hpp"
 
 class SceneLoader {
