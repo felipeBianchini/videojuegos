@@ -16,7 +16,9 @@ public:
 
 	void SetGameTimer(double gameTimer, std::string nextScene) {
 		this->gameTimer = gameTimer;
-		this->nextScene = nextScene;
+		if (this->nextScene == "main_menu" || this->nextScene.empty()) {
+			this->nextScene = nextScene;
+		}
 	}
 
 	void Update(double dt, std::string sceneType, sol::state& lua) {
@@ -38,7 +40,15 @@ public:
 	}
 
 	void GoToNextScene(sol::state& lua) {
-		std::cout << "gamemanagersystem" << std::endl;
+		if (this->nextScene == "level_01") {
+			this->nextScene = "level_02";
+		}
+		else if (this->nextScene == "level_02") {
+			this->nextScene = "level_03";
+		}
+		else if (this->nextScene == "level_03") {
+			this->nextScene = "level_01";
+		}
 		std::cout << nextScene << std::endl;
 		lua["go_to_scene"](nextScene);
 	}
