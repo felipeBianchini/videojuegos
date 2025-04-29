@@ -1,6 +1,7 @@
 scene = {
     sprites = {
         [1] = {assetId = "ship", filePath = "./assets/images/ship3.png"},
+        [2] = {assetId = "enemy", filePath = "./assets/images/enemy10.png"},
     },
     backgrounds = {
         [1] = {backgroundId = "background1", filePath = "./assets/backgrounds/background1.png"},
@@ -53,9 +54,18 @@ scene = {
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 400.0, y = 300.0},
+                    position = {x = 600.0, y = 400.0},
                     scale = {x = 0.4, y = 0.4},
                     rotation = 0.0,
+                },
+                health = {
+                    health = 4,
+                },
+                score = {
+                    score = 0,
+                },
+                type = {
+                    type = 1,
                 }
             }
         },
@@ -76,6 +86,38 @@ scene = {
                     rotation = 0.0,
                 }
             }
-        }
+        },
+        [4] = {
+            components = {
+                circle_collider = {
+                    radius = 32,
+                    width = 64,
+                    heigth = 64
+                },
+                rigid_body = {
+                    velocity = {x = 0, y = 0},
+                },
+                sprite = {
+                    assetId = "enemy",
+                    width = 128,
+                    heigth = 128,
+                    src_rect = {x = 0, y = 0},
+                },
+                transform = {
+                    position = {x = 200.0, y = 100.0},
+                    scale = {x = 0.5, y = 0.5},
+                    rotation = 0.0,
+                },
+                health = {
+                    health = 5,
+                },
+                score = {
+                    score = 50,
+                },
+                type = {
+                    type = 3,
+                }
+            }
+        },
     },
 }

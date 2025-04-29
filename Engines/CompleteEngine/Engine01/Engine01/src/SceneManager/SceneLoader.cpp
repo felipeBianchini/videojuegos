@@ -1,4 +1,5 @@
 #include "SceneLoader.hpp"
+#include "../Systems/GameManagerSystem.hpp"
 
 #include <iostream>
 #include <glm/glm.hpp>
@@ -64,10 +65,8 @@ void SceneLoader::LoadKeys(const sol::table& keys, std::unique_ptr<ControllerMan
 void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std::unique_ptr<Registry>& registry)
 {
 	int index = 1;
-	//std::cout << "------------------------------------------------------------------------------------------------------" << std::endl;
 	while (true) {
 		sol::optional<sol::table> hasEntity = entities[index];
-		//std::cout << "[LoadEntities] Cargando entidad #" << index << std::endl;
 		if (hasEntity == sol::nullopt) {
 			break;
 		}
@@ -158,7 +157,36 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 					components["transform"]["rotation"]
 				);
 			}
+			// HealthComponent
+			sol::optional<sol::table> hasHealth = components["health"];
+			if (hasHealth) {
+				sol::optional<int> health = (*hasHealth)["health"];
+				if (health) {
+					newEntity.AddComponent<HealthComponent>(*health);
+				}
+			}
+			// ScoreComponent
+			sol::optional<sol::table> hasScore = components["score"];
+			if (hasScore != sol::nullopt) {
+				sol::optional<int> score = (*hasScore)["score"];
+				if (score) {
+					newEntity.AddComponent<ScoreComponent>(*score);
+				}
+			}
+			// EntityTypeComponent
+			sol::optional<sol::table> hasType = components["type"];
+			if (hasType != sol::nullopt) {
+				sol::optional<int> type = (*hasType)["type"];
+				if (type) {
+					newEntity.AddComponent<EntityTypeComponent>(*type);
+				}
+			}
 		}
+		if (newEntity.HasComponent<EntityTypeComponent>() && newEntity.GetComponent<EntityTypeComponent>().entityType == 1) {
+			registry->GetSystem<GameManagerSystem>().SetPlayer(&newEntity);
+		}
+
+
 		index++;
 	}
 }

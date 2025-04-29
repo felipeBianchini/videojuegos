@@ -52,7 +52,7 @@ public:
 
 	class Registry* registry;
 private:
-	int id;
+	size_t id;
 };
 
 class System {
@@ -108,7 +108,7 @@ public:
 	void ClearAllEntities();
 
 private:
-	int numEntity = 0;
+	unsigned int numEntity = 0;
 	std::vector<std::shared_ptr<IPool>> componentsPools;
 	std::vector<Signature> entityComponentSignatures;
 
@@ -142,7 +142,7 @@ void Registry::AddComponent(Entity entity, TArgs && ...args)
 	std::shared_ptr<Pool<TComponent>> componentPool = 
 		std::static_pointer_cast<Pool<TComponent>>(componentsPools[componentId]);
 	if (entityId >= componentPool->GetSize()) {
-		componentPool->Resize(numEntity + 100);
+		componentPool->Resize(entityId + 100);
 	}
 	TComponent newComponent(std::forward<TArgs>(args)...);
 	componentPool->Set(entityId, newComponent);
@@ -162,6 +162,10 @@ bool Registry::HasComponent(Entity entity) const
 {
 	const int componentId = Component<TComponent>::GetId();
 	const int entityId = entity.GetId();
+	if (entityId < 0 || entityId >= entityComponentSignatures.size()) {
+		//std::cerr << "error " << entityId << std::endl;;
+		return false;
+	}
 	return entityComponentSignatures[entityId].test(componentId);
 }
 

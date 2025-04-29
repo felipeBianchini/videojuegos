@@ -67,10 +67,12 @@ void Registry::Update()
 
 Entity Registry::CreateEntity()
 {
-	int entityId;
+	unsigned int entityId;
 	//if (freeIds.empty()) {
+	//std::cout << "numEntity antes de incrementar: " << numEntity << std::endl;
+
 		entityId = numEntity++;
-		if (static_cast<long unsigned int>(entityId) >= entityComponentSignatures.size()) {
+		if (entityId >= entityComponentSignatures.size()) {
 			entityComponentSignatures.resize(entityId + 100);
 		}
 	//}

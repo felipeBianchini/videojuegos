@@ -56,6 +56,15 @@ scene = {
                     position = {x = 400.0, y = 300.0},
                     scale = {x = 0.4, y = 0.4},
                     rotation = 0.0,
+                },
+                health = {
+                    health = 5,
+                },
+                score = {
+                    score = 0,
+                },
+                type = {
+                    type = 1,
                 }
             }
         },

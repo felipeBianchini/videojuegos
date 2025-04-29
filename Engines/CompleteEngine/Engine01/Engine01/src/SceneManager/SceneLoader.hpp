@@ -17,6 +17,9 @@
 #include "../Components/ScriptComponent.hpp"
 #include "../Components/TextComponent.hpp"
 #include "../Components/ClickableComponent.hpp"
+#include "../Components/HealthComponent.hpp"
+#include "../Components/ScoreComponent.hpp"
+#include "../Components/EntityTypeComponent.hpp"
 
 #include "../ECS/ECS.hpp"
 

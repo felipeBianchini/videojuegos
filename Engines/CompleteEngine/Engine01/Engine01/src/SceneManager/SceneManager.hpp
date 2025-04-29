@@ -5,6 +5,7 @@
 #include <memory>
 #include <string>
 #include <sol/sol.hpp>
+#include <unordered_map>
 
 #include "SceneLoader.hpp"
 
