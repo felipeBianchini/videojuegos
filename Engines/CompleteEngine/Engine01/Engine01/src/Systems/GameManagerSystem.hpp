@@ -13,8 +13,6 @@ public:
 		this->gameTimer = 0.0f;
 		this->gameOver = false;
 		this->nextScene = "";
-		this->hasPlayer = false;
-		this->player = nullptr;
 	}
 
 	void SetGameTimer(double gameTimer, std::string nextScene) {
@@ -25,13 +23,12 @@ public:
 	}
 
 	void Update(double dt, std::string sceneType, sol::state& lua) {
-		if (sceneType == "notGame" || !hasPlayer) {
+		if (sceneType == "notGame") {
 			return;
 		}
 
-		if (player->HasComponent<HealthComponent>()) {
-			playerHealth = player->GetComponent<HealthComponent>().health;
-		}
+		int playerHealth = player.GetComponent<HealthComponent>().health;
+		playerHealth = player.GetComponent<HealthComponent>().health;
 
 		gameTimer -= dt;
 
@@ -67,25 +64,16 @@ public:
 		lua["go_to_scene"](nextScene);
 	}
 
-	void SetPlayer(Entity* playerEntity) {
-		if (!playerEntity) {
-			std::cout << "[GameManager] ERROR: playerEntity es nullptr!" << std::endl;
-			return;
-		}
-		player = playerEntity;
-		playerHealth = player->GetComponent<HealthComponent>().health;
-		hasPlayer = true;
+	void SetPlayer(const Entity& entity) {
+		player = entity;
 	}
-
-
 
 private:
 	double gameTimer;
 	bool gameOver;
 	std::string nextScene;
 	int playerHealth;
-	Entity* player;
-	bool hasPlayer;
+	Entity player;
 };
 
 #endif // !GAMEMANAGERSYSTEM_HPP
