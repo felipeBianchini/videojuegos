@@ -7,7 +7,7 @@ scene = {
         [1] = {backgroundId = "background1", filePath = "./assets/backgrounds/background1.png"},
     },
     fonts = {
-        [1] = {fontId = "press_start", filePath = "./assets/fonts/press_start.ttf", fontSize = 24},
+        [1] = {fontId = "press_start", filePath = "./assets/fonts/press_start.ttf", fontSize = 18},
     },
     keys = {
         [1] = {name = "up", key = 119},
@@ -59,7 +59,7 @@ scene = {
                     rotation = 0.0,
                 },
                 health = {
-                    health = 4,
+                    health = 10,
                 },
                 score = {
                     score = 0,
@@ -73,7 +73,7 @@ scene = {
             components = {
                 clickable = {},
                 text = {
-                    text = "Score: 100",
+                    text = "",
                     fontId = "press_start",
                     r = 255,
                     g = 255,
@@ -84,7 +84,10 @@ scene = {
                     position = {x = 960.0, y = 775.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
-                }
+                },
+                type = {
+                    type = 0
+                },
             }
         },
         [4] = {

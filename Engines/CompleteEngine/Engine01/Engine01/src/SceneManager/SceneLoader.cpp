@@ -185,6 +185,9 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 		if (newEntity.HasComponent<EntityTypeComponent>() && newEntity.GetComponent<EntityTypeComponent>().entityType == 1) {
 			registry->GetSystem<GameManagerSystem>().SetPlayer(newEntity);
 		}
+		else if (newEntity.HasComponent<EntityTypeComponent>() && newEntity.GetComponent<EntityTypeComponent>().entityType == 0) {
+			registry->GetSystem<GameManagerSystem>().SetPlayerScore(newEntity);
+		}
 		index++;
 	}
 }

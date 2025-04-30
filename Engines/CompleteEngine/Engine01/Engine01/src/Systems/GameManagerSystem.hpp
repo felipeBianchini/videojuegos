@@ -27,20 +27,26 @@ public:
 			return;
 		}
 
-		int playerHealth = player.GetComponent<HealthComponent>().health;
 		playerHealth = player.GetComponent<HealthComponent>().health;
+		playerScore = player.GetComponent<ScoreComponent>().score;
 
 		gameTimer -= dt;
 
+		UpdatePlayerScore(std::to_string(playerScore));
+		CheckPlayerHealth(sceneType, lua);
+	}
+
+	void UpdatePlayerScore(std::string playerScore) {
+		score.GetComponent<TextComponent>().text = ("Score: " + playerScore);
+	}
+
+	void CheckPlayerHealth(std::string sceneType, sol::state& lua) {
 		if (playerHealth <= 0) {
-			std::cout << playerHealth << std::endl;
 			this->gameOver = true;
 			lua["defeat"]();
 		}
 
 		if (gameTimer <= 0.0f && playerHealth > 0) {
-			std::cout << playerHealth << std::endl;
-
 			lua["victory"]();
 		}
 	}
@@ -64,6 +70,10 @@ public:
 		lua["go_to_scene"](nextScene);
 	}
 
+	void SetPlayerScore(const Entity& entity) {
+		score = entity;
+	}
+
 	void SetPlayer(const Entity& entity) {
 		player = entity;
 	}
@@ -73,7 +83,9 @@ private:
 	bool gameOver;
 	std::string nextScene;
 	int playerHealth;
+	int playerScore;
 	Entity player;
+	Entity score;
 };
 
 #endif // !GAMEMANAGERSYSTEM_HPP
