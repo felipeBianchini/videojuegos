@@ -27,15 +27,11 @@ public:
     }
 
     void OnCollision(CollisionEvent& e) {
-        //std::cout << "Entidad A vida: " << e.a.GetComponent<HealthComponent>().health
-         //   << ", score: " << (e.a.HasComponent<ScoreComponent>() ? e.a.GetComponent<ScoreComponent>().score : 0)
-         //   << std::endl;
-       // std::cout << "Entidad B vida: " << e.b.GetComponent<HealthComponent>().health
-        //    << ", score: " << (e.b.HasComponent<ScoreComponent>() ? e.b.GetComponent<ScoreComponent>().score : 0)
-         //   << std::endl;
-
         int aType = e.a.GetComponent<EntityTypeComponent>().entityType;
         int bType = e.b.GetComponent<EntityTypeComponent>().entityType;
+        if (aType == 1 && bType == 2) {
+            return;
+        }
 
         DealDamage(e.a, -1);
         DealDamage(e.b, -1);
@@ -67,12 +63,11 @@ private:
     void IncreaseScore(Entity entity, int amount) {
         if (entity.HasComponent<ScoreComponent>()) {
             entity.GetComponent<ScoreComponent>().score += amount;
-            //std::cout << entity.GetComponent<ScoreComponent>().score << std::endl;
         }
     }
 
     void HandleEntityDeath(Entity deadEntity, int killerType) {
-        if (killerType == 1) {
+        if (killerType == 2) {
             for (auto entity : GetSystemEntiities()) {
                 if (entity.HasComponent<EntityTypeComponent>() &&
                     entity.GetComponent<EntityTypeComponent>().entityType == 1) {

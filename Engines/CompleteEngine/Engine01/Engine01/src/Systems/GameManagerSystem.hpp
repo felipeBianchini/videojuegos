@@ -26,14 +26,12 @@ public:
 		if (sceneType == "notGame") {
 			return;
 		}
-
 		playerHealth = player.GetComponent<HealthComponent>().health;
 		playerScore = player.GetComponent<ScoreComponent>().score;
-
 		gameTimer -= dt;
-
 		UpdatePlayerScore(std::to_string(playerScore));
 		CheckPlayerHealth(sceneType, lua);
+
 	}
 
 	void UpdatePlayerScore(std::string playerScore) {

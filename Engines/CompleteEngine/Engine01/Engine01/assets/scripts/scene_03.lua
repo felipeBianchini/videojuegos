@@ -1,7 +1,7 @@
 scene = {
     sprites = {
         [1] = {assetId = "ship", filePath = "./assets/images/ship4.png"},
-        [2] = {assetId = "boss", filePath = "./assets/images/boss2.png"},
+        [2] = {assetId = "bullet", filePath = "./assets/images/missile2.png"},
     },
     backgrounds = {
         [1] = {backgroundId = "background2", filePath = "./assets/backgrounds/background2.png"},
@@ -37,9 +37,9 @@ scene = {
         [2] = {
             components = {
                 circle_collider = {
-                    radius = 8,
-                    width = 16,
-                    heigth = 16
+                    radius = 32,
+                    width = 64,
+                    heigth = 64
                 },
                 rigid_body = {
                     velocity = {x = 0, y = 0},
@@ -54,12 +54,12 @@ scene = {
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 400.0, y = 300.0},
-                    scale = {x = 0.4, y = 0.4},
+                    position = {x = 600.0, y = 400.0},
+                    scale = {x = 0.5, y = 0.5},
                     rotation = 0.0,
                 },
                 health = {
-                    health = 5,
+                    health = 10,
                 },
                 score = {
                     score = 0,
@@ -71,32 +71,9 @@ scene = {
         },
         [3] = {
             components = {
-                circle_collider = {
-                    radius = 8,
-                    width = 16,
-                    heigth = 16
-                },
-                rigid_body = {
-                    velocity = {x = 0, y = 0},
-                },
-                sprite = {
-                    assetId = "boss",
-                    width = 256,
-                    heigth = 256,
-                    src_rect = {x = 0, y = 0},
-                },
-                transform = {
-                    position = {x = 0.0, y = 0.0},
-                    scale = {x = 1.0, y = 1.0},
-                    rotation = 0.0,
-                }
-            }
-        },
-        [4] = {
-            components = {
                 clickable = {},
                 text = {
-                    text = "Score: 100",
+                    text = "",
                     fontId = "press_start",
                     r = 255,
                     g = 255,
@@ -107,8 +84,43 @@ scene = {
                     position = {x = 960.0, y = 775.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
+                },
+                type = {
+                    type = 0
+                },
+            }
+        },
+        [4] = {
+            components = {
+                circle_collider = {
+                    radius = 32,
+                    width = 64,
+                    heigth = 64
+                },
+                rigid_body = {
+                    velocity = {x = 0, y = 0},
+                },
+                sprite = {
+                    assetId = "enemy",
+                    width = 128,
+                    heigth = 128,
+                    src_rect = {x = 0, y = 0},
+                },
+                transform = {
+                    position = {x = 200.0, y = 100.0},
+                    scale = {x = 0.5, y = 0.5},
+                    rotation = 0.0,
+                },
+                health = {
+                    health = 5,
+                },
+                score = {
+                    score = 50,
+                },
+                type = {
+                    type = 3,
                 }
             }
-        }
+        },
     },
 }

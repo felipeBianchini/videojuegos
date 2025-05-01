@@ -105,6 +105,7 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 			if (hasScript != sol::nullopt) {
 				lua["on_click"] = sol::nil;
 				lua["update"] = sol::nil;
+				lua["updateBullets"] = sol::nil;
 				std::string path = components["script"]["path"];
 				lua.script_file(path);
 				sol::optional<sol::function> hasUpdate = lua["update"];
@@ -117,7 +118,13 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 				if (hasOnClick != sol::nullopt) {
 					onClick = lua["on_click"];
 				}
-				newEntity.AddComponent<ScriptComponent>(update, onClick);
+				sol::optional<sol::function> hasUpdateBullets = lua["updateBullets"];
+				sol::function updateBullets = sol::nil;
+				if (hasUpdateBullets != sol::nullopt) {
+					std::cout << "tiene la funcion" << std::endl;
+					updateBullets = lua["updateBullets"];
+				}
+				newEntity.AddComponent<ScriptComponent>(update, onClick, updateBullets);
 			}
 			// SpriteComponent
 			sol::optional<sol::table> hasSprite = components["sprite"];

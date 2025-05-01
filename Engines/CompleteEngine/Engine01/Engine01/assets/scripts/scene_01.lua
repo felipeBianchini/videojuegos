@@ -1,7 +1,8 @@
 scene = {
     sprites = {
         [1] = {assetId = "ship", filePath = "./assets/images/ship3.png"},
-        [2] = {assetId = "enemy", filePath = "./assets/images/enemy10.png"},
+        [2] = {assetId = "bullet", filePath = "./assets/images/missile2.png"},
+        [3] = {assetId = "enemy", filePath = "./assets/images/enemy10.png"},
     },
     backgrounds = {
         [1] = {backgroundId = "background1", filePath = "./assets/backgrounds/background1.png"},
@@ -37,9 +38,9 @@ scene = {
         [2] = {
             components = {
                 circle_collider = {
-                    radius = 8,
-                    width = 16,
-                    heigth = 16
+                    radius = 32,
+                    width = 64,
+                    heigth = 64
                 },
                 rigid_body = {
                     velocity = {x = 0, y = 0},
@@ -55,7 +56,7 @@ scene = {
                 },
                 transform = {
                     position = {x = 600.0, y = 400.0},
-                    scale = {x = 0.4, y = 0.4},
+                    scale = {x = 0.5, y = 0.5},
                     rotation = 0.0,
                 },
                 health = {
