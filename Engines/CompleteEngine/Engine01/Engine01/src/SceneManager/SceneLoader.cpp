@@ -121,7 +121,6 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 				sol::optional<sol::function> hasUpdateBullets = lua["updateBullets"];
 				sol::function updateBullets = sol::nil;
 				if (hasUpdateBullets != sol::nullopt) {
-					std::cout << "tiene la funcion" << std::endl;
 					updateBullets = lua["updateBullets"];
 				}
 				newEntity.AddComponent<ScriptComponent>(update, onClick, updateBullets);

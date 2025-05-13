@@ -138,5 +138,22 @@ scene = {
                 },
             }
         },
+        [8] = {
+            components = {
+                text = {
+                    text = "Well done",
+                    fontId = "press_start_18",
+                    r = 255,
+                    g = 255,
+                    b = 255,
+                    a = 255
+                },
+                transform = {
+                    position = {x = 530, y = 250},
+                    scale = {x = 1.0, y = 1.0},
+                    rotation = 0.0,
+                }
+            }
+        },
     },
 }

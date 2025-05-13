@@ -32,10 +32,9 @@ void GoToNextScene() {
 };
 
 void BulletFactory(double playerX, double playerY) {
-	std::cout << "bulletfactory" << std::endl;
 	Entity bullet = Game::GetInstance().registry->CreateEntity();
-	bullet.AddComponent<CircleColliderComponent>(10, 20, 20);
-	bullet.AddComponent<RigidBodyComponent>(glm::vec2(0, -200));
+	bullet.AddComponent<CircleColliderComponent>(32, 32, 32);
+	bullet.AddComponent<RigidBodyComponent>(glm::vec2(0, -300));
 	bullet.AddComponent<SpriteComponent>("bullet", 64, 64, 0, 0);
 	bullet.AddComponent<TransformComponent>(glm::vec2(playerX + 10, playerY + 10), glm::vec2(0.5, 0.5), 0.0);
 	bullet.AddComponent<EntityTypeComponent>(2);

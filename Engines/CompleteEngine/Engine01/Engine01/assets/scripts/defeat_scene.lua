@@ -152,10 +152,7 @@ scene = {
                     position = {x = 438, y = 250},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
-                },
-                script = {
-                     path = "./assets/scripts/back_to_main_menu_button.lua",
-                },
+                }
             }
         },
     },

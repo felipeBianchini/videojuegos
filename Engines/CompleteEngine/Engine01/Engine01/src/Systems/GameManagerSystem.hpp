@@ -48,8 +48,9 @@ public:
 			lua["victory"]();
 		}
 	}
-
+	// TODO: NO FUNCIONAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 	void GoToNextScene(sol::state& lua) {
+		std::cout << this->nextScene << std::endl;
 		if (this->nextScene == "level_01") {
 			if (!this->gameOver) {
 				this->nextScene = "level_02";
@@ -65,6 +66,7 @@ public:
 				this->nextScene = "level_01";
 			}
 		}
+		std::cout << this->nextScene << std::endl;
 		lua["go_to_scene"](nextScene);
 	}
 

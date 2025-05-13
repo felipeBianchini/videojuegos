@@ -94,7 +94,7 @@ scene = {
         [4] = {
             components = {
                 circle_collider = {
-                    radius = 32,
+                    radius = 64,
                     width = 64,
                     heigth = 64
                 },

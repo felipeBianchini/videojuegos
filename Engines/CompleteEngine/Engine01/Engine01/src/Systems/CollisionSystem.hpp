@@ -32,17 +32,17 @@ public:
 				auto bTranform = b.GetComponent<TransformComponent>();
 
 				glm::vec2 aCenterPos = glm::vec2(
-					aTranform.position.x - (aCollider.width / 2) * aTranform.scale.x,
-					aTranform.position.y - (aCollider.height / 2) * aTranform.scale.y
+					aTranform.position.x,
+					aTranform.position.y
 				);
 
 				glm::vec2 bCenterPos = glm::vec2(
-					bTranform.position.x - (bCollider.width / 2) * bTranform.scale.x,
-					bTranform.position.y - (bCollider.height / 2) * bTranform.scale.y
+					bTranform.position.x,
+					bTranform.position.y
 				);
 
-				int aRadius = aCollider.radius * aTranform.scale.x;
-				int bRadius = bCollider.radius * bTranform.scale.x;
+				int aRadius = aCollider.radius * glm::max(aTranform.scale.x, aTranform.scale.y);
+				int bRadius = bCollider.radius * glm::max(bTranform.scale.x, bTranform.scale.y);
 
 				bool collision = CheckCircularCollision(aRadius, bRadius, aCenterPos, bCenterPos);
 

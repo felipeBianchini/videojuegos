@@ -30,7 +30,6 @@ public:
 		for (auto entity :  GetSystemEntiities()) {
 			const auto& script = entity.GetComponent<ScriptComponent>();
 			if (script.update != sol::lua_nil && script.updateBullets != sol::lua_nil) {
-				std::cout << "entro al system" << std::endl;
 				lua["this"] = entity;
 				TransformComponent transform = entity.GetComponent<TransformComponent>();
 				double playerX = transform.position.x;

@@ -1,5 +1,5 @@
 -- Variables globales
-player_velocity = 200;
+player_velocity = 400;
 
 fixed_player_velocity = math.sqrt((player_velocity * player_velocity) / 2);
 
@@ -33,15 +33,13 @@ function update()
 end
 
 local shootTimer = 0
-local shootInterval = 1
+local shootInterval = 0.5
 
 function shootBullet(playerX, playerY)
-	print("shootBullet")
 	bulletFactory(playerX, playerY)
 end
 
 function updateBullets(dt, playerX, playerY)
-	print("updateBullets")
     shootTimer = shootTimer + dt
 
     if shootTimer >= shootInterval then
