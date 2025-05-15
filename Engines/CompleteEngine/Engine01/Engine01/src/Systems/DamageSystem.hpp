@@ -29,7 +29,11 @@ public:
     void OnCollision(CollisionEvent& e) {
         int aType = e.a.GetComponent<EntityTypeComponent>().entityType;
         int bType = e.b.GetComponent<EntityTypeComponent>().entityType;
-        if (aType == 1 && bType == 2) {
+
+        bool isPlayerHitByEnemyBullet = (aType == 1 && bType == 4);
+        bool isEnemyHitByPlayerBullet = (aType == 3 && bType == 2);
+
+        if (!isPlayerHitByEnemyBullet && !isEnemyHitByPlayerBullet) {
             return;
         }
 

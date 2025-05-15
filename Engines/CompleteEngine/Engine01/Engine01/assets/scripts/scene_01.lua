@@ -1,8 +1,10 @@
 scene = {
     sprites = {
-        [1] = {assetId = "ship", filePath = "./assets/images/ship3.png"},
-        [2] = {assetId = "bullet", filePath = "./assets/images/missile2.png"},
-        [3] = {assetId = "enemy", filePath = "./assets/images/enemy10.png"},
+        [1] = {assetId = "ship", filePath = "./assets/images/ship1.png"},
+        [2] = {assetId = "bullet", filePath = "./assets/images/missile4.png"},
+        [3] = {assetId = "enemy1", filePath = "./assets/images/enemy10.png"},
+        [4] = {assetId = "enemy2", filePath = "./assets/images/enemy8.png"},
+        [5] = {assetId = "enemy1projectile", filePath = "./assets/images/enemy1projectile.png"},
     },
     backgrounds = {
         [1] = {backgroundId = "background1", filePath = "./assets/backgrounds/background1.png"},
@@ -60,7 +62,7 @@ scene = {
                     rotation = 0.0,
                 },
                 health = {
-                    health = 10,
+                    health = 1,
                 },
                 score = {
                     score = 0,
@@ -93,35 +95,10 @@ scene = {
         },
         [4] = {
             components = {
-                circle_collider = {
-                    radius = 64,
-                    width = 64,
-                    heigth = 64
+                script = {
+                    path = "./assets/scripts/enemyFactory_enemy1.lua"
                 },
-                rigid_body = {
-                    velocity = {x = 0, y = 0},
-                },
-                sprite = {
-                    assetId = "enemy",
-                    width = 128,
-                    heigth = 128,
-                    src_rect = {x = 0, y = 0},
-                },
-                transform = {
-                    position = {x = 200.0, y = 100.0},
-                    scale = {x = 0.5, y = 0.5},
-                    rotation = 0.0,
-                },
-                health = {
-                    health = 5,
-                },
-                score = {
-                    score = 50,
-                },
-                type = {
-                    type = 3,
-                }
             }
-        },
+        }
     },
 }

@@ -24,9 +24,11 @@ public:
 		lua.set_function("go_to_scene", GoToScene);
 		lua.set_function("go_to_nextScene", GoToNextScene);
 		lua.set_function("bulletFactory", BulletFactory);
+		lua.set_function("enemy1Factory", Enemy1Factory);
+		lua.set_function("enemyBulletsFactory", EnemyBulletsFactory);
 	}
 
-	void Update(sol::state& lua, double dt) {
+	void Update(sol::state& lua, double dt, int wH, int wW) {
 		for (auto entity :  GetSystemEntiities()) {
 			const auto& script = entity.GetComponent<ScriptComponent>();
 			if (script.update != sol::lua_nil && script.updateBullets != sol::lua_nil) {
@@ -36,6 +38,15 @@ public:
 				double playerY = transform.position.y;
 				script.update();
 				script.updateBullets(dt, playerX, playerY);
+			}
+			else if (script.createEnemy1 != sol::lua_nil) {
+				script.createEnemy1(dt, wH, wW);
+			}
+			else if (script.updateEnemy1Position != sol::lua_nil) {
+				TransformComponent transform = entity.GetComponent<TransformComponent>();
+				double enemyX = transform.position.x;
+				double enemyY = transform.position.y;
+				script.updateEnemy1Position(dt, enemyX, enemyY);
 			}
 		}
 	}

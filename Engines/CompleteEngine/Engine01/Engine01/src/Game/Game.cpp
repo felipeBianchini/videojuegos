@@ -147,8 +147,8 @@ void Game::Update()
 	registry->GetSystem<DamageSystem>().SubscribeToCollisionEvent(eventManager);
 	registry->Update();
 	registry->GetSystem<GameManagerSystem>().Update(deltaTime, sceneManager->GetCurrentSceneType(), lua);
-	registry->GetSystem<ScriptSystem>().Update(lua, deltaTime);
-	registry->GetSystem<MovementSystem>().Update(deltaTime);
+	registry->GetSystem<ScriptSystem>().Update(lua, deltaTime, window_height, window_width);
+	registry->GetSystem<MovementSystem>().Update(deltaTime, window_height, window_width);
 	registry->GetSystem<CollisionSystem>().Update(eventManager);
 	registry->GetSystem<AnimationSystem>().Update();
 }
