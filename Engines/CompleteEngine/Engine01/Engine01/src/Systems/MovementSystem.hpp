@@ -41,6 +41,9 @@ public:
                 }
 
             }
+            if ((type ==  2 || type == 4) && (transform.position.x > w || transform.position.y > h)) {
+                entity.Kill();
+            }
         }
     }
 };
