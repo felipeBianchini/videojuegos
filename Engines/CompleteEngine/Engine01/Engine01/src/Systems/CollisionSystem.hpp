@@ -18,31 +18,27 @@ public:
 
 	void Update(std::unique_ptr<EventManager>& eventManager) {
 		auto entities = GetSystemEntiities();
-		for (auto i = entities.begin(); i != entities.end(); i++) {
+		for (auto i = entities.begin(); i != entities.end(); ++i) {
 			Entity a = *i;
-			auto aCollider = a.GetComponent<CircleColliderComponent>();
-			auto aTranform = a.GetComponent<TransformComponent>();
-			for (auto j = i; j != entities.end(); j++) {
+			if (!a.IsAlive() || !a.HasComponent<CircleColliderComponent>() || !a.HasComponent<TransformComponent>()) {
+				continue;
+			}
+			auto& aCollider = a.GetComponent<CircleColliderComponent>();
+			auto& aTransform = a.GetComponent<TransformComponent>();
+
+			for (auto j = std::next(i); j != entities.end(); ++j) {
 				Entity b = *j;
-				if (a == b) {
+				if (!b.IsAlive() || !b.HasComponent<CircleColliderComponent>() || !b.HasComponent<TransformComponent>()) {
 					continue;
 				}
+				auto& bCollider = b.GetComponent<CircleColliderComponent>();
+				auto& bTransform = b.GetComponent<TransformComponent>();
 
-				auto bCollider = b.GetComponent<CircleColliderComponent>();
-				auto bTranform = b.GetComponent<TransformComponent>();
+				glm::vec2 aCenterPos = glm::vec2(aTransform.position.x, aTransform.position.y);
+				glm::vec2 bCenterPos = glm::vec2(bTransform.position.x, bTransform.position.y);
 
-				glm::vec2 aCenterPos = glm::vec2(
-					aTranform.position.x,
-					aTranform.position.y
-				);
-
-				glm::vec2 bCenterPos = glm::vec2(
-					bTranform.position.x,
-					bTranform.position.y
-				);
-
-				int aRadius = aCollider.radius * glm::max(aTranform.scale.x, aTranform.scale.y);
-				int bRadius = bCollider.radius * glm::max(bTranform.scale.x, bTranform.scale.y);
+				int aRadius = aCollider.radius * glm::max(aTransform.scale.x, aTransform.scale.y);
+				int bRadius = bCollider.radius * glm::max(bTransform.scale.x, bTransform.scale.y);
 
 				bool collision = CheckCircularCollision(aRadius, bRadius, aCenterPos, bCenterPos);
 

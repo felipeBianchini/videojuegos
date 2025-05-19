@@ -25,6 +25,7 @@ public:
 		lua.set_function("go_to_nextScene", GoToNextScene);
 		lua.set_function("bulletFactory", BulletFactory);
 		lua.set_function("enemy1Factory", Enemy1Factory);
+		lua.set_function("enemy2Factory", Enemy2Factory);
 		lua.set_function("enemyBulletsFactory", EnemyBulletsFactory);
 	}
 
@@ -47,6 +48,9 @@ public:
 				double enemyX = transform.position.x;
 				double enemyY = transform.position.y;
 				script.updateEnemy1Position(dt, enemyX, enemyY);
+			}
+			else if (script.createEnemy2 != sol::lua_nil) {
+				script.createEnemy2(dt, wH, wW);
 			}
 		}
 	}

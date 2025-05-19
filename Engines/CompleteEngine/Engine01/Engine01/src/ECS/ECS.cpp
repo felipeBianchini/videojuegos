@@ -18,8 +18,11 @@ int Entity::GetId() const
 
 void Entity::Kill()
 {
-	//std::cout << "[Registry] Se marca para eliminar ID: " << this->GetId() << std::endl;
 	registry->KillEntity(*this);
+}
+
+bool Entity::IsAlive() {
+	return registry->CheckIfEntityIsAlive(*this);
 }
 
 void System::AddEntityToSystem(Entity entity)
@@ -92,6 +95,11 @@ Entity Registry::CreateEntity()
 void Registry::KillEntity(Entity entity)
 {
 	entitiesToBeKilled.insert(entity);
+}
+
+bool Registry::CheckIfEntityIsAlive(Entity entity)
+{
+	return entitiesToBeKilled.find(entity) == entitiesToBeKilled.end();
 }
 
 void Registry::AddEntityToSystems(Entity entity)

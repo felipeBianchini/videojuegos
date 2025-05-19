@@ -22,7 +22,6 @@ public:
 			sprite.srcRect.x = animation.currentFrame * sprite.width;
 		}
 	}
-
 };
 
 #endif // !ANIMATIONSYSTEM_HPP

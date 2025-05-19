@@ -27,3 +27,13 @@ Para crear entidades:
 	- numFrames: número de animaciones de la entidad, si se pone mas de las que tiene sale raro
 	- frameSpeedRate: velocidad a la que cambian las animaciones
 	- isLoop: si es un ciclo o no, es decir, si la animación se detiene o no
+
+
+Los ids:
+0: para algo, no usar
+1: player
+2: bullet
+3: enemy1
+4: enemy1 bullet
+5: enemy2
+6: enemy3

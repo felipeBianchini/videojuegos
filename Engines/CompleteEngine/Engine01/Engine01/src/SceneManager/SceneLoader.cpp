@@ -135,7 +135,12 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 				if (hasUpdateEnemy1Position != sol::nullopt) {
 					updateEnemy1Position = lua["updateEnemy1Position"];
 				}
-				newEntity.AddComponent<ScriptComponent>(update, onClick, updateBullets, updateEnemy1Position, createEnemy1);
+				sol::optional<sol::function> hasCreateEnemy2 = lua["createEnemy2"];
+				sol::function createEnemy2 = sol::nil;
+				if (hasCreateEnemy2 != sol::nullopt) {
+					createEnemy2 = lua["createEnemy2"];
+				}
+				newEntity.AddComponent<ScriptComponent>(update, onClick, updateBullets, updateEnemy1Position, createEnemy1, createEnemy2);
 			}
 			// SpriteComponent
 			sol::optional<sol::table> hasSprite = components["sprite"];
@@ -205,6 +210,12 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 		}
 		else if (newEntity.HasComponent<EntityTypeComponent>() && newEntity.GetComponent<EntityTypeComponent>().entityType == 0) {
 			registry->GetSystem<GameManagerSystem>().SetPlayerScore(newEntity);
+		}
+		else if (newEntity.HasComponent<EntityTypeComponent>() && newEntity.GetComponent<EntityTypeComponent>().entityType == -1) {
+			registry->GetSystem<GameManagerSystem>().SetPlayerHealth(newEntity);
+		}
+		else if (newEntity.HasComponent<EntityTypeComponent>() && newEntity.GetComponent<EntityTypeComponent>().entityType == -2) {
+			registry->GetSystem<GameManagerSystem>().SetGameTimer(newEntity);
 		}
 		index++;
 	}

@@ -148,7 +148,7 @@ void Game::Update()
 	registry->Update();
 	registry->GetSystem<GameManagerSystem>().Update(deltaTime, sceneManager->GetCurrentSceneType(), lua);
 	registry->GetSystem<ScriptSystem>().Update(lua, deltaTime, window_height, window_width);
-	registry->GetSystem<MovementSystem>().Update(deltaTime, window_height, window_width);
+	registry->GetSystem<MovementSystem>().Update(deltaTime, window_height, window_width, registry->GetSystem<GameManagerSystem>().GetPlayer());
 	registry->GetSystem<CollisionSystem>().Update(eventManager);
 	registry->GetSystem<AnimationSystem>().Update();
 }
@@ -166,7 +166,6 @@ void Game::RunScene()
 {
 	sceneManager->LoadScene();
 	registry->GetSystem<GameManagerSystem>().SetGameTimer(sceneManager->GetCurrentSceneTimer(), sceneManager->GetNextScene());
-
 	while (sceneManager->IsSceneRunning()) {
 		ProcessInput();
 		if (this->keepRunning) {

@@ -38,6 +38,7 @@ public:
 	Entity(int id);
 	int GetId() const;
 	void Kill();
+	bool IsAlive();
 	bool operator ==(const Entity& other) const { return id == other.id; };
 	bool operator !=(const Entity& other) const { return id != other.id; };
 	bool operator<(const Entity& other) const { return id < other.id; };
@@ -71,7 +72,6 @@ public:
 private:
 	Signature componentSignature;
 	std::vector<Entity> entities;
-
 };
 
 class Registry {
@@ -82,6 +82,7 @@ public:
 	// Entity Management
 	Entity CreateEntity();
 	void KillEntity(Entity entity);
+	bool CheckIfEntityIsAlive(Entity entity);
 	// Component Management
 	template <typename TComponent, typename... TArgs>
 	void AddComponent(Entity entity, TArgs&&... args);
