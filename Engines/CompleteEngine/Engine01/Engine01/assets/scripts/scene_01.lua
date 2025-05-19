@@ -62,13 +62,13 @@ scene = {
                     rotation = 0.0,
                 },
                 health = {
-                    health = 1,
+                    health = 5
                 },
                 score = {
-                    score = 0,
+                    score = 0
                 },
                 type = {
-                    type = 1,
+                    type = 1
                 }
             }
         },
@@ -76,7 +76,7 @@ scene = {
             components = {
                 clickable = {},
                 text = {
-                    text = "",
+                    text = " ",
                     fontId = "press_start",
                     r = 255,
                     g = 255,
@@ -95,8 +95,57 @@ scene = {
         },
         [4] = {
             components = {
+                clickable = {},
+                text = {
+                    text = " ",
+                    fontId = "press_start",
+                    r = 255,
+                    g = 255,
+                    b = 255,
+                    a = 255
+                },
+                transform = {
+                    position = {x = 25.0, y = 775.0},
+                    scale = {x = 1.0, y = 1.0},
+                    rotation = 0.0,
+                },
+                type = {
+                    type = -1
+                },
+            }
+        },
+        [5] = {
+            components = {
+                clickable = {},
+                text = {
+                    text = " ",
+                    fontId = "press_start",
+                    r = 255,
+                    g = 255,
+                    b = 255,
+                    a = 255
+                },
+                transform = {
+                    position = {x = 960.0, y = 25.0},
+                    scale = {x = 1.0, y = 1.0},
+                    rotation = 0.0,
+                },
+                type = {
+                    type = -2
+                },
+            }
+        },
+        [6] = {
+            components = {
                 script = {
                     path = "./assets/scripts/enemyFactory_enemy1.lua"
+                },
+            }
+        },
+        [7] = {
+            components = {
+                script = {
+                    path = "./assets/scripts/enemyFactory_enemy2.lua"
                 },
             }
         }
