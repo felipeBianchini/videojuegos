@@ -71,21 +71,19 @@ void Registry::Update()
 	entitiesToBeKilled.clear();
 }
 
-// TODO: NO SIRVEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
 Entity Registry::CreateEntity()
 {
 	int entityId;
-	//if (freeIds.empty()) {
+	if (freeIds.empty()) {
 		entityId = numEntity++;
 		if (static_cast<long unsigned int>(entityId) >= entityComponentSignatures.size()) {
 			entityComponentSignatures.resize(entityId + 100);
 		}
-	//}
-	//else {
-	//	entityId = freeIds.front();
-	//	freeIds.pop_front();
-	//}
-	//std::cout << "[Registry] Se crea entidad con ID: " << entityId << std::endl;
+	}
+	else {
+		entityId = freeIds.front();
+		freeIds.pop_front();
+	}
 	Entity entity(entityId);
 	entity.registry = this;
 	entitiesToBeAdded.insert(entity);
@@ -124,12 +122,10 @@ void Registry::RemoveEntityFromSystems(Entity entity)
 
 void Registry::ClearAllEntities()
 {
-	for (unsigned int i = 0; i < numEntity; i++) {
+	for (int i = 0; i < numEntity; i++) {
 		RemoveEntityFromSystems(Entity(i));
 		entityComponentSignatures[i].reset();
-		//std::cout << "se borra " << Entity(i).GetId() << std::endl;
-		if (std::find(freeIds.begin(), freeIds.end(), i) == freeIds.end()) {
-			freeIds.push_back(i);
-		}
 	}
+	numEntity = 0;
+	freeIds.clear();
 }

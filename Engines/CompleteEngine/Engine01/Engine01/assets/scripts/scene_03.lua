@@ -2,7 +2,7 @@ scene = {
     sprites = {
         [1] = {assetId = "ship", filePath = "./assets/images/ship3.png"},
         [2] = {assetId = "bullet", filePath = "./assets/images/missile2.png"},
-        [3] = {assetId = "enemy1", filePath = "./assets/images/enemy12.png"},
+        [3] = {assetId = "enemy1", filePath = "./assets/images/enemy11.png"},
         [4] = {assetId = "enemy2", filePath = "./assets/images/enemy8.png"},
         [5] = {assetId = "enemy1projectile", filePath = "./assets/images/enemy1projectile.png"},
     },
