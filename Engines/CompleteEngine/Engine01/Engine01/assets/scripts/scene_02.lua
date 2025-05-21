@@ -4,7 +4,8 @@ scene = {
         [2] = {assetId = "bullet", filePath = "./assets/images/missile5.png"},
         [3] = {assetId = "enemy1", filePath = "./assets/images/enemy9.png"},
         [4] = {assetId = "enemy2", filePath = "./assets/images/enemy8.png"},
-        [5] = {assetId = "enemy1projectile", filePath = "./assets/images/enemy1projectile.png"},
+        [5] = {assetId = "enemy3", filePath = "./assets/images/enemy3.png"}, 
+        [6] = {assetId = "enemy1projectile", filePath = "./assets/images/enemy1projectile.png"},
     },
     backgrounds = {
         [1] = {backgroundId = "background3", filePath = "./assets/backgrounds/background3.png"},
@@ -135,17 +136,24 @@ scene = {
                 },
             }
         },
+      --  [6] = {
+      --      components = {
+       --         script = {
+       --             path = "./assets/scripts/enemyFactory_enemy1.lua"
+       --         },
+      --      }
+      --  },
+      --  [7] = {
+      --      components = {
+      --          script = {
+        --            path = "./assets/scripts/enemyFactory_enemy2.lua"
+      --          },
+      --      }
+       -- },
         [6] = {
             components = {
                 script = {
-                    path = "./assets/scripts/enemyFactory_enemy1.lua"
-                },
-            }
-        },
-        [7] = {
-            components = {
-                script = {
-                    path = "./assets/scripts/enemyFactory_enemy2.lua"
+                    path = "./assets/scripts/enemyFactory_enemy3.lua"
                 },
             }
         }

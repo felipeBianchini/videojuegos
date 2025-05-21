@@ -27,6 +27,8 @@ public:
 		lua.set_function("enemy1Factory", Enemy1Factory);
 		lua.set_function("enemy2Factory", Enemy2Factory);
 		lua.set_function("enemyBulletsFactory", EnemyBulletsFactory);
+		lua.set_function("enemy3Factory", Enemy3Factory);
+		lua.set_function("enemy4Factory", Enemy4Factory);
 	}
 
 	void Update(sol::state& lua, double dt, int wH, int wW) {
@@ -51,6 +53,12 @@ public:
 			}
 			else if (script.createEnemy2 != sol::lua_nil) {
 				script.createEnemy2(dt, wH, wW);
+			}
+			else if (script.createEnemy3 != sol::lua_nil) {
+				script.createEnemy3(dt, wH, wW);
+			}
+			else if (script.createEnemy4 != sol::lua_nil) {
+				script.createEnemy4();
 			}
 		}
 	}

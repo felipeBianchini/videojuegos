@@ -32,8 +32,9 @@ public:
         int aType = e.a.GetComponent<EntityTypeComponent>().entityType;
         int bType = e.b.GetComponent<EntityTypeComponent>().entityType;
         bool isPlayerHitByEnemyBullet = (aType == 1 && bType == 4);
-        bool isEnemyHitByPlayerBullet = (aType == 3 && bType == 2) || (aType == 5 && bType == 2);
-        bool isPlayerAttackedByEnemy2 = (aType == 1 && bType == 5);
+        bool isEnemyHitByPlayerBullet = (aType == 3 && bType == 2) || (aType == 5 && bType == 2) ||
+            (aType == 6 && bType == 2) || (aType == 7 && bType == 2);
+        bool isPlayerAttackedByEnemy = (aType == 1 && bType == 5) || (aType == 1 && bType == 6);
         if (isPlayerHitByEnemyBullet || isEnemyHitByPlayerBullet) {
             DealDamage(e.a, -1);
             DealDamage(e.b, -1);
@@ -44,8 +45,8 @@ public:
                 HandleEntityDeath(e.b, aType);
             }
         }
-        else if (isPlayerAttackedByEnemy2) {
-            Enemy2Attack(e.a, e.b);
+        else if (isPlayerAttackedByEnemy) {
+            EnemyAttack(e.a, e.b);
         }
     }
 
@@ -96,11 +97,18 @@ private:
         deadEntity.Kill();
     }
 
-    void Enemy2Attack(Entity player, Entity enemy2) {
+    void EnemyAttack(Entity player, Entity enemy2) {
         if (!player.IsAlive() || !enemy2.IsAlive()) return;
-
-        DealDamage(player, -2);
-        enemy2.Kill();
+        int damageDone = 0;
+        int entityType = enemy2.GetComponent<EntityTypeComponent>().entityType;
+        if (entityType == 5) {
+            damageDone = -2;
+            enemy2.Kill();
+        }
+        else if (entityType == 6) {
+            damageDone = -3;
+        }
+        DealDamage(player, -3);
     }
 };
 

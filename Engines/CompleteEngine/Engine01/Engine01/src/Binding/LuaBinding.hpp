@@ -69,6 +69,27 @@ void Enemy2Factory(int windowHeight, int windowWidth) {
 	AddTransformAndRigidBodyComponent(enemy2, windowHeight, windowWidth, 5);
 }
 
+void Enemy3Factory(int windowHeight, int windowWidth) {
+	std::cout << "a" << std::endl;
+	Entity enemy3 = Game::GetInstance().registry->CreateEntity();
+	enemy3.AddComponent<CircleColliderComponent>(64, 64, 64);
+	enemy3.AddComponent<SpriteComponent>("enemy3", 128, 128, 0, 0);
+	enemy3.AddComponent<HealthComponent>(10);
+	enemy3.AddComponent<ScoreComponent>(250);
+	enemy3.AddComponent<EntityTypeComponent>(6);
+	AddTransformAndRigidBodyComponent(enemy3, windowHeight, windowWidth, 5);
+}
+
+void Enemy4Factory(int windowHeight, int windowWidth) {
+	Entity enemy4 = Game::GetInstance().registry->CreateEntity();
+	enemy4.AddComponent<CircleColliderComponent>(64, 64, 64);
+	enemy4.AddComponent<SpriteComponent>("enemy4", 128, 128, 0, 0);
+	enemy4.AddComponent<HealthComponent>(10);
+	enemy4.AddComponent<ScoreComponent>(250);
+	enemy4.AddComponent<EntityTypeComponent>(7);
+	AddTransformAndRigidBodyComponent(enemy4, windowHeight, windowWidth, 5);
+}
+
 void AddScriptComponent(Entity entity, std::string path) {
 	sol::state& lua = Game::GetInstance().lua;
 	sol::function nil = sol::nil;
@@ -77,29 +98,56 @@ void AddScriptComponent(Entity entity, std::string path) {
 	entity.AddComponent<ScriptComponent>(nil, nil, nil, updateEnemy1Position, nil, nil);
 }
 
-void AddTransformAndRigidBodyComponent(Entity enemy, int windowHeigth, int windowWidth, int type) {
-	int edge = rand() % 2;
+void AddTransformAndRigidBodyComponent(Entity enemy, int windowHeight, int windowWidth, int type) {
 	glm::vec2 startPosition;
 	glm::vec2 velocity;
-	int yPos = 0;
-	if (type == 3) {
-		yPos = rand() % (windowHeigth / 2);
+	int edge = 0;
+	if (type == 6) {
+		edge = rand() % 4; // 0: izquierda, 1: derecha, 2: arriba, 3: abajo
+		switch (edge) {
+		case 0:
+			startPosition = glm::vec2(-64, rand() % windowHeight);
+			velocity = glm::vec2(150, 0);
+			break;
+		case 1:
+			startPosition = glm::vec2(windowWidth + 64, rand() % windowHeight);
+			velocity = glm::vec2(-150, 0);
+			break;
+		case 2:
+			startPosition = glm::vec2(rand() % windowWidth, -64);
+			velocity = glm::vec2(0, 150);
+			break;
+		case 3:
+			startPosition = glm::vec2(rand() % windowWidth, windowHeight + 64);
+			velocity = glm::vec2(0, -150);
+			break;
+		}
+		enemy.AddComponent<RigidBodyComponent>(velocity);
+		enemy.AddComponent<TransformComponent>(startPosition, glm::vec2(0.75, 0.75), 0.0);
 	}
-	else if (type == 5) {
-		yPos = rand() % windowHeigth;
+	else {
+		edge = rand() % 2;
+		int yPos = 0;
+		if (type == 3) {
+			yPos = rand() % (windowHeight / 2);
+		}
+		else if (type == 5 || type == 6) {
+			yPos = rand() % windowHeight;
+		}
+		switch (edge) {
+		case 0:
+			startPosition = glm::vec2(-64, yPos);
+			velocity = glm::vec2(150, 0);
+			break;
+		case 1:
+			startPosition = glm::vec2(windowWidth + 64, yPos);
+			velocity = glm::vec2(-150, 0);
+			break;
+		}
+		enemy.AddComponent<RigidBodyComponent>(velocity);
+		enemy.AddComponent<TransformComponent>(startPosition, glm::vec2(0.5, 0.5), 0.0);
 	}
-	switch (edge) {
-	case 0:
-		startPosition = glm::vec2(-64, yPos);
-		velocity = glm::vec2(150, 0);
-		break;
-	case 1:
-		startPosition = glm::vec2(windowWidth + 64, yPos);
-		velocity = glm::vec2(-150, 0);
-		break;
-	}
-	enemy.AddComponent<RigidBodyComponent>(velocity);
-	enemy.AddComponent<TransformComponent>(startPosition, glm::vec2(0.5, 0.5), 0.0);
 }
+
 
 #endif // !LUABINDING_HPP
