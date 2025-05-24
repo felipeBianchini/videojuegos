@@ -5,9 +5,16 @@ scene = {
         [3] = {assetId = "enemy1", filePath = "./assets/images/enemy10.png"},
         [4] = {assetId = "enemy2", filePath = "./assets/images/enemy8.png"},
         [5] = {assetId = "enemy1projectile", filePath = "./assets/images/enemy1projectile.png"},
+        [6] = {assetId = "extraLife", filePath = "./assets/images/life_PU.png"},
     },
     backgrounds = {
         [1] = {backgroundId = "background1", filePath = "./assets/backgrounds/background1.png"},
+    },
+    soundEffects = {
+        [1] = {soundEffectId = "", filePath = ""},
+    },
+    backgroundMusic = {
+        [1] = {backgroundMusicId = "", filePath = ""},
     },
     fonts = {
         [1] = {fontId = "press_start", filePath = "./assets/fonts/press_start.ttf", fontSize = 18},
@@ -146,6 +153,13 @@ scene = {
             components = {
                 script = {
                     path = "./assets/scripts/enemyFactory_enemy2.lua"
+                },
+            }
+        },
+        [8] = {
+            components = {
+                script = {
+                    path = "./assets/scripts/extraLifeFactory.lua"
                 },
             }
         }

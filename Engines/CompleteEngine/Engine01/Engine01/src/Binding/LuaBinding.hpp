@@ -4,7 +4,6 @@
 #include <string>
 
 #include "../Systems/GameManagerSystem.hpp"
-#include "../Components/RigidBodyComponent.hpp"
 #include "../Game/Game.hpp"
 #include "../ECS/ECS.hpp"
 
@@ -52,11 +51,12 @@ void Enemy1Factory(int windowHeight, int windowWidth) {
 	Entity enemy1 = Game::GetInstance().registry->CreateEntity();
 	enemy1.AddComponent<CircleColliderComponent>(64, 64, 64);
 	enemy1.AddComponent<SpriteComponent>("enemy1", 128, 128, 0, 0);
-	enemy1.AddComponent<HealthComponent>(5);
+	enemy1.AddComponent<HealthComponent>(3);
 	enemy1.AddComponent<ScoreComponent>(100);
 	enemy1.AddComponent<EntityTypeComponent>(3);
+	enemy1.AddComponent<IsEntityInsideTheScreenComponent>(false);
 	AddScriptComponent(enemy1, "./assets/scripts/enemy1.lua");
-	AddTransformAndRigidBodyComponent(enemy1, windowHeight, windowWidth, 4);
+	AddTransformAndRigidBodyComponent(enemy1, windowHeight, windowWidth, enemy1.GetComponent<EntityTypeComponent>().entityType);
 }
 
 void Enemy2Factory(int windowHeight, int windowWidth) {
@@ -66,18 +66,19 @@ void Enemy2Factory(int windowHeight, int windowWidth) {
 	enemy2.AddComponent<HealthComponent>(2);
 	enemy2.AddComponent<ScoreComponent>(50);
 	enemy2.AddComponent<EntityTypeComponent>(5);
-	AddTransformAndRigidBodyComponent(enemy2, windowHeight, windowWidth, 5);
+	enemy2.AddComponent<IsEntityInsideTheScreenComponent>(false);
+	AddTransformAndRigidBodyComponent(enemy2, windowHeight, windowWidth, enemy2.GetComponent<EntityTypeComponent>().entityType);
 }
 
 void Enemy3Factory(int windowHeight, int windowWidth) {
-	std::cout << "a" << std::endl;
 	Entity enemy3 = Game::GetInstance().registry->CreateEntity();
-	enemy3.AddComponent<CircleColliderComponent>(64, 64, 64);
+	enemy3.AddComponent<CircleColliderComponent>(96, 96, 96);
 	enemy3.AddComponent<SpriteComponent>("enemy3", 128, 128, 0, 0);
-	enemy3.AddComponent<HealthComponent>(10);
+	enemy3.AddComponent<HealthComponent>(6);
 	enemy3.AddComponent<ScoreComponent>(250);
 	enemy3.AddComponent<EntityTypeComponent>(6);
-	AddTransformAndRigidBodyComponent(enemy3, windowHeight, windowWidth, 5);
+	enemy3.AddComponent<IsEntityInsideTheScreenComponent>(false);
+	AddTransformAndRigidBodyComponent(enemy3, windowHeight, windowWidth, enemy3.GetComponent<EntityTypeComponent>().entityType);
 }
 
 void Enemy4Factory(int windowHeight, int windowWidth) {
@@ -86,8 +87,20 @@ void Enemy4Factory(int windowHeight, int windowWidth) {
 	enemy4.AddComponent<SpriteComponent>("enemy4", 128, 128, 0, 0);
 	enemy4.AddComponent<HealthComponent>(10);
 	enemy4.AddComponent<ScoreComponent>(250);
+	enemy4.AddComponent<IsEntityInsideTheScreenComponent>(false);
 	enemy4.AddComponent<EntityTypeComponent>(7);
-	AddTransformAndRigidBodyComponent(enemy4, windowHeight, windowWidth, 5);
+	AddTransformAndRigidBodyComponent(enemy4, windowHeight, windowWidth, enemy4.GetComponent<EntityTypeComponent>().entityType);
+}
+
+void ExtraLifeFactory(int windowHeigth, int windowWidth) {
+	Entity extraLife = Game::GetInstance().registry->CreateEntity();
+	extraLife.AddComponent<CircleColliderComponent>(43, 43, 43);
+	extraLife.AddComponent<SpriteComponent>("extraLife", 87, 87, 0, 0);
+	extraLife.AddComponent<EntityTypeComponent>(10);
+	int posX = rand() % (windowWidth - 50);
+	int posY = rand() % (windowHeigth - 50);
+	glm::vec2 pos = glm::vec2(posX, posY);
+	extraLife.AddComponent<TransformComponent>(pos, glm::vec2(0.5, 0.5), 0.0);
 }
 
 void AddScriptComponent(Entity entity, std::string path) {
@@ -107,29 +120,28 @@ void AddTransformAndRigidBodyComponent(Entity enemy, int windowHeight, int windo
 		switch (edge) {
 		case 0:
 			startPosition = glm::vec2(-64, rand() % windowHeight);
-			velocity = glm::vec2(150, 0);
+			velocity = glm::vec2(100, 0);
 			break;
 		case 1:
 			startPosition = glm::vec2(windowWidth + 64, rand() % windowHeight);
-			velocity = glm::vec2(-150, 0);
+			velocity = glm::vec2(-100, 0);
 			break;
 		case 2:
 			startPosition = glm::vec2(rand() % windowWidth, -64);
-			velocity = glm::vec2(0, 150);
+			velocity = glm::vec2(0, 100);
 			break;
 		case 3:
 			startPosition = glm::vec2(rand() % windowWidth, windowHeight + 64);
-			velocity = glm::vec2(0, -150);
+			velocity = glm::vec2(0, -100);
 			break;
 		}
-		enemy.AddComponent<RigidBodyComponent>(velocity);
 		enemy.AddComponent<TransformComponent>(startPosition, glm::vec2(0.75, 0.75), 0.0);
 	}
 	else {
 		edge = rand() % 2;
 		int yPos = 0;
 		if (type == 3) {
-			yPos = rand() % (windowHeight / 2);
+			yPos = (rand() % (windowHeight / 2));
 		}
 		else if (type == 5 || type == 6) {
 			yPos = rand() % windowHeight;
@@ -144,10 +156,9 @@ void AddTransformAndRigidBodyComponent(Entity enemy, int windowHeight, int windo
 			velocity = glm::vec2(-150, 0);
 			break;
 		}
-		enemy.AddComponent<RigidBodyComponent>(velocity);
 		enemy.AddComponent<TransformComponent>(startPosition, glm::vec2(0.5, 0.5), 0.0);
 	}
+	enemy.AddComponent<RigidBodyComponent>(velocity);
 }
-
 
 #endif // !LUABINDING_HPP

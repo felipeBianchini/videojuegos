@@ -35,18 +35,19 @@ public:
         bool isEnemyHitByPlayerBullet = (aType == 3 && bType == 2) || (aType == 5 && bType == 2) ||
             (aType == 6 && bType == 2) || (aType == 7 && bType == 2);
         bool isPlayerAttackedByEnemy = (aType == 1 && bType == 5) || (aType == 1 && bType == 6);
+        bool playerGatheredExtraLife = (aType == 1 && bType == 10);
         if (isPlayerHitByEnemyBullet || isEnemyHitByPlayerBullet) {
-            DealDamage(e.a, -1);
-            DealDamage(e.b, -1);
+            DealDamage(e.a, 1);
             if (GetHealth(e.a) <= 0 && e.a.IsAlive()) {
                 HandleEntityDeath(e.a, bType);
             }
-            if (GetHealth(e.b) <= 0 && e.b.IsAlive()) {
-                HandleEntityDeath(e.b, aType);
-            }
+            e.b.Kill();
         }
-        else if (isPlayerAttackedByEnemy) {
+        else if (isPlayerAttackedByEnemy ) {
             EnemyAttack(e.a, e.b);
+        }
+        else if (playerGatheredExtraLife) {
+            GainLife(e.a, e.b);
         }
     }
 
@@ -55,9 +56,14 @@ private:
         if (!entity.IsAlive()) return;
         if (entity.HasComponent<HealthComponent>()) {
             auto& health = entity.GetComponent<HealthComponent>().health;
-            health += amount;
+            health -= amount;
             if (health < 0) health = 0;
         }
+    }
+
+    void GainLife(Entity player, Entity extraLife) {
+        player.GetComponent<HealthComponent>().health += 1;
+        extraLife.Kill();
     }
 
     int GetHealth(Entity entity) const {
@@ -77,7 +83,6 @@ private:
 
     void HandleEntityDeath(Entity deadEntity, int killerType) {
         if (!deadEntity.IsAlive()) return;
-
         if (killerType == 2) {
             for (auto entity : GetSystemEntiities()) {
                 if (!entity.IsAlive()) continue;
@@ -87,7 +92,6 @@ private:
 
                     if (entity.HasComponent<ScoreComponent>() &&
                         deadEntity.HasComponent<ScoreComponent>()) {
-
                         IncreaseScore(entity, deadEntity.GetComponent<ScoreComponent>().score);
                     }
                     break;
@@ -108,7 +112,7 @@ private:
         else if (entityType == 6) {
             damageDone = -3;
         }
-        DealDamage(player, -3);
+        DealDamage(player, 3);
     }
 };
 

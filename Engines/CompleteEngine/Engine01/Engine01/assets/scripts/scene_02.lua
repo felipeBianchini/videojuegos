@@ -136,21 +136,21 @@ scene = {
                 },
             }
         },
-      --  [6] = {
-      --      components = {
-       --         script = {
-       --             path = "./assets/scripts/enemyFactory_enemy1.lua"
-       --         },
-      --      }
-      --  },
-      --  [7] = {
-      --      components = {
-      --          script = {
-        --            path = "./assets/scripts/enemyFactory_enemy2.lua"
-      --          },
-      --      }
-       -- },
         [6] = {
+            components = {
+                script = {
+                    path = "./assets/scripts/enemyFactory_enemy1.lua"
+                },
+            }
+        },
+        [7] = {
+            components = {
+                script = {
+                    path = "./assets/scripts/enemyFactory_enemy2.lua"
+                },
+            }
+        },
+        [8] = {
             components = {
                 script = {
                     path = "./assets/scripts/enemyFactory_enemy3.lua"

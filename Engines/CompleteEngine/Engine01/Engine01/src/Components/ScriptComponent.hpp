@@ -12,11 +12,13 @@ struct ScriptComponent {
 	sol::function createEnemy2;
 	sol::function createEnemy3;
 	sol::function createEnemy4;
+	sol::function createExtraLife;
 
 	ScriptComponent(sol::function update = sol::lua_nil, sol::function onClick = sol::lua_nil,
 		sol::function updateBullets = sol::lua_nil, sol::function updateEnemy1Position = sol::lua_nil,
 		sol::function createEnemy1 = sol::lua_nil, sol::function createEnemy2 = sol::lua_nil,
-		sol::function createEnemy3 = sol::lua_nil, sol::function createEnemy4 = sol::lua_nil) {
+		sol::function createEnemy3 = sol::lua_nil, sol::function createEnemy4 = sol::lua_nil,
+		sol::function createExtraLife = sol::lua_nil) {
 		this->update = update;
 		this->onClick = onClick;
 		this->updateBullets = updateBullets;
@@ -25,6 +27,7 @@ struct ScriptComponent {
 		this->createEnemy2 = createEnemy2;
 		this->createEnemy3 = createEnemy3;
 		this->createEnemy4 = createEnemy4;
+		this->createExtraLife = createExtraLife;
 	}
 };
 
