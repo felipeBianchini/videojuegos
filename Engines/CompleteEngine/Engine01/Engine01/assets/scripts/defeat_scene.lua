@@ -12,6 +12,10 @@ scene = {
     backgrounds = {
         [1] = {backgroundId = "background", filePath = "./assets/backgrounds/win_defeat_background.png"},
     },
+    soundEffects = {},
+    backgroundMusic = {
+        [1] = {backgroundMusicId = "background_music", filePath = "./assets/backgroundMusic/menu_music.mp3"},
+    },
     keys = {},
     buttons = {
         [1] = {name = "mouse_left_button", button = 1},

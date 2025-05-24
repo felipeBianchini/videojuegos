@@ -62,15 +62,15 @@ void SceneLoader::LoadSoundEffects(const sol::table& soundEffects, std::unique_p
 	}
 }
 
-void SceneLoader::LoadBackgroundMusic(const sol::table& backgroundMusic, std::unique_ptr<AssetManager>& assetManager)
+void SceneLoader::LoadBackgroundMusic(const sol::table& backgroundMusics, std::unique_ptr<AssetManager>& assetManager)
 {
 	int index = 1;
 	while (true) {
-		sol::optional<sol::table> hasBackgroundMusic = backgroundMusic[index];
+		sol::optional<sol::table> hasBackgroundMusic = backgroundMusics[index];
 		if (hasBackgroundMusic == sol::nullopt) {
 			break;
 		}
-		sol::table backgroundMusic = backgroundMusic[index];
+		sol::table backgroundMusic = backgroundMusics[index];
 		std::string backgroundMusicId = backgroundMusic["backgroundMusicId"];
 		std::string filePath = backgroundMusic["filePath"];
 		assetManager->SetBackgroundMusic(backgroundMusicId, filePath);

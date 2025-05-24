@@ -10,6 +10,11 @@ scene = {
     backgrounds = {
         [1] = {backgroundId = "background3", filePath = "./assets/backgrounds/background3.png"},
     },
+    soundEffects = {
+        [1] = {soundEffectId = "player_shoot", filePath = "./assets/soundEffects/player_shoot.mp3"},
+    },    backgroundMusic = {
+        [1] = {backgroundMusicId = "background_music", filePath = "./assets/backgroundMusic/background_music.mp3"},
+    },
     fonts = {
         [1] = {fontId = "press_start", filePath = "./assets/fonts/press_start.ttf", fontSize = 24},
     },
@@ -154,6 +159,13 @@ scene = {
             components = {
                 script = {
                     path = "./assets/scripts/enemyFactory_enemy3.lua"
+                },
+            }
+        },
+        [9] = {
+            components = {
+                script = {
+                    path = "./assets/scripts/extraLifeFactory.lua"
                 },
             }
         }

@@ -11,11 +11,12 @@ scene = {
         [1] = {backgroundId = "background1", filePath = "./assets/backgrounds/background1.png"},
     },
     soundEffects = {
-        [1] = {soundEffectId = "", filePath = ""},
+        [1] = {soundEffectId = "player_shoot", filePath = "./assets/soundEffects/player_shoot.mp3"},
     },
     backgroundMusic = {
-        [1] = {backgroundMusicId = "", filePath = ""},
+        [1] = {backgroundMusicId = "background_music", filePath = "./assets/backgroundMusic/background_music.mp3"},
     },
+
     fonts = {
         [1] = {fontId = "press_start", filePath = "./assets/fonts/press_start.ttf", fontSize = 18},
     },

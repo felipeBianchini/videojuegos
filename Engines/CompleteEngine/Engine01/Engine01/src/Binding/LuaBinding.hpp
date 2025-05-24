@@ -9,6 +9,7 @@
 
 void AddScriptComponent(Entity entity, std::string path);
 void AddTransformAndRigidBodyComponent(Entity enemy, int windowHeigth, int windowWidth, int type);
+void PlaySoundEffect(std::string soundEffectId);
 
 bool IsActionActivated(const std::string& action) {
 	return Game::GetInstance().controllerManager->IsActionActivated(action);
@@ -36,6 +37,7 @@ void BulletFactory(double playerX, double playerY) {
 	bullet.AddComponent<SpriteComponent>("bullet", 64, 64, 0, 0);
 	bullet.AddComponent<TransformComponent>(glm::vec2(playerX + 10, playerY + 10), glm::vec2(0.5, 0.5), 0.0);
 	bullet.AddComponent<EntityTypeComponent>(2);
+	PlaySoundEffect("player_shoot");
 }
 
 void EnemyBulletsFactory(double enemyX, double enemyY) {
@@ -160,5 +162,14 @@ void AddTransformAndRigidBodyComponent(Entity enemy, int windowHeight, int windo
 	}
 	enemy.AddComponent<RigidBodyComponent>(velocity);
 }
+
+void PlaySoundEffect(std::string soundEffectId) {
+	Mix_Chunk* soundEffect = Game::GetInstance().assetManager->GetSoundEffect(soundEffectId);
+	if (soundEffect) {
+		Mix_VolumeChunk(soundEffect, 16);
+		Mix_PlayChannel(-1, soundEffect, 0);
+	}
+}
+
 
 #endif // !LUABINDING_HPP

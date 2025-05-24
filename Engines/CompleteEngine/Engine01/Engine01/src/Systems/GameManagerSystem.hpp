@@ -18,7 +18,9 @@ public:
     void SetGameTimer(double gameTimer, std::string nextScene) {
         this->gameTimer = gameTimer;
         if (this->nextScene == "main_menu" || this->nextScene.empty()) {
+            std::cout << "a : " << this->nextScene << std::endl;
             this->nextScene = nextScene;
+            std::cout << "a : " << this->nextScene << std::endl;
         }
     }
 
@@ -77,6 +79,7 @@ public:
     }
     // TODO: REVISAR CUANDO SE PIERDE
     void GoToNextScene(sol::state& lua) {
+
         std::cout << this->nextScene << std::endl;
 
         if (!this->gameOver) {

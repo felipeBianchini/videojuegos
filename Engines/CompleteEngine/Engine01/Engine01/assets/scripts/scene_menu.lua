@@ -8,6 +8,10 @@ scene = {
     backgrounds = {
         [1] = {backgroundId = "background1", filePath = "./assets/backgrounds/menu_background.png"},
     },
+    soundEffects = {},
+    backgroundMusic = {
+        [1] = {backgroundMusicId = "background_music", filePath = "./assets/backgroundMusic/menu_music.mp3"},
+    },
     keys = {
         [1] = {name = "up", key = 119},
         [2] = {name = "down", key = 115},
@@ -109,27 +113,6 @@ scene = {
                 },
                 transform = {
                     position = {x = 50.0, y = 450.0},
-                    scale = {x = 1.0, y = 1.0},
-                    rotation = 0.0,
-                }
-            }
-        },    
-        [6] = {
-            components = {
-                clickable = {},
-                script = {
-                    path = "./assets/scripts/menu_button_04.lua"
-                },
-                text = {
-                    text = "Top Scores",
-                    fontId = "press_start_24",
-                    r = 150,
-                    g = 150,
-                    b = 0,
-                    a = 255
-                },
-                transform = {
-                    position = {x = 50.0, y = 550.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 }

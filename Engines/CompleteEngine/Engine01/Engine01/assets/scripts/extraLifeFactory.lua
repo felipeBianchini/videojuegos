@@ -1,5 +1,5 @@
 local spawnTimer = 0
-local spawnInterval = 1
+local spawnInterval = 15
 
 function createExtraLife(dt, wH, wW)
     spawnTimer = spawnTimer + dt
