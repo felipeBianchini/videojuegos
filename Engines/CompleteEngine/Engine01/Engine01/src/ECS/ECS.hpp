@@ -165,7 +165,6 @@ bool Registry::HasComponent(Entity entity) const
 	const int componentId = Component<TComponent>::GetId();
 	const int entityId = entity.GetId();
 	if (entityId < 0 || entityId >= entityComponentSignatures.size()) {
-		//std::cerr << "error " << entityId << std::endl;;
 		return false;
 	}
 	return entityComponentSignatures[entityId].test(componentId);

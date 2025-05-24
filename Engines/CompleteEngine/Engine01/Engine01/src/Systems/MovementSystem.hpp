@@ -16,31 +16,25 @@ public:
         RequiredComponent<EntityTypeComponent>();
     }
 
-    void BounceInBorders(double w, double h, TransformComponent& transform, RigidBodyComponent& rigidBody) {
-        bool isInsideScreen = transform.position.x >= 0.0 && transform.position.x <= w &&
-            transform.position.y >= 0.0 && transform.position.y <= h;
-
-        if (!isInsideScreen) return;
-
-        if (transform.position.x <= 0.0) {
-            transform.position.x = 0.0;
+private:
+    void BounceInBorders(double w, double h, TransformComponent& transform, RigidBodyComponent& rigidBody, SpriteComponent& sprite, int type) {
+        double posX = transform.position.x + sprite.width * transform.scale.x;
+        double posY = transform.position.y + sprite.height * transform.scale.y;
+        if (posX >= w) {
             rigidBody.velocity.x *= -1;
         }
-        else if (transform.position.x >= w) {
-            transform.position.x = w;
+        else if (posX - (sprite.width / 2) <= 0) {
             rigidBody.velocity.x *= -1;
         }
-
-        if (transform.position.y <= 0.0) {
-            transform.position.y = 0.0;
-            rigidBody.velocity.y *= -1;
-        }
-        else if (transform.position.y >= h) {
-            transform.position.y = h;
-            rigidBody.velocity.y *= -1;
+        if (type != 3) {
+            if (posY >= h) {
+                rigidBody.velocity.y *= -1;
+            }
+            else if (posY - (sprite.height / 2) <= 0) {
+                rigidBody.velocity.y *= -1;
+            }
         }
     }
-
 
     void CheckProjectilesPosition(double x, double y, double w, double h, Entity entity) {
         if (x > w || y > h) {
@@ -64,7 +58,7 @@ public:
     }
 
     void Enemy3Movement(RigidBodyComponent& rigidBody) {
-        if (rand() % 100 < 5) {
+        if (rand() % 100 < 1) {
             double speed = glm::length(rigidBody.velocity);
             int direction = (rand() % 2 == 0) ? 1 : -1;
             if (rigidBody.velocity.x != 0.0f) {
@@ -76,40 +70,39 @@ public:
         }
     }
 
-    void Update(double dt, int windowHeight, int windowWidth, Entity player) {
-        if (!player.HasComponent<TransformComponent>()) {
-            return;
-        }
-
+public:
+    void Update(double dt, int windowHeight, int windowWidth, const Entity player) {
         for (auto entity : GetSystemEntiities()) {
             if (!entity.HasComponent<RigidBodyComponent>() ||
                 !entity.HasComponent<TransformComponent>() ||
                 !entity.HasComponent<EntityTypeComponent>()) {
                 continue;
             }
-
             auto& rigidBody = entity.GetComponent<RigidBodyComponent>();
             auto& transform = entity.GetComponent<TransformComponent>();
+            auto& sprite = entity.GetComponent<SpriteComponent>();
             int type = entity.GetComponent<EntityTypeComponent>().entityType;
-
             transform.position.x += rigidBody.velocity.x * dt;
             transform.position.y += rigidBody.velocity.y * dt;
-
             double width = static_cast<double>(windowWidth);
             double height = static_cast<double>(windowHeight);
-
-            if (type == 3) {
-                BounceInBorders(width, height, transform, rigidBody);
+            if (type == 3 || type == 6) {
+                if (entity.HasComponent<IsEntityInsideTheScreenComponent>() &&
+                    entity.GetComponent<IsEntityInsideTheScreenComponent>().isEntityInsideTheScreen) {
+                    if (type == 3) {
+                        BounceInBorders(width, height, transform, rigidBody, sprite, type);
+                    }
+                    else {
+                        Enemy3Movement(rigidBody);
+                        BounceInBorders(width, height, transform, rigidBody, sprite, type);
+                    }
+                }
             }
             else if (type == 2 || type == 4) {
                 CheckProjectilesPosition(transform.position.x, transform.position.y, width, height, entity);
             }
             else if (type == 5) {
                 Enemy2FollowUp(player, transform, rigidBody);
-            }
-            else if (type == 6) {
-                Enemy3Movement(rigidBody);
-                BounceInBorders(width, height, transform, rigidBody);
             }
         }
     }
