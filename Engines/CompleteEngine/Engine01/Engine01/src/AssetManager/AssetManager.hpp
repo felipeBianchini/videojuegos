@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 
 #include <map>
 #include <string>
@@ -19,9 +20,15 @@ class AssetManager {
 	 TTF_Font* GetFont(const std::string& fontId);
 	 void SetBackground(SDL_Renderer* renderer, const std::string& backgroundId, const std::string& filePath );
 	 SDL_Texture* GetBackground(const std::string& backgroundId);
+	 void AddSoundEffect(const std::string& soundEffectId, const std::string& filePath);
+	 Mix_Chunk* GetSoundEffect(const std::string& soundEffectId);
+	 void SetBackgroundMusic(const std::string& backgroundMusicId, const std::string& filePath);
+	 Mix_Music* GetBackgroundMusic(const std::string& backgroundMusicId);
 private:
 	 std::map<std::string, SDL_Texture*> textures;
 	 std::map<std::string, TTF_Font*> fonts;
+	 std::map<std::string, Mix_Chunk*> soundEffects;
+	 Mix_Music* backgroundMusic;
 	 SDL_Texture* backgroundTexture = nullptr;
 };
 

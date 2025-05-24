@@ -37,3 +37,5 @@ Los ids:
 4: enemy1 bullet
 5: enemy2
 6: enemy3
+7: enemy4
+10: extraLife

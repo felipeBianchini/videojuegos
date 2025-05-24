@@ -20,6 +20,7 @@
 #include "../Components/HealthComponent.hpp"
 #include "../Components/ScoreComponent.hpp"
 #include "../Components/EntityTypeComponent.hpp"
+#include "../Components/IsEntityInsideTheScreenComponent.hpp"
 
 #include "../ECS/ECS.hpp"
 
@@ -31,6 +32,8 @@ private:
 	void LoadFonts(const sol::table& fonts, std::unique_ptr<AssetManager>& assetManager);
 	void LoadButtons(const sol::table& buttons, std::unique_ptr<ControllerManager>& controllerManager);
 	void LoadBackgrounds(SDL_Renderer* renderer, const sol::table& backgrounds, std::unique_ptr<AssetManager>& assetManager);
+	void LoadSoundEffects(const sol::table& soundEffects, std::unique_ptr<AssetManager>& assetManager);
+	void LoadBackgroundMusic(const sol::table& backgroundMusic, std::unique_ptr<AssetManager>& assetManager);
 public:
 	SceneLoader();
 	~SceneLoader();

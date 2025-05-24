@@ -2,6 +2,7 @@
 #define GAME_HPP
 
 #include <SDL.h>
+#include <SDL_mixer.h>
 #include <glm/glm.hpp>
 #include <SDL_image.h>
 #include <SDL_ttf.h>

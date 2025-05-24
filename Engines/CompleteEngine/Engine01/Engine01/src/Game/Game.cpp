@@ -13,6 +13,7 @@
 #include "../Systems/RenderTextSystem.hpp"
 #include "../Systems/UISystem.hpp"
 #include "../Systems/GameManagerSystem.hpp"
+#include "../Systems/IsEntityInsideTheScreenSystem.hpp"
 
 Game::Game()
 {
@@ -46,6 +47,12 @@ void Game::Init()
 		std::cerr << "Error inicializando TTF!" << std::endl;
 		return;
 	}
+
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+		std::cerr << "Error inicializando SDL_mixer: " << Mix_GetError() << std::endl;
+		return;
+	}
+
 	this->Create();
 }
 
@@ -80,6 +87,7 @@ void Game::Setup()
 	registry->AddSystem<ScriptSystem>();
 	registry->AddSystem<UISystem>();
 	registry->AddSystem<GameManagerSystem>();
+	registry->AddSystem<IsEntityInsideTheScreenSystem>();
 
 	sceneManager->LoadSceneFromScript("./assets/scripts/scenes.lua", lua);
 
@@ -149,6 +157,7 @@ void Game::Update()
 	registry->GetSystem<GameManagerSystem>().Update(deltaTime, sceneManager->GetCurrentSceneType(), lua);
 	registry->GetSystem<ScriptSystem>().Update(lua, deltaTime, window_height, window_width);
 	registry->GetSystem<MovementSystem>().Update(deltaTime, window_height, window_width, registry->GetSystem<GameManagerSystem>().GetPlayer());
+	registry->GetSystem<IsEntityInsideTheScreenSystem>().Update(window_width, window_height);
 	registry->GetSystem<CollisionSystem>().Update(eventManager);
 	registry->GetSystem<AnimationSystem>().Update();
 }
@@ -190,6 +199,8 @@ void Game::Destroy()
 {
 	SDL_DestroyRenderer(this->renderer);
 	SDL_DestroyWindow(this->window);
+	Mix_CloseAudio();
+	Mix_Quit();
 	TTF_Quit();
 	SDL_Quit();
 }
