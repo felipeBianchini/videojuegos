@@ -60,7 +60,7 @@ void SceneManager::LoadScene()
 
 std::string SceneManager::GetNextScene() const
 {
-	return nextScene;
+	return this->nextScene;
 }
 
 void SceneManager::SetNextScene(const std::string& nextScene)

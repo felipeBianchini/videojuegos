@@ -4,6 +4,7 @@
 #include "../Components/HealthComponent.hpp"
 #include "../Components/ScoreComponent.hpp"
 #include "../Components/TextComponent.hpp"
+#include "../Game/Game.hpp"
 #include "../ECS/ECS.hpp"
 
 class GameManagerSystem : public System {
@@ -15,13 +16,8 @@ public:
         this->nextScene = "";
     }
 
-    void SetGameTimer(double gameTimer, std::string nextScene) {
+    void SetGameTimer(double gameTimer) {
         this->gameTimer = gameTimer;
-        if (this->nextScene == "main_menu" || this->nextScene.empty()) {
-            std::cout << "a : " << this->nextScene << std::endl;
-            this->nextScene = nextScene;
-            std::cout << "a : " << this->nextScene << std::endl;
-        }
     }
 
     void Update(double dt, std::string sceneType, sol::state& lua) {
@@ -65,6 +61,7 @@ public:
 
     void CheckPlayerHealth(const std::string& sceneType, sol::state& lua) {
         if (playerHealth <= 0) {
+            SetNextScene(Game::GetInstance().sceneManager->GetNextScene());
             this->gameOver = true;
             if (lua["defeat"].valid()) {
                 lua["defeat"]();
@@ -72,16 +69,14 @@ public:
         }
 
         if (gameTimer <= 0.0f && playerHealth > 0) {
+            SetNextScene(Game::GetInstance().sceneManager->GetNextScene());
             if (lua["victory"].valid()) {
                 lua["victory"]();
             }
         }
     }
-    // TODO: REVISAR CUANDO SE PIERDE
+
     void GoToNextScene(sol::state& lua) {
-
-        std::cout << this->nextScene << std::endl;
-
         if (!this->gameOver) {
             if (this->nextScene == "level_01") {
                 this->nextScene = "level_02";
@@ -93,12 +88,16 @@ public:
                 this->nextScene = "level_01";
             }
         }
+        else {
 
-        std::cout << this->nextScene << std::endl;
-
+        }
         if (lua["go_to_scene"].valid()) {
             lua["go_to_scene"](nextScene);
         }
+    }
+
+    void SetNextScene(std::string nextScene) {
+        this->nextScene = nextScene;
     }
 
     void SetGameTimer(const Entity& entity) {

@@ -174,7 +174,7 @@ void Game::Render()
 void Game::RunScene()
 {
 	sceneManager->LoadScene();
-	registry->GetSystem<GameManagerSystem>().SetGameTimer(sceneManager->GetCurrentSceneTimer(), sceneManager->GetNextScene());
+	registry->GetSystem<GameManagerSystem>().SetGameTimer(sceneManager->GetCurrentSceneTimer());
 	while (sceneManager->IsSceneRunning()) {
 		ProcessInput();
 		if (this->keepRunning) {
