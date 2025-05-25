@@ -6,13 +6,17 @@ scene = {
         [4] = {assetId = "enemy2", filePath = "./assets/images/enemy8.png"},
         [5] = {assetId = "enemy3", filePath = "./assets/images/enemy3.png"}, 
         [6] = {assetId = "enemy1projectile", filePath = "./assets/images/enemy1projectile.png"},
+        [7] = {assetId = "extraLife", filePath = "./assets/images/life_PU.png"},
     },
     backgrounds = {
         [1] = {backgroundId = "background3", filePath = "./assets/backgrounds/background3.png"},
     },
     soundEffects = {
         [1] = {soundEffectId = "player_shoot", filePath = "./assets/soundEffects/player_shoot.mp3"},
-    },    backgroundMusic = {
+        [2] = {soundEffectId = "enemy_death", filePath = "./assets/soundEffects/enemy_death.flac"},
+        [3] = {soundEffectId = "powerUp_pickUp", filePath = "./assets/soundEffects/powerUp_pickUp.wav"},
+    },    
+    backgroundMusic = {
         [1] = {backgroundMusicId = "background_music", filePath = "./assets/backgroundMusic/background_music.mp3"},
     },
     fonts = {

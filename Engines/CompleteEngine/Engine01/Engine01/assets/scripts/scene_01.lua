@@ -12,6 +12,8 @@ scene = {
     },
     soundEffects = {
         [1] = {soundEffectId = "player_shoot", filePath = "./assets/soundEffects/player_shoot.mp3"},
+        [2] = {soundEffectId = "enemy_death", filePath = "./assets/soundEffects/enemy_death.flac"},
+        [3] = {soundEffectId = "powerUp_pickUp", filePath = "./assets/soundEffects/powerUp_pickUp.wav"},
     },
     backgroundMusic = {
         [1] = {backgroundMusicId = "background_music", filePath = "./assets/backgroundMusic/background_music.mp3"},

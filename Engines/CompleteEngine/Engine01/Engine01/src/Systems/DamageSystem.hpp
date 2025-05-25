@@ -51,6 +51,14 @@ public:
         }
     }
 
+    void PlaySoundEffect(std::string soundEffectId) {
+        Mix_Chunk* soundEffect = Game::GetInstance().assetManager->GetSoundEffect(soundEffectId);
+        if (soundEffect) {
+            Mix_VolumeChunk(soundEffect, 75);
+            Mix_PlayChannel(-1, soundEffect, 0);
+        }
+    }
+
 private:
     void DealDamage(Entity entity, int amount) {
         if (!entity.IsAlive()) return;
@@ -64,6 +72,7 @@ private:
     void GainLife(Entity player, Entity extraLife) {
         player.GetComponent<HealthComponent>().health += 1;
         extraLife.Kill();
+        PlaySoundEffect("powerUp_pickUp");
     }
 
     int GetHealth(Entity entity) const {
@@ -99,6 +108,7 @@ private:
             }
         }
         deadEntity.Kill();
+        PlaySoundEffect("enemy_death");
     }
 
     void EnemyAttack(Entity player, Entity enemy2) {
@@ -108,6 +118,8 @@ private:
         if (entityType == 5) {
             damageDone = -2;
             enemy2.Kill();
+            PlaySoundEffect("enemy_death");
+            
         }
         else if (entityType == 6) {
             damageDone = -3;
