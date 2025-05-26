@@ -7,6 +7,7 @@ scene = {
         [5] = {assetId = "enemy3", filePath = "./assets/images/enemy3.png"}, 
         [6] = {assetId = "enemy1projectile", filePath = "./assets/images/enemy1projectile.png"},
         [7] = {assetId = "extraLife", filePath = "./assets/images/life_PU.png"},
+        [8] = {assetId = "enemy3projectile", filePath = "./assets/images/enemy3projectile.png"},
     },
     backgrounds = {
         [1] = {backgroundId = "background3", filePath = "./assets/backgrounds/background3.png"},

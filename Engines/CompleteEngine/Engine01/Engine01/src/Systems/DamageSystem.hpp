@@ -33,8 +33,8 @@ public:
         int bType = e.b.GetComponent<EntityTypeComponent>().entityType;
         bool isPlayerHitByEnemyBullet = (aType == 1 && bType == 4);
         bool isEnemyHitByPlayerBullet = (aType == 3 && bType == 2) || (aType == 5 && bType == 2) ||
-            (aType == 6 && bType == 2) || (aType == 7 && bType == 2);
-        bool isPlayerAttackedByEnemy = (aType == 1 && bType == 5) || (aType == 1 && bType == 6);
+            (aType == 6 && bType == 2);
+        bool isPlayerAttackedByEnemy = (aType == 1 && bType == 5);
         bool playerGatheredExtraLife = (aType == 1 && bType == 10);
         if (isPlayerHitByEnemyBullet || isEnemyHitByPlayerBullet) {
             DealDamage(e.a, 1);

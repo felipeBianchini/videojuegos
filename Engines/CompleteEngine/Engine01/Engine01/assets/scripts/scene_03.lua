@@ -4,8 +4,12 @@ scene = {
         [2] = {assetId = "bullet", filePath = "./assets/images/missile2.png"},
         [3] = {assetId = "enemy1", filePath = "./assets/images/enemy11.png"},
         [4] = {assetId = "enemy2", filePath = "./assets/images/enemy8.png"},
-        [5] = {assetId = "enemy1projectile", filePath = "./assets/images/enemy1projectile.png"},
-        [6] = {assetId = "extraLife", filePath = "./assets/images/life_PU.png"},
+        [5] = {assetId = "enemy3", filePath = "./assets/images/enemy3.png"}, 
+        [6] = {assetId = "enemy1projectile", filePath = "./assets/images/enemy1projectile.png"},
+        [7] = {assetId = "extraLife", filePath = "./assets/images/life_PU.png"},
+        [8] = {assetId = "enemy3projectile", filePath = "./assets/images/enemy3projectile.png"},
+        [9] = {assetId = "boss", filePath = "./assets/images/boss2.png"},
+        [10] = {assetId = "bossProjectile", filePath = "./assets/images/bossProjectile.png"},
     },
     backgrounds = {
         [1] = {backgroundId = "background2", filePath = "./assets/backgrounds/background2.png"},
@@ -66,7 +70,7 @@ scene = {
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 600.0, y = 400.0},
+                    position = {x = 600.0, y = 600.0},
                     scale = {x = 0.5, y = 0.5},
                     rotation = 0.0,
                 },
@@ -146,19 +150,35 @@ scene = {
         },
         [6] = {
             components = {
-                script = {
-                    path = "./assets/scripts/enemyFactory_enemy1.lua"
+                rigid_body = {
+                    velocity = {x = 0, y = 0},
                 },
+                script = {
+                    path = "./assets/scripts/boss.lua"
+                },
+                sprite = {
+                    assetId = "boss",
+                    width = 256,
+                    heigth = 256,
+                    src_rect = {x = 0, y = 0},
+                },
+                transform = {
+                    position = {x = 500.0, y = 0.0},
+                    scale = {x = 1.0, y = 1.0},
+                    rotation = 0.0,
+                },
+                health = {
+                    health = 50
+                },
+                score = {
+                    score = 500
+                },
+                type = {
+                    type = 7
+                }
             }
         },
         [7] = {
-            components = {
-                script = {
-                    path = "./assets/scripts/enemyFactory_enemy2.lua"
-                },
-            }
-        },
-        [8] = {
             components = {
                 script = {
                     path = "./assets/scripts/extraLifeFactory.lua"

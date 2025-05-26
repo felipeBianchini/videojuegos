@@ -23,7 +23,7 @@ public:
             double posY = transform.position.y + sprite.height * transform.scale.y;
             double w = static_cast<double>(windowWidth);
             double h = static_cast<double>(windowHeight);
-            bool fullyInside = posX - sprite.width > 0 && posY > 0 && posX < w && posY < h;
+            bool fullyInside = posX - (sprite.width / 2) > 0 && posY - (sprite.height / 2) > 0 && posX < w && posY < h;
             if (fullyInside) {
                 insideComponent.isEntityInsideTheScreen = true;
             }

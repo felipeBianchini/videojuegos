@@ -5,6 +5,7 @@
 #include <sol/sol.hpp>
 
 #include "../Components/ScriptComponent.hpp"
+#include "../Game/Game.hpp"
 #include "../ECS/ECS.hpp"
 #include "../Binding/LuaBinding.hpp"
 
@@ -30,6 +31,9 @@ public:
 		lua.set_function("enemy3Factory", Enemy3Factory);
 		lua.set_function("enemy4Factory", Enemy4Factory);
 		lua.set_function("extraLifeFactory", ExtraLifeFactory);
+		lua.set_function("enemy3BulletsFactory", Enemy3Attack);
+		lua.set_function("bossAttack", BossAttack);
+		lua.set_function("removeShield", RemoveBossShield);
 	}
 
 	void Update(sol::state& lua, double dt, int wH, int wW) {
@@ -63,6 +67,22 @@ public:
 			}
 			else if (script.createExtraLife != sol::lua_nil) {
 				script.createExtraLife(dt, wH, wW);
+			}
+			else if (script.updateEnemy3Position != sol::lua_nil) {
+				TransformComponent transform = entity.GetComponent<TransformComponent>();
+				double enemyX = transform.position.x;
+				double enemyY = transform.position.y;
+				script.updateEnemy3Position(dt, enemyX, enemyY);
+			}
+			else if (script.bossMechanics != sol::lua_nil) {
+				Entity player = Game::GetInstance().registry->GetSystem<GameManagerSystem>().GetPlayer();
+				TransformComponent transformPlayer = player.GetComponent<TransformComponent>();
+				double playerX = transformPlayer.position.x;
+				double playerY = transformPlayer.position.y;
+				TransformComponent transform = entity.GetComponent<TransformComponent>();
+				double bossX = transform.position.x;
+				double bossY = transform.position.y;
+				script.bossMechanics(dt, wH, wW, bossX, bossY, playerX, playerY);
 			}
 		}
 	}

@@ -7,7 +7,7 @@
 #include "../Game/Game.hpp"
 #include "../ECS/ECS.hpp"
 
-void AddScriptComponent(Entity entity, std::string path);
+void AddScriptComponent(Entity entity, const std::string& scriptPath, const std::string& luaFunctionName);
 void AddTransformAndRigidBodyComponent(Entity enemy, int windowHeigth, int windowWidth, int type);
 void PlaySoundEffect(std::string soundEffectId);
 
@@ -41,13 +41,33 @@ void BulletFactory(double playerX, double playerY) {
 }
 
 void EnemyBulletsFactory(double enemyX, double enemyY) {
+	glm::vec2 enemyPos(enemyX + 10, enemyY + 10);
 	Entity enemyBullet = Game::GetInstance().registry->CreateEntity();
-	enemyBullet.AddComponent<CircleColliderComponent>(25, 14, 42);
+	enemyBullet.AddComponent<CircleColliderComponent>(25, 20, 42);
 	enemyBullet.AddComponent<RigidBodyComponent>(glm::vec2(0, 400));
 	enemyBullet.AddComponent<SpriteComponent>("enemy1projectile", 14, 42, 0, 0);
-	enemyBullet.AddComponent<TransformComponent>(glm::vec2(enemyX + 10, enemyY + 10), glm::vec2(1.0, 1.0), 0.0);
+	enemyBullet.AddComponent<TransformComponent>(enemyPos, glm::vec2(1.0, 1.0), 0.0);
 	enemyBullet.AddComponent<EntityTypeComponent>(4);
 }
+
+void Enemy3Attack(double enemyX, double enemyY) {
+	glm::vec2 enemyPos(enemyX + 32, enemyY + 32);
+	std::vector<glm::vec2> directions = {
+		glm::vec2(0, -1), glm::vec2(0.707f, -0.707f), glm::vec2(1, 0), glm::vec2(0.707f, 0.707f),
+		glm::vec2(0, 1), glm::vec2(-0.707f, 0.707f), glm::vec2(-1, 0), glm::vec2(-0.707f, -0.707f)
+	};
+
+	for (const auto& dir : directions) {
+		float angle = glm::degrees(atan2(dir.y, dir.x)) - 45.0f;
+		Entity enemyBullet = Game::GetInstance().registry->CreateEntity();
+		enemyBullet.AddComponent<CircleColliderComponent>(32, 32, 32);
+		enemyBullet.AddComponent<RigidBodyComponent>(dir * 300.0f);
+		enemyBullet.AddComponent<SpriteComponent>("enemy3projectile", 32, 32, 0, 0);
+		enemyBullet.AddComponent<TransformComponent>(enemyPos, glm::vec2(0.75, 0.75), angle);
+		enemyBullet.AddComponent<EntityTypeComponent>(4);
+	}
+}
+
 
 void Enemy1Factory(int windowHeight, int windowWidth) {
 	Entity enemy1 = Game::GetInstance().registry->CreateEntity();
@@ -57,7 +77,7 @@ void Enemy1Factory(int windowHeight, int windowWidth) {
 	enemy1.AddComponent<ScoreComponent>(100);
 	enemy1.AddComponent<EntityTypeComponent>(3);
 	enemy1.AddComponent<IsEntityInsideTheScreenComponent>(false);
-	AddScriptComponent(enemy1, "./assets/scripts/enemy1.lua");
+	AddScriptComponent(enemy1, "./assets/scripts/enemy1.lua", "updateEnemy1Position");
 	AddTransformAndRigidBodyComponent(enemy1, windowHeight, windowWidth, enemy1.GetComponent<EntityTypeComponent>().entityType);
 }
 
@@ -80,6 +100,7 @@ void Enemy3Factory(int windowHeight, int windowWidth) {
 	enemy3.AddComponent<ScoreComponent>(250);
 	enemy3.AddComponent<EntityTypeComponent>(6);
 	enemy3.AddComponent<IsEntityInsideTheScreenComponent>(false);
+	AddScriptComponent(enemy3, "./assets/scripts/enemy3.lua", "updateEnemy3Position");
 	AddTransformAndRigidBodyComponent(enemy3, windowHeight, windowWidth, enemy3.GetComponent<EntityTypeComponent>().entityType);
 }
 
@@ -105,13 +126,69 @@ void ExtraLifeFactory(int windowHeigth, int windowWidth) {
 	extraLife.AddComponent<TransformComponent>(pos, glm::vec2(0.5, 0.5), 0.0);
 }
 
-void AddScriptComponent(Entity entity, std::string path) {
-	sol::state& lua = Game::GetInstance().lua;
-	sol::function nil = sol::nil;
-	lua.script_file(path);
-	sol::function updateEnemy1Position = Game::GetInstance().lua["updateEnemy1Position"];
-	entity.AddComponent<ScriptComponent>(nil, nil, nil, updateEnemy1Position, nil, nil);
+void BossAttack(double dirX, double dirY, double posX, double posY) {
+	glm::vec2 dir(dirX, dirY);
+	glm::vec2 pos(posX + 25, posY + 25);
+	Entity bossBullet = Game::GetInstance().registry->CreateEntity();
+	bossBullet.AddComponent<CircleColliderComponent>(32, 32, 32);
+	bossBullet.AddComponent<RigidBodyComponent>(dir);
+	bossBullet.AddComponent<SpriteComponent>("bossProjectile", 32, 32, 0, 0);
+	bossBullet.AddComponent<TransformComponent>(pos, glm::vec2(1.0, 1.0), 0.0);
+	bossBullet.AddComponent<EntityTypeComponent>(4);
 }
+
+void RemoveBossShield() {
+}
+
+void AddScriptComponent(Entity entity, const std::string& scriptPath, const std::string& luaFunctionName) {
+	sol::state& lua = Game::GetInstance().lua;
+	lua.script_file(scriptPath);
+
+	sol::function func = lua[luaFunctionName];
+	if (!func.valid()) {
+		std::cerr << "Lua function '" << luaFunctionName << "' not found in " << scriptPath << std::endl;
+		return;
+	}
+
+	ScriptComponent script;
+
+	if (luaFunctionName == "updateEnemy1Position") {
+		script.updateEnemy1Position = func;
+	}
+	else if (luaFunctionName == "updateEnemy3Position") {
+		script.updateEnemy3Position = func;
+	}
+	else if (luaFunctionName == "update") {
+		script.update = func;
+	}
+	else if (luaFunctionName == "onClick") {
+		script.onClick = func;
+	}
+	else if (luaFunctionName == "updateBullets") {
+		script.updateBullets = func;
+	}
+	else if (luaFunctionName == "createEnemy1") {
+		script.createEnemy1 = func;
+	}
+	else if (luaFunctionName == "createEnemy2") {
+		script.createEnemy2 = func;
+	}
+	else if (luaFunctionName == "createEnemy3") {
+		script.createEnemy3 = func;
+	}
+	else if (luaFunctionName == "createEnemy4") {
+		script.createEnemy4 = func;
+	}
+	else if (luaFunctionName == "createExtraLife") {
+		script.createExtraLife = func;
+	}
+	else if (luaFunctionName == "bossMechanics") {
+		script.bossMechanics = func;
+	}
+
+	entity.AddComponent<ScriptComponent>(script);
+}
+
 
 void AddTransformAndRigidBodyComponent(Entity enemy, int windowHeight, int windowWidth, int type) {
 	glm::vec2 startPosition;

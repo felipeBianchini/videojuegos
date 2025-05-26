@@ -144,6 +144,7 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 				lua["createEnemy3"] = sol::nil;
 				lua["createEnemy4"] = sol::nil;
 				lua["createExtraLife"] = sol::nil;
+				lua["hasUpdateEnemy3Position"] = sol::nil;
 				std::string path = components["script"]["path"];
 				lua.script_file(path);
 				sol::optional<sol::function> hasUpdate = lua["update"];
@@ -191,8 +192,18 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 				if (hasCreateExtraLife != sol::nullopt) {
 					createExtraLife = lua["createExtraLife"];
 				}
+				sol::optional<sol::function> hasUpdateEnemy3Position = lua["updateEnemy3Position"];
+				sol::function updateEnemy3Position = sol::nil;
+				if (hasUpdateEnemy3Position != sol::nullopt) {
+					updateEnemy3Position = lua["updateEnemy3Position"];
+				}
+				sol::optional<sol::function> hasBossMechanics = lua["bossMechanics"];
+				sol::function bossMechanics = sol::nil;
+				if (hasBossMechanics != sol::nullopt) {
+					bossMechanics = lua["bossMechanics"];
+				}
 				newEntity.AddComponent<ScriptComponent>(update, onClick, updateBullets, updateEnemy1Position,
-					createEnemy1, createEnemy2, createEnemy3, createEnemy4, createExtraLife);
+					createEnemy1, createEnemy2, createEnemy3, createEnemy4, createExtraLife, updateEnemy3Position, bossMechanics);
 			}
 			// SpriteComponent
 			sol::optional<sol::table> hasSprite = components["sprite"];
