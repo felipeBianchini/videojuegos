@@ -28,11 +28,13 @@ public:
         playerHealth = player.GetComponent<HealthComponent>().health;
         playerScore = player.GetComponent<ScoreComponent>().score;
         gameTimer -= dt;
-
         UpdatePlayerScore(std::to_string(playerScore));
         UpdatePlayerHealth(std::to_string(playerHealth));
         UpdateTimer(std::to_string(static_cast<int>(gameTimer)));
-        CheckPlayerHealth(sceneType, lua);
+        UpdateBossHealth();
+        CheckPlayerHealth(lua);
+        CheckClock(lua);
+        CheckBossHealth(lua);
     }
 
     void UpdatePlayerHealth(const std::string& playerHealthStr) {
@@ -59,7 +61,16 @@ public:
         text.text = "Time: " + gameTimer;
     }
 
-    void CheckPlayerHealth(const std::string& sceneType, sol::state& lua) {
+    void UpdateBossHealth() {
+        if (!bossHealthEnt.HasComponent<TextComponent>()) {
+            return;
+        }
+        std::string bossHealth = std::to_string(boss.GetComponent<HealthComponent>().health);
+        auto& text = bossHealthEnt.GetComponent<TextComponent>();
+        text.text = "Boss Health: " + bossHealth;
+    }
+
+    void CheckPlayerHealth(sol::state& lua) {
         if (playerHealth <= 0) {
             SetNextScene(Game::GetInstance().sceneManager->GetNextScene());
             this->gameOver = true;
@@ -67,8 +78,24 @@ public:
                 lua["defeat"]();
             }
         }
+    }
 
-        if (gameTimer <= 0.0f && playerHealth > 0) {
+    void CheckClock(sol::state& lua) {
+        if (gameTimer <= 0.0f && playerHealth > 0 && !boss.HasComponent<HealthComponent>()) {
+            SetNextScene(Game::GetInstance().sceneManager->GetNextScene());
+            if (lua["victory"].valid()) {
+                lua["victory"]();
+            }
+        }
+    }
+
+    void CheckBossHealth(sol::state& lua) {
+        if (!boss.HasComponent<HealthComponent>()) {
+            return;
+        }
+        if (boss.GetComponent<HealthComponent>().health <= 0 && playerHealth > 0) {
+            boss.Kill();
+            // sonido y animacion de muerte del boss
             SetNextScene(Game::GetInstance().sceneManager->GetNextScene());
             if (lua["victory"].valid()) {
                 lua["victory"]();
@@ -112,12 +139,24 @@ public:
         score = entity;
     }
 
+    void SetBossHealth(const Entity& entity) {
+        bossHealthEnt = entity;
+    }
+
     void SetPlayer(const Entity& entity) {
         player = entity;
     }
 
     Entity GetPlayer() {
         return this->player;
+    }
+
+    void SetBoss(const Entity& entity) {
+        this->boss = entity;
+    }
+
+    Entity GetBoss() {
+        return this->boss;
     }
 
 private:
@@ -130,6 +169,8 @@ private:
     Entity score;
     Entity health;
     Entity gameTime;
+    Entity bossHealthEnt;
+    Entity boss;
 };
 
 #endif // GAMEMANAGERSYSTEM_HPP
