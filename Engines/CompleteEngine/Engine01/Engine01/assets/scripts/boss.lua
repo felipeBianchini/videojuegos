@@ -1,5 +1,4 @@
 local phase = 1
-local hasShield = true
 
 local phaseTimer = 0
 local ringTimer = 0
@@ -11,7 +10,7 @@ local bulletSpeed = 300
 local ringInterval = 3
 local aimInterval = 1.5
 local spreadInterval = 2.5
-local waveInterval = 25
+local waveInterval = 20 
 
 function spreadGroupShoot(posX, posY)
     local numBullets = 12
@@ -64,8 +63,9 @@ function aimAtPlayer(posX, posY, playerX, playerY)
 end
 
 function bossMechanics(dt, wH, wW, posX, posY, playerX, playerY)
+    phaseTimer = phaseTimer + dt
+
     if phase == 1 then
-        phaseTimer = phaseTimer + dt
         ringTimer = ringTimer + dt
         aimTimer = aimTimer + dt
         spreadTimer = spreadTimer + dt
@@ -87,30 +87,17 @@ function bossMechanics(dt, wH, wW, posX, posY, playerX, playerY)
 
         if phaseTimer >= waveInterval then
             phase = 2
-            print("Cambio a Fase 2")
             phaseTimer = 0
-            ringTimer = 0
-            aimTimer = 0
-            spreadTimer = 0
+            for i = 1, 3 do
+                enemy1Factory(wH, wW)
+                enemy2Factory(wH, wW)
+                enemy3Factory(wH, wW)        
+            end
         end
 
     elseif phase == 2 then
-        for i = 1, 3 do
-            enemy1Factory(wH, wW)
-            enemy2Factory(wH, wW)
-            enemy3Factory(wH, wW)        
-        end
-        phase = 3
-        print("Cambio a Fase 3")
-        phaseTimer = 0
-
-    elseif phase == 3 then
-        phaseTimer = phaseTimer + dt
-        removeShield()
-        hasShield = false
         if phaseTimer >= waveInterval then
             phase = 1
-            print("Escudo eliminado. Boss vulnerable.")
             phaseTimer = 0
             ringTimer = 0
             aimTimer = 0
