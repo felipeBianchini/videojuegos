@@ -22,12 +22,12 @@ function spreadGroupShoot(posX, posY)
     local baseAngle = math.random(45, 180)
 
     for i = 1, numBullets do
-        local spreadFactor = (i - (numBullets / 2)) / (numBullets / 2)
-        local angle = baseAngle + spreadFactor * 10
+        local spreadFactor = (i - (numBullets / 2)) / (numBullets / 2)  
+        local angle = baseAngle + spreadFactor * 15
         local rad = math.rad(angle)
         local dx = math.cos(rad)
         local dy = math.sin(rad)
-        local vx = dx * bulletSpeed + spreadFactor * 450
+        local vx = dx * bulletSpeed
         local vy = dy * bulletSpeed
 
         bossAttack(vx, vy, spawnX, spawnY)

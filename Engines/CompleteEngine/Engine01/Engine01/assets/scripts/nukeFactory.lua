@@ -1,5 +1,5 @@
 local spawnTimer = 0
-local spawnInterval = 35
+local spawnInterval = 45
 
 function createNuke(dt, wH, wW)
     spawnTimer = spawnTimer + dt
