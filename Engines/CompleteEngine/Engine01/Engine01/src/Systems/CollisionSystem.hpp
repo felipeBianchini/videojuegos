@@ -34,8 +34,16 @@ public:
 				auto& bCollider = b.GetComponent<CircleColliderComponent>();
 				auto& bTransform = b.GetComponent<TransformComponent>();
 
-				glm::vec2 aCenterPos = glm::vec2(aTransform.position.x, aTransform.position.y);
-				glm::vec2 bCenterPos = glm::vec2(bTransform.position.x, bTransform.position.y);
+				glm::vec2 aCenterPos = glm::vec2(
+					aTransform.position.x + (aCollider.width / 2.0f) * aTransform.scale.x,
+					aTransform.position.y + (aCollider.height / 2.0f) * aTransform.scale.y
+				);
+
+				glm::vec2 bCenterPos = glm::vec2(
+					bTransform.position.x + (bCollider.width / 2.0f) * bTransform.scale.x,
+					bTransform.position.y + (bCollider.height / 2.0f) * bTransform.scale.y
+				);
+
 
 				int aRadius = aCollider.radius * glm::max(aTransform.scale.x, aTransform.scale.y);
 				int bRadius = bCollider.radius * glm::max(bTransform.scale.x, bTransform.scale.y);

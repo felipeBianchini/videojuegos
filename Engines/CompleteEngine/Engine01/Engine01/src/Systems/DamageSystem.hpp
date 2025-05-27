@@ -33,9 +33,9 @@ public:
         int bType = e.b.GetComponent<EntityTypeComponent>().entityType;
         bool isPlayerHitByEnemyBullet = (aType == 1 && bType == 4);
         bool isEnemyHitByPlayerBullet = (aType == 3 && bType == 2) || (aType == 5 && bType == 2) ||
-            (aType == 6 && bType == 2);
+            (aType == 6 && bType == 2) || (aType == 7 && bType == 2);
         bool isPlayerAttackedByEnemy = (aType == 1 && bType == 5);
-        bool playerGatheredExtraLife = (aType == 1 && bType == 10);
+        bool playerGatheredPowerUp = (aType == 1 && bType == 10) || (aType == 1 && bType == 11);
         if (isPlayerHitByEnemyBullet || isEnemyHitByPlayerBullet) {
             DealDamage(e.a, 1);
             if (GetHealth(e.a) <= 0 && e.a.IsAlive()) {
@@ -46,8 +46,13 @@ public:
         else if (isPlayerAttackedByEnemy ) {
             EnemyAttack(e.a, e.b);
         }
-        else if (playerGatheredExtraLife) {
-            GainLife(e.a, e.b);
+        else if (playerGatheredPowerUp) {
+            if (bType == 10) {
+                GainLife(e.a, e.b);
+            }
+            else if (bType == 11) {
+                Nuke(e.b);
+            }
         }
     }
 
@@ -73,6 +78,42 @@ private:
         player.GetComponent<HealthComponent>().health += 1;
         extraLife.Kill();
         PlaySoundEffect("powerUp_pickUp");
+    }
+
+    void Nuke(Entity nuke) {
+        for (auto entity : GetSystemEntiities()) {
+            if (entity.HasComponent<EntityTypeComponent>()) {
+                int type = entity.GetComponent<EntityTypeComponent>().entityType;
+                if (type == 3 || type == 5 || type == 6) {
+                    if (entity.IsAlive()) {
+                        EnemyExplosionAnimation(entity, true);
+                        entity.Kill();
+                    }
+                }
+            }
+        }
+        nuke.Kill();
+        PlaySoundEffect("powerUp_pickUp");
+        CreateExplosion();
+    }
+
+    void CreateExplosion() {
+        const int frameWidth = 128;
+        const int frameHeight = 128;
+        const float scale = 4.0f;
+        const int screenWidth = Game::GetInstance().window_width;
+        const int screenHeight = Game::GetInstance().window_height;
+        glm::vec2 position(
+            (screenWidth / 2.0f) - (frameWidth * scale / 2.0f),
+            (screenHeight / 2.0f) - (frameHeight * scale / 2.0f)
+        );
+        Entity explosion = Game::GetInstance().registry->CreateEntity();
+        explosion.AddComponent<RigidBodyComponent>(glm::vec2(0, 0));
+        explosion.AddComponent<SpriteComponent>("explosion", frameWidth, frameHeight, 0, 0);
+        explosion.AddComponent<TransformComponent>(position, glm::vec2(scale, scale), 0.0);
+        explosion.AddComponent<AnimationComponent>(12, 4);
+        explosion.AddComponent<EntityTypeComponent>(12);
+        PlaySoundEffect("explosion");
     }
 
     int GetHealth(Entity entity) const {
@@ -107,8 +148,28 @@ private:
                 }
             }
         }
-        deadEntity.Kill();
-        PlaySoundEffect("enemy_death");
+        EnemyExplosionAnimation(deadEntity);
+        if (deadEntity.GetComponent<EntityTypeComponent>().entityType != 7) deadEntity.Kill();
+    }
+
+    void EnemyExplosionAnimation(Entity enemy, bool massiveKill = false) {
+        const int frameWidth = 152;
+        const int frameHeight = 166;
+        const float scale = 1.0f;
+        auto& transform = enemy.GetComponent<TransformComponent>();
+        glm::vec2 position(
+            transform.position.x,
+            transform.position.y
+        );
+        Entity explosion = Game::GetInstance().registry->CreateEntity();
+        explosion.AddComponent<RigidBodyComponent>(glm::vec2(0, 0));
+        explosion.AddComponent<SpriteComponent>("enemydeath2", frameWidth, frameHeight, 0, 0);
+        explosion.AddComponent<TransformComponent>(position, glm::vec2(scale, scale), 0.0);
+        explosion.AddComponent<AnimationComponent>(11, 11);
+        explosion.AddComponent<EntityTypeComponent>(12);
+        if (!massiveKill) {
+            PlaySoundEffect("enemy_death");
+        }
     }
 
     void EnemyAttack(Entity player, Entity enemy2) {
@@ -116,15 +177,11 @@ private:
         int damageDone = 0;
         int entityType = enemy2.GetComponent<EntityTypeComponent>().entityType;
         if (entityType == 5) {
-            damageDone = -2;
+            damageDone = 2;
             enemy2.Kill();
             PlaySoundEffect("enemy_death");
-            
         }
-        else if (entityType == 6) {
-            damageDone = -3;
-        }
-        DealDamage(player, 3);
+        DealDamage(player, damageDone);
     }
 };
 

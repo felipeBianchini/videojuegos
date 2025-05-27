@@ -68,7 +68,6 @@ void Enemy3Attack(double enemyX, double enemyY) {
 	}
 }
 
-
 void Enemy1Factory(int windowHeight, int windowWidth) {
 	Entity enemy1 = Game::GetInstance().registry->CreateEntity();
 	enemy1.AddComponent<CircleColliderComponent>(64, 64, 64);
@@ -117,13 +116,24 @@ void Enemy4Factory(int windowHeight, int windowWidth) {
 
 void ExtraLifeFactory(int windowHeigth, int windowWidth) {
 	Entity extraLife = Game::GetInstance().registry->CreateEntity();
-	extraLife.AddComponent<CircleColliderComponent>(43, 43, 43);
+	extraLife.AddComponent<CircleColliderComponent>(50, 50, 50);
 	extraLife.AddComponent<SpriteComponent>("extraLife", 87, 87, 0, 0);
 	extraLife.AddComponent<EntityTypeComponent>(10);
 	int posX = rand() % (windowWidth - 50);
 	int posY = rand() % (windowHeigth - 50);
 	glm::vec2 pos = glm::vec2(posX, posY);
 	extraLife.AddComponent<TransformComponent>(pos, glm::vec2(0.5, 0.5), 0.0);
+}
+
+void NukeFactory(int windowHeigth, int windowWidth) {
+	Entity nuke = Game::GetInstance().registry->CreateEntity();
+	nuke.AddComponent<CircleColliderComponent>(50, 50, 50);
+	nuke.AddComponent<SpriteComponent>("nuke", 87, 87, 0, 0);
+	nuke.AddComponent<EntityTypeComponent>(11);
+	int posX = rand() % (windowWidth - 50);
+	int posY = rand() % (windowHeigth - 50);
+	glm::vec2 pos = glm::vec2(posX, posY);
+	nuke.AddComponent<TransformComponent>(pos, glm::vec2(0.5, 0.5), 0.0);
 }
 
 void BossAttack(double dirX, double dirY, double posX, double posY) {
@@ -137,9 +147,6 @@ void BossAttack(double dirX, double dirY, double posX, double posY) {
 	bossBullet.AddComponent<EntityTypeComponent>(4);
 }
 
-void RemoveBossShield() {
-}
-
 void AddScriptComponent(Entity entity, const std::string& scriptPath, const std::string& luaFunctionName) {
 	sol::state& lua = Game::GetInstance().lua;
 	lua.script_file(scriptPath);
@@ -149,9 +156,7 @@ void AddScriptComponent(Entity entity, const std::string& scriptPath, const std:
 		std::cerr << "Lua function '" << luaFunctionName << "' not found in " << scriptPath << std::endl;
 		return;
 	}
-
 	ScriptComponent script;
-
 	if (luaFunctionName == "updateEnemy1Position") {
 		script.updateEnemy1Position = func;
 	}
@@ -184,6 +189,9 @@ void AddScriptComponent(Entity entity, const std::string& scriptPath, const std:
 	}
 	else if (luaFunctionName == "bossMechanics") {
 		script.bossMechanics = func;
+	}
+	else if (luaFunctionName == "createNuke") {
+		script.createNuke = func;
 	}
 
 	entity.AddComponent<ScriptComponent>(script);
