@@ -144,7 +144,7 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 				lua["createEnemy3"] = sol::nil;
 				lua["createEnemy4"] = sol::nil;
 				lua["createExtraLife"] = sol::nil;
-				lua["hasUpdateEnemy3Position"] = sol::nil;
+				lua["updateEnemy3Position"] = sol::nil;
 				lua["bossMechanics"] = sol::nil;
 				lua["createNuke"] = sol::nil;
 				std::string path = components["script"]["path"];
@@ -184,11 +184,6 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 				if (hasCreateEnemy3 != sol::nullopt) {
 					createEnemy3 = lua["createEnemy3"];
 				}				
-				sol::optional<sol::function> hasCreateEnemy4 = lua["createEnemy4"];
-				sol::function createEnemy4 = sol::nil;
-				if (hasCreateEnemy4 != sol::nullopt) {
-					createEnemy4 = lua["createEnemy4"];
-				}
 				sol::optional<sol::function> hasCreateExtraLife = lua["createExtraLife"];
 				sol::function createExtraLife = sol::nil;
 				if (hasCreateExtraLife != sol::nullopt) {
@@ -210,8 +205,7 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 					createNuke = lua["createNuke"];
 				}
 				newEntity.AddComponent<ScriptComponent>(update, onClick, updateBullets, updateEnemy1Position,
-					createEnemy1, createEnemy2, createEnemy3, createEnemy4, createExtraLife, updateEnemy3Position,
-					bossMechanics, createNuke);
+					createEnemy1, createEnemy2, createEnemy3, createExtraLife, updateEnemy3Position, bossMechanics, createNuke);
 			}
 			// SpriteComponent
 			sol::optional<sol::table> hasSprite = components["sprite"];
