@@ -145,6 +145,8 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 				lua["createEnemy4"] = sol::nil;
 				lua["createExtraLife"] = sol::nil;
 				lua["hasUpdateEnemy3Position"] = sol::nil;
+				lua["bossMechanics"] = sol::nil;
+				lua["createNuke"] = sol::nil;
 				std::string path = components["script"]["path"];
 				lua.script_file(path);
 				sol::optional<sol::function> hasUpdate = lua["update"];
@@ -202,8 +204,14 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 				if (hasBossMechanics != sol::nullopt) {
 					bossMechanics = lua["bossMechanics"];
 				}
+				sol::optional<sol::function> hasCreateNuke = lua["createNuke"];
+				sol::function createNuke = sol::nil;
+				if (hasCreateNuke != sol::nullopt) {
+					createNuke = lua["createNuke"];
+				}
 				newEntity.AddComponent<ScriptComponent>(update, onClick, updateBullets, updateEnemy1Position,
-					createEnemy1, createEnemy2, createEnemy3, createEnemy4, createExtraLife, updateEnemy3Position, bossMechanics);
+					createEnemy1, createEnemy2, createEnemy3, createEnemy4, createExtraLife, updateEnemy3Position,
+					bossMechanics, createNuke);
 			}
 			// SpriteComponent
 			sol::optional<sol::table> hasSprite = components["sprite"];
@@ -287,6 +295,12 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 		}
 		else if (newEntity.HasComponent<EntityTypeComponent>() && newEntity.GetComponent<EntityTypeComponent>().entityType == -2) {
 			registry->GetSystem<GameManagerSystem>().SetGameTimer(newEntity);
+		}
+		else if (newEntity.HasComponent<EntityTypeComponent>() && newEntity.GetComponent<EntityTypeComponent>().entityType == 7) {
+			registry->GetSystem<GameManagerSystem>().SetBoss(newEntity);
+		}
+		else if (newEntity.HasComponent<EntityTypeComponent>() && newEntity.GetComponent<EntityTypeComponent>().entityType == -3) {
+			registry->GetSystem<GameManagerSystem>().SetBossHealth(newEntity);
 		}
 		index++;
 	}

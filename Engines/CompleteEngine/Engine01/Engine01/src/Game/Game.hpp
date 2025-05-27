@@ -34,12 +34,11 @@ private:
 
 	bool isRunning;
 	bool keepRunning;
-	int window_width;
-	int window_height;
 
 	int millisecsPreviousFrame = 0;
 public:
-
+	int window_width;
+	int window_height;
 	SDL_Renderer* renderer;
 	sol::state lua;
 	std::unique_ptr<AssetManager> assetManager;

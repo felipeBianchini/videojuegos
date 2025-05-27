@@ -33,7 +33,7 @@ public:
 		lua.set_function("extraLifeFactory", ExtraLifeFactory);
 		lua.set_function("enemy3BulletsFactory", Enemy3Attack);
 		lua.set_function("bossAttack", BossAttack);
-		lua.set_function("removeShield", RemoveBossShield);
+		lua.set_function("nukeFactory", NukeFactory);
 	}
 
 	void Update(sol::state& lua, double dt, int wH, int wW) {
@@ -83,6 +83,9 @@ public:
 				double bossX = transform.position.x;
 				double bossY = transform.position.y;
 				script.bossMechanics(dt, wH, wW, bossX, bossY, playerX, playerY);
+			}
+			else if (script.createNuke != sol::lua_nil) {
+				script.createNuke(dt, wH, wW);
 			}
 		}
 	}
