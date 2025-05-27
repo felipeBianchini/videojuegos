@@ -56,7 +56,6 @@ void Enemy3Attack(double enemyX, double enemyY) {
 		glm::vec2(0, -1), glm::vec2(0.707f, -0.707f), glm::vec2(1, 0), glm::vec2(0.707f, 0.707f),
 		glm::vec2(0, 1), glm::vec2(-0.707f, 0.707f), glm::vec2(-1, 0), glm::vec2(-0.707f, -0.707f)
 	};
-	std::cout << "ataca" << std::endl;
 	for (const auto& dir : directions) {
 		float angle = glm::degrees(atan2(dir.y, dir.x)) - 45.0f;
 		Entity enemyBullet = Game::GetInstance().registry->CreateEntity();
@@ -92,7 +91,6 @@ void Enemy2Factory(int windowHeight, int windowWidth) {
 }
 
 void Enemy3Factory(int windowHeight, int windowWidth) {
-	std::cout << "aaaaa" << std::endl;
 	Entity enemy3 = Game::GetInstance().registry->CreateEntity();
 	enemy3.AddComponent<CircleColliderComponent>(96, 96, 96);
 	enemy3.AddComponent<SpriteComponent>("enemy3", 128, 128, 0, 0);
@@ -151,7 +149,6 @@ void AddScriptComponent(Entity entity, const std::string& scriptPath, const std:
 		script.updateEnemy1Position = func;
 	}
 	else if (luaFunctionName == "updateEnemy3Position") {
-		std::cout << "entra aqui tambien" << std::endl;
 		script.updateEnemy3Position = func;
 	}
 	else if (luaFunctionName == "update") {

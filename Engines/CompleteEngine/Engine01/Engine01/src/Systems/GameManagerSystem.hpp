@@ -7,6 +7,9 @@
 #include "../Game/Game.hpp"
 #include "../ECS/ECS.hpp"
 
+#include <thread>
+#include <chrono>
+
 class GameManagerSystem : public System {
 public:
     GameManagerSystem() {
@@ -24,7 +27,6 @@ public:
         if (sceneType == "notGame") {
             return;
         }
-
         playerHealth = player.GetComponent<HealthComponent>().health;
         playerScore = player.GetComponent<ScoreComponent>().score;
         gameTimer -= dt;
@@ -35,6 +37,16 @@ public:
         CheckPlayerHealth(lua);
         CheckClock(lua);
         CheckBossHealth(lua);
+        if (bossDying) {
+            bossDeathTimer -= dt;
+            if (bossDeathTimer <= 0.0f) {
+                SetNextScene(Game::GetInstance().sceneManager->GetNextScene());
+                bossDying = false;
+                if (lua["victory"].valid()) {
+                    lua["victory"]();
+                }
+            }
+        }
     }
 
     void UpdatePlayerHealth(const std::string& playerHealthStr) {
@@ -95,11 +107,35 @@ public:
         }
         if (boss.GetComponent<HealthComponent>().health <= 0 && playerHealth > 0) {
             boss.Kill();
-            // sonido y animacion de muerte del boss
-            SetNextScene(Game::GetInstance().sceneManager->GetNextScene());
-            if (lua["victory"].valid()) {
-                lua["victory"]();
-            }
+            ActivateBossDeathAssets();
+            bossDying = true;
+            bossDeathTimer = 3.0f;
+        }
+    }
+
+    void ActivateBossDeathAssets() {
+        PlaySoundEffect("bossDeath");
+        const int frameWidth = 152;
+        const int frameHeight = 166;
+        const float scale = 3.0f;
+        auto& transform = boss.GetComponent<TransformComponent>();
+        glm::vec2 position(
+            transform.position.x - 50,
+            transform.position.y - 100
+        );
+        Entity explosion = Game::GetInstance().registry->CreateEntity();
+        explosion.AddComponent<RigidBodyComponent>(glm::vec2(0, 0));
+        explosion.AddComponent<SpriteComponent>("enemydeath1", frameWidth, frameHeight, 0, 0);
+        explosion.AddComponent<TransformComponent>(position, glm::vec2(scale, scale), 0.0);
+        explosion.AddComponent<AnimationComponent>(11, 4);
+        explosion.AddComponent<EntityTypeComponent>(12);
+    }
+
+    void PlaySoundEffect(std::string soundEffectId) {
+        Mix_Chunk* soundEffect = Game::GetInstance().assetManager->GetSoundEffect(soundEffectId);
+        if (soundEffect) {
+            Mix_VolumeChunk(soundEffect, 75);
+            Mix_PlayChannel(-1, soundEffect, 0);
         }
     }
 
@@ -171,6 +207,9 @@ private:
     Entity gameTime;
     Entity bossHealthEnt;
     Entity boss;
+    bool bossDying = false;
+    float bossDeathTimer = 0.0f;
+
 };
 
 #endif // GAMEMANAGERSYSTEM_HPP

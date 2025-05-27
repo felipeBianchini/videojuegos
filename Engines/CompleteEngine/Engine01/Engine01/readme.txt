@@ -37,5 +37,8 @@ Los ids:
 4: enemy1 bullet
 5: enemy2
 6: enemy3
-7: enemy4
+7: boss
 10: extraLife
+11: nuke
+12: nuke anim
+13: boss projectile

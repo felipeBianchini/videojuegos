@@ -117,7 +117,7 @@ public:
                     }
                 }
             }
-            else if (type == 2 || type == 4) {
+            else if (type == 2 || type == 4 || type == 13) {
                 CheckProjectilesPosition(transform.position.x, transform.position.y, width, height, entity);
             }
             else if (type == 5) {

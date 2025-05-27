@@ -23,6 +23,8 @@ scene = {
         [2] = {soundEffectId = "enemy_death", filePath = "./assets/soundEffects/enemy_death.flac"},
         [3] = {soundEffectId = "powerUp_pickUp", filePath = "./assets/soundEffects/powerUp_pickUp.wav"},
         [4] = {soundEffectId = "explosion", filePath = "./assets/soundEffects/explosion.wav"},
+        [5] = {soundEffectId = "bossScream", filePath = "./assets/soundEffects/bossScream.flac"},
+        [6] = {soundEffectId = "bossDeath", filePath = "./assets/soundEffects/bossDeath.mp3"},
 
     },
     backgroundMusic = {
@@ -158,7 +160,7 @@ scene = {
                     rotation = 0.0,
                 },
                 health = {
-                    health = 50
+                    health = 40
                 },
                 score = {
                     score = 500

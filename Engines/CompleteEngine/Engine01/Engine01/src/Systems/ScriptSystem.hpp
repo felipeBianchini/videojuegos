@@ -29,11 +29,11 @@ public:
 		lua.set_function("enemy2Factory", Enemy2Factory);
 		lua.set_function("enemyBulletsFactory", EnemyBulletsFactory);
 		lua.set_function("enemy3Factory", Enemy3Factory);
-		lua.set_function("enemy4Factory", Enemy4Factory);
 		lua.set_function("extraLifeFactory", ExtraLifeFactory);
 		lua.set_function("enemy3BulletsFactory", Enemy3Attack);
 		lua.set_function("bossAttack", BossAttack);
 		lua.set_function("nukeFactory", NukeFactory);
+		lua.set_function("checkBossHealth", CheckBossHealth);
 	}
 
 	void Update(sol::state& lua, double dt, int wH, int wW) {
@@ -61,9 +61,6 @@ public:
 			}
 			else if (script.createEnemy3 != sol::lua_nil) {
 				script.createEnemy3(dt, wH, wW);
-			}
-			else if (script.createEnemy4 != sol::lua_nil) {
-				script.createEnemy4();
 			}
 			else if (script.createExtraLife != sol::lua_nil) {
 				script.createExtraLife(dt, wH, wW);

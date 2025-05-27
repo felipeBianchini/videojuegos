@@ -31,11 +31,12 @@ public:
         if (!e.a.HasComponent<EntityTypeComponent>() || !e.b.HasComponent<EntityTypeComponent>()) return;
         int aType = e.a.GetComponent<EntityTypeComponent>().entityType;
         int bType = e.b.GetComponent<EntityTypeComponent>().entityType;
-        bool isPlayerHitByEnemyBullet = (aType == 1 && bType == 4);
+        bool isPlayerHitByEnemyBullet = (aType == 1 && bType == 4) || (aType == 1 && bType == 13);
         bool isEnemyHitByPlayerBullet = (aType == 3 && bType == 2) || (aType == 5 && bType == 2) ||
             (aType == 6 && bType == 2) || (aType == 7 && bType == 2);
         bool isPlayerAttackedByEnemy = (aType == 1 && bType == 5);
         bool playerGatheredPowerUp = (aType == 1 && bType == 10) || (aType == 1 && bType == 11);
+        bool projectilesCollision = (aType == 13 && bType == 2);
         if (isPlayerHitByEnemyBullet || isEnemyHitByPlayerBullet) {
             DealDamage(e.a, 1);
             if (GetHealth(e.a) <= 0 && e.a.IsAlive()) {
@@ -53,6 +54,9 @@ public:
             else if (bType == 11) {
                 Nuke(e.b);
             }
+        }
+        else if (projectilesCollision) {
+            ProjectilesCollision(e.a, e.b);
         }
     }
 
@@ -72,6 +76,11 @@ private:
             health -= amount;
             if (health < 0) health = 0;
         }
+    }
+
+    void ProjectilesCollision(Entity a, Entity b) {
+        //a.Kill();
+        b.Kill();
     }
 
     void GainLife(Entity player, Entity extraLife) {
