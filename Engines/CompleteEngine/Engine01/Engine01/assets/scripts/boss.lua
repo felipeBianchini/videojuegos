@@ -65,6 +65,11 @@ end
 function bossMechanics(dt, wH, wW, posX, posY, playerX, playerY)
     phaseTimer = phaseTimer + dt
 
+    local bossHealth = checkBossHealth()
+    if bossHealth <= 10 then
+        waveInterval = 15
+    end
+
     if phase == 1 then
         ringTimer = ringTimer + dt
         aimTimer = aimTimer + dt
