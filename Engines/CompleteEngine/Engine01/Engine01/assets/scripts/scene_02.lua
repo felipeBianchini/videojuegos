@@ -8,6 +8,10 @@ scene = {
         [6] = {assetId = "enemy1projectile", filePath = "./assets/images/enemy1projectile.png"},
         [7] = {assetId = "extraLife", filePath = "./assets/images/life_PU.png"},
         [8] = {assetId = "enemy3projectile", filePath = "./assets/images/enemy3projectile.png"},
+        [9] = {assetId = "nuke", filePath = "./assets/images/nuke_PU.png"},
+        [10] = {assetId = "explosion", filePath = "./assets/images/explosion.png"},
+        [11] = {assetId = "enemydeath1", filePath = "./assets/images/enemydeath1.png"},
+        [12] = {assetId = "enemydeath2", filePath = "./assets/images/enemydeath2.png"},
     },
     backgrounds = {
         [1] = {backgroundId = "background3", filePath = "./assets/backgrounds/background3.png"},
@@ -16,6 +20,7 @@ scene = {
         [1] = {soundEffectId = "player_shoot", filePath = "./assets/soundEffects/player_shoot.mp3"},
         [2] = {soundEffectId = "enemy_death", filePath = "./assets/soundEffects/enemy_death.flac"},
         [3] = {soundEffectId = "powerUp_pickUp", filePath = "./assets/soundEffects/powerUp_pickUp.wav"},
+        [4] = {soundEffectId = "explosion", filePath = "./assets/soundEffects/explosion.wav"},
     },    
     backgroundMusic = {
         [1] = {backgroundMusicId = "background_music", filePath = "./assets/backgroundMusic/background_music.mp3"},
@@ -171,6 +176,13 @@ scene = {
             components = {
                 script = {
                     path = "./assets/scripts/extraLifeFactory.lua"
+                },
+            }
+        },
+        [10] = {
+            components = {
+                script = {
+                    path = "./assets/scripts/nukeFactory.lua"
                 },
             }
         }

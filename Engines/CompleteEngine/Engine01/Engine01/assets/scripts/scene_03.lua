@@ -10,6 +10,10 @@ scene = {
         [8] = {assetId = "enemy3projectile", filePath = "./assets/images/enemy3projectile.png"},
         [9] = {assetId = "boss", filePath = "./assets/images/boss2.png"},
         [10] = {assetId = "bossProjectile", filePath = "./assets/images/bossProjectile.png"},
+        [11] = {assetId = "nuke", filePath = "./assets/images/nuke_PU.png"},
+        [12] = {assetId = "explosion", filePath = "./assets/images/explosion.png"},
+        [13] = {assetId = "enemydeath1", filePath = "./assets/images/enemydeath1.png"},
+        [14] = {assetId = "enemydeath2", filePath = "./assets/images/enemydeath2.png"},
     },
     backgrounds = {
         [1] = {backgroundId = "background2", filePath = "./assets/backgrounds/background2.png"},
@@ -18,6 +22,8 @@ scene = {
         [1] = {soundEffectId = "player_shoot", filePath = "./assets/soundEffects/player_shoot.mp3"},
         [2] = {soundEffectId = "enemy_death", filePath = "./assets/soundEffects/enemy_death.flac"},
         [3] = {soundEffectId = "powerUp_pickUp", filePath = "./assets/soundEffects/powerUp_pickUp.wav"},
+        [4] = {soundEffectId = "explosion", filePath = "./assets/soundEffects/explosion.wav"},
+
     },
     backgroundMusic = {
         [1] = {backgroundMusicId = "background_music", filePath = "./assets/backgroundMusic/background_music.mp3"},
@@ -75,7 +81,7 @@ scene = {
                     rotation = 0.0,
                 },
                 health = {
-                    health = 5
+                    health = 10
                 },
                 score = {
                     score = 0
@@ -129,27 +135,11 @@ scene = {
         },
         [5] = {
             components = {
-                clickable = {},
-                text = {
-                    text = " ",
-                    fontId = "press_start",
-                    r = 255,
-                    g = 255,
-                    b = 255,
-                    a = 255
+                circle_collider = {
+                    radius = 100,
+                    width = 256,
+                    heigth = 256
                 },
-                transform = {
-                    position = {x = 960.0, y = 25.0},
-                    scale = {x = 1.0, y = 1.0},
-                    rotation = 0.0,
-                },
-                type = {
-                    type = -2
-                },
-            }
-        },
-        [6] = {
-            components = {
                 rigid_body = {
                     velocity = {x = 0, y = 0},
                 },
@@ -178,10 +168,38 @@ scene = {
                 }
             }
         },
-        [7] = {
+        [6] = {
             components = {
                 script = {
                     path = "./assets/scripts/extraLifeFactory.lua"
+                },
+            }
+        },
+        [7] = {
+            components = {
+                script = {
+                    path = "./assets/scripts/nukeFactory.lua"
+                },
+            }
+        },
+        [8] = {
+            components = {
+                clickable = {},
+                text = {
+                    text = " ",
+                    fontId = "press_start",
+                    r = 255,
+                    g = 255,
+                    b = 255,
+                    a = 255
+                },
+                transform = {
+                    position = {x = 825.0, y = 25.0},
+                    scale = {x = 1.0, y = 1.0},
+                    rotation = 0.0,
+                },
+                type = {
+                    type = -3
                 },
             }
         }
