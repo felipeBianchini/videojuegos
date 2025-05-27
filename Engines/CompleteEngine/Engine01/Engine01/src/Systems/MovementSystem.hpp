@@ -70,6 +70,25 @@ private:
         }
     }
 
+    void CheckPlayerPosition(Entity player, int screenWidth, int screenHeight) {
+        auto& transform = player.GetComponent<TransformComponent>();
+        auto& sprite = player.GetComponent<SpriteComponent>();
+        double spriteWidth = sprite.width * transform.scale.x;
+        double spriteHeight = sprite.height * transform.scale.y;
+        if (transform.position.x < 0) {
+            transform.position.x = 0;
+        }
+        else if (transform.position.x + spriteWidth > screenWidth) {
+            transform.position.x = screenWidth - spriteWidth;
+        }
+        if (transform.position.y < 0) {
+            transform.position.y = 0;
+        }
+        else if (transform.position.y + spriteHeight > screenHeight) {
+            transform.position.y = screenHeight - spriteHeight;
+        }
+    }
+
 public:
     void Update(double dt, int windowHeight, int windowWidth, const Entity player) {
         for (auto entity : GetSystemEntiities()) {
@@ -103,6 +122,9 @@ public:
             }
             else if (type == 5) {
                 Enemy2FollowUp(player, transform, rigidBody);
+            }
+            else if (type == 1) {
+                CheckPlayerPosition(entity, windowWidth, windowHeight);
             }
         }
     }
