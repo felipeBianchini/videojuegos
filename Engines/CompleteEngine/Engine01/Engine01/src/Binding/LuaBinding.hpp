@@ -7,29 +7,72 @@
 #include "../Game/Game.hpp"
 #include "../ECS/ECS.hpp"
 
+/**
+ * @brief Adds a ScriptComponent to an entity, binding a specific Lua function from a script file.
+ *
+ * @param entity The ECS entity to add the script component to.
+ * @param scriptPath Path to the Lua script file.
+ * @param luaFunctionName The name of the Lua function to bind.
+ */
 void AddScriptComponent(Entity entity, const std::string& scriptPath, const std::string& luaFunctionName);
+/**
+ * @brief Adds TransformComponent and RigidBodyComponent to enemy entities with randomized start positions and velocities.
+ *
+ * @param enemy The enemy entity.
+ * @param windowHeight Height of the game window.
+ * @param windowWidth Width of the game window.
+ * @param type Type identifier of the entity to define behavior.
+ */
 void AddTransformAndRigidBodyComponent(Entity enemy, int windowHeigth, int windowWidth, int type);
+/**
+ * @brief Plays a sound effect by ID at a given volume.
+ *
+ * @param soundEffectId Identifier string of the sound effect.
+ * @param volume Volume level for playback (0-128 in SDL_mixer).
+ */
 void PlaySoundEffect(std::string soundEffectId, int volume);
-
+/**
+ * @brief Checks if a player action is activated.
+ *
+ * @param action Name of the action to check.
+ * @return true if activated, false otherwise.
+ */
 bool IsActionActivated(const std::string& action) {
 	return Game::GetInstance().controllerManager->IsActionActivated(action);
 };
-
+/**
+ * @brief Sets the velocity of an entity's rigid body.
+ *
+ * @param entity The entity whose velocity to set.
+ * @param x Velocity in x-direction.
+ * @param y Velocity in y-direction.
+ */
 void SetVelocity(Entity entity, float x, float y) {
 	auto& rigidBody = entity.GetComponent<RigidBodyComponent>();
 	rigidBody.velocity.x = x;
 	rigidBody.velocity.y = y;
 };
-
+/**
+ * @brief Change the current scene to the specified one.
+ *
+ * @param sceneName Name of the scene to switch to.
+ */
 void GoToScene(const std::string& sceneName) {
 	Game::GetInstance().sceneManager->StopScene();
 	Game::GetInstance().sceneManager->SetNextScene(sceneName);
 };
-
+/**
+ * @brief Advances the game to the next scene using the GameManagerSystem.
+ */
 void GoToNextScene() {
 	Game::GetInstance().registry->GetSystem<GameManagerSystem>().GoToNextScene(Game::GetInstance().lua);
 };
-
+/**
+ * @brief Creates a bullet entity at the player's position and adds relevant components.
+ *
+ * @param playerX X position of the player.
+ * @param playerY Y position of the player.
+ */
 void BulletFactory(double playerX, double playerY) {
 	Entity bullet = Game::GetInstance().registry->CreateEntity();
 	bullet.AddComponent<CircleColliderComponent>(32, 32, 32);
@@ -39,7 +82,12 @@ void BulletFactory(double playerX, double playerY) {
 	bullet.AddComponent<EntityTypeComponent>(2);
 	PlaySoundEffect("player_shoot", 16);
 }
-
+/**
+ * @brief Creates an enemy bullet entity at the enemy's position.
+ *
+ * @param enemyX X position of the enemy.
+ * @param enemyY Y position of the enemy.
+ */
 void EnemyBulletsFactory(double enemyX, double enemyY) {
 	glm::vec2 enemyPos(enemyX + 10, enemyY + 10);
 	Entity enemyBullet = Game::GetInstance().registry->CreateEntity();
@@ -49,7 +97,12 @@ void EnemyBulletsFactory(double enemyX, double enemyY) {
 	enemyBullet.AddComponent<TransformComponent>(enemyPos, glm::vec2(1.0, 1.0), 0.0);
 	enemyBullet.AddComponent<EntityTypeComponent>(4);
 }
-
+/**
+ * @brief Enemy type 3 attacks by firing bullets in 8 directions.
+ *
+ * @param enemyX X position of the enemy.
+ * @param enemyY Y position of the enemy.
+ */
 void Enemy3Attack(double enemyX, double enemyY) {
 	glm::vec2 enemyPos(enemyX + 32, enemyY + 32);
 	std::vector<glm::vec2> directions = {
@@ -66,7 +119,12 @@ void Enemy3Attack(double enemyX, double enemyY) {
 		enemyBullet.AddComponent<EntityTypeComponent>(4);
 	}
 }
-
+/**
+ * @brief Factory function to create enemy 1.
+ *
+ * @param windowHeight Game window height.
+ * @param windowWidth Game window width.
+ */
 void Enemy1Factory(int windowHeight, int windowWidth) {
 	Entity enemy1 = Game::GetInstance().registry->CreateEntity();
 	enemy1.AddComponent<CircleColliderComponent>(64, 64, 64);
@@ -78,7 +136,12 @@ void Enemy1Factory(int windowHeight, int windowWidth) {
 	AddScriptComponent(enemy1, "./assets/scripts/enemy1.lua", "updateEnemy1Position");
 	AddTransformAndRigidBodyComponent(enemy1, windowHeight, windowWidth, enemy1.GetComponent<EntityTypeComponent>().entityType);
 }
-
+/**
+ * @brief Factory function to create enemy 2.
+ *
+ * @param windowHeight Game window height.
+ * @param windowWidth Game window width.
+ */
 void Enemy2Factory(int windowHeight, int windowWidth) {
 	Entity enemy2 = Game::GetInstance().registry->CreateEntity();
 	enemy2.AddComponent<CircleColliderComponent>(64, 64, 64);
@@ -89,7 +152,12 @@ void Enemy2Factory(int windowHeight, int windowWidth) {
 	enemy2.AddComponent<IsEntityInsideTheScreenComponent>(false);
 	AddTransformAndRigidBodyComponent(enemy2, windowHeight, windowWidth, enemy2.GetComponent<EntityTypeComponent>().entityType);
 }
-
+/**
+ * @brief Factory function to create enemy 3.
+ *
+ * @param windowHeight Game window height.
+ * @param windowWidth Game window width.
+ */
 void Enemy3Factory(int windowHeight, int windowWidth) {
 	Entity enemy3 = Game::GetInstance().registry->CreateEntity();
 	enemy3.AddComponent<CircleColliderComponent>(96, 96, 96);
@@ -101,7 +169,12 @@ void Enemy3Factory(int windowHeight, int windowWidth) {
 	AddScriptComponent(enemy3, "./assets/scripts/enemy3.lua", "updateEnemy3Position");
 	AddTransformAndRigidBodyComponent(enemy3, windowHeight, windowWidth, enemy3.GetComponent<EntityTypeComponent>().entityType);
 }
-
+/**
+ * @brief Factory function to create an extra life power-up at a random position.
+ *
+ * @param windowHeight Game window height.
+ * @param windowWidth Game window width.
+ */
 void ExtraLifeFactory(int windowHeigth, int windowWidth) {
 	Entity extraLife = Game::GetInstance().registry->CreateEntity();
 	extraLife.AddComponent<CircleColliderComponent>(50, 50, 50);
@@ -112,7 +185,12 @@ void ExtraLifeFactory(int windowHeigth, int windowWidth) {
 	glm::vec2 pos = glm::vec2(posX, posY);
 	extraLife.AddComponent<TransformComponent>(pos, glm::vec2(0.5, 0.5), 0.0);
 }
-
+/**
+ * @brief Factory function to create a nuke power-up at a random position.
+ *
+ * @param windowHeight Game window height.
+ * @param windowWidth Game window width.
+ */
 void NukeFactory(int windowHeigth, int windowWidth) {
 	Entity nuke = Game::GetInstance().registry->CreateEntity();
 	nuke.AddComponent<CircleColliderComponent>(50, 50, 50);
@@ -123,7 +201,14 @@ void NukeFactory(int windowHeigth, int windowWidth) {
 	glm::vec2 pos = glm::vec2(posX, posY);
 	nuke.AddComponent<TransformComponent>(pos, glm::vec2(0.5, 0.5), 0.0);
 }
-
+/**
+ * @brief Creates a boss projectile entity.
+ *
+ * @param dirX X component of the projectile velocity.
+ * @param dirY Y component of the projectile velocity.
+ * @param posX X position to spawn the projectile.
+ * @param posY Y position to spawn the projectile.
+ */
 void BossAttack(double dirX, double dirY, double posX, double posY) {
 	glm::vec2 dir(dirX, dirY);
 	glm::vec2 pos(posX + 25, posY + 25);
@@ -240,7 +325,11 @@ void PlaySoundEffect(std::string soundEffectId, int volume) {
 		Mix_PlayChannel(-1, soundEffect, 0);
 	}
 }
-
+/**
+ * @brief Returns the current boss health and plays a scream sound once at health = 10.
+ *
+ * @return int Boss health.
+ */
 int CheckBossHealth() {
 	int bossHealth = Game::GetInstance().registry->GetSystem<GameManagerSystem>().GetBoss().GetComponent<HealthComponent>().health;
 	bool condition = true;

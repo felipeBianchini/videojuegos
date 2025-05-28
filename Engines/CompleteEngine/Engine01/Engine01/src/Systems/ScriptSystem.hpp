@@ -9,12 +9,30 @@
 #include "../ECS/ECS.hpp"
 #include "../Binding/LuaBinding.hpp"
 
+/**
+ * @class ScriptSystem
+ * @brief A system for managing Lua script execution within an Entity-Component-System (ECS) architecture.
+ *
+ * This system handles entities with a ScriptComponent, binding Lua functions and updating entity behaviors
+ * based on Lua scripts for various game mechanics such as player movement, enemy creation, and boss behavior.
+ */
 class ScriptSystem : public System {
 public:
+	/**
+	 * @brief Constructor for the ScriptSystem.
+	 *
+	 * Initializes the system and specifies that entities must have a ScriptComponent to be managed.
+	 */
 	ScriptSystem() {
 		RequiredComponent<ScriptComponent>();
 	}
-
+	/**
+	 * @brief Creates Lua bindings for the system.
+	 *
+	 * Registers the Entity class and various game-related functions to the Lua state for scripting purposes.
+	 *
+	 * @param lua The Lua state to bind functions and classes to.
+	 */
 	void CreateLuaBinding(sol::state& lua) {
 		// Classes
 		lua.new_usertype<Entity>("entity");
@@ -35,7 +53,17 @@ public:
 		lua.set_function("nukeFactory", NukeFactory);
 		lua.set_function("checkBossHealth", CheckBossHealth);
 	}
-
+	/**
+	 * @brief Updates entities with script components based on their Lua scripts.
+	 *
+	 * Iterates through managed entities, executing their associated Lua script functions
+	 * for updates, enemy creation, and other game mechanics, depending on the script's capabilities.
+	 *
+	 * @param lua The Lua state used for script execution.
+	 * @param dt Delta time since the last update, used for time-based calculations.
+	 * @param wH The height of the game window.
+	 * @param wW The width of the game window.
+	 */
 	void Update(sol::state& lua, double dt, int wH, int wW) {
 		for (auto entity :  GetSystemEntiities()) {
 			const auto& script = entity.GetComponent<ScriptComponent>();
