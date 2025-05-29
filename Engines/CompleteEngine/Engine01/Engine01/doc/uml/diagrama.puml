@@ -1,0 +1,572 @@
+scale 800 width
+
+@startuml
+title Clases Game, AnimationSystem, CollisionSystem, DamageSystem, GameManagerSystem, IsEntityInsideTheScreenSystem, MovementSystem, RenderSystem, UISystem y ScriptSystem
+
+class Game {
+    - window : SDL_Window*
+    - isRunning : bool
+    - keepRunning : bool
+    - millisecsPreviousFrame : int
+    + window_width : int
+    + window_height : int
+    + renderer : SDL_Renderer*
+    + lua : sol::state
+    + assetManager : std::unique_ptr<AssetManager>
+    + eventManager : std::unique_ptr<EventManager>
+    + controllerManager : std::unique_ptr<ControllerManager>
+    + registry : std::unique_ptr<Registry>
+    + sceneManager : std::unique_ptr<SceneManager>
+
+    - Game() : void
+    - ~Game() : void
+    - Setup() : voidP
+    - Create() : void
+    - RunScene() : void
+    - ProcessInput() : void
+    - Update() : void
+    - Render() : void
+    + GetInstance() : Game&
+    + Init() : void
+    + Run() : void
+    + Destroy() : void
+}
+
+Game --> AssetManager : usa
+Game --> EventManager : usa
+Game --> ControllerManager : usa
+Game --> Registry : usa
+Game --> SceneManager : usa
+
+class AnimationSystem {
+    + AnimationSystem() : void
+    + Update() : void
+}
+
+AnimationSystem --|> System
+
+AnimationSystem ..> AnimationComponent : requiere
+AnimationSystem ..> SpriteComponent : requiere
+AnimationSystem ..> EntityTypeComponent : usa
+
+class CollisionSystem {
+    + CollisionSystem() : void
+    + Update(eventManager : std::unique_ptr<EventManager>&) : void
+    + CheckCircularCollision(aRadius : int, bRadius : int, aPos : glm::vec2, bPos : glm::vec2) : bool
+}
+
+CollisionSystem --|> System
+
+CollisionSystem ..> CircleColliderComponent : requiere
+CollisionSystem ..> TransformComponent : requiere
+CollisionSystem ..> EventManager : usa
+
+class DamageSystem {
+    + DamageSystem() : void
+    + SubscribeToCollisionEvent(eventManager : std::unique_ptr<EventManager>&) : void
+    + OnCollision(e : CollisionEvent&) : void
+    + PlaySoundEffect(soundEffectId : std::string) : void
+    - DealDamage(entity : Entity, amount : int) : void
+    - GainLife(player : Entity, extraLife : Entity) : void
+    - Nuke(nuke : Entity) : void
+    - CreateExplosion() : void
+    - GetHealth(entity : Entity) : int
+    - IncreaseScore(entity : Entity, amount : int) : void
+    - HandleEntityDeath(deadEntity : Entity, killerType : int) : void
+    - EnemyExplosionAnimation(enemy : Entity, massiveKill : bool = false) : void
+    - EnemyAttack(player : Entity, enemy2 : Entity) : void
+}
+
+DamageSystem --|> System
+
+DamageSystem ..> HealthComponent : requiere
+DamageSystem ..> CircleColliderComponent : requiere
+DamageSystem ..> EntityTypeComponent : requiere
+DamageSystem ..> ScoreComponent : usa
+DamageSystem ..> EventManager : usa
+DamageSystem ..> CollisionEvent : usa
+
+class GameManagerSystem {
+    - gameTimer : double
+    - gameOver : bool
+    - nextScene : std::string
+    - playerHealth : int
+    - playerScore : int
+    - player : Entity
+    - score : Entity
+    - health : Entity
+    - gameTime : Entity
+    - bossHealthEnt : Entity
+    - boss : Entity
+    - bossDying : bool
+    - bossDeathTimer : float
+
+    + GameManagerSystem() : void
+    + SetGameTimer(gameTimer : double) : void
+    + Update(dt : double, sceneType : std::string, lua : sol::state&) : void
+    + UpdatePlayerHealth(playerHealthStr : const std::string&) : void
+    + UpdatePlayerScore(playerScoreStr : const std::string&) : void
+    + UpdateTimer(gameTimer : const std::string&) : void
+    + UpdateBossHealth() : void
+    + CheckPlayerHealth(lua : sol::state&) : void
+    + CheckClock(lua : sol::state&) : void
+    + CheckBossHealth(lua : sol::state&) : void
+    + ActivateBossDeathAssets() : void
+    + PlaySoundEffect(soundEffectId : std::string) : void
+    + GoToNextScene(lua : sol::state&) : void
+    + SetNextScene(nextScene : std::string) : void
+    + SetGameTimer(entity : const Entity&) : void
+    + SetPlayerHealth(entity : const Entity&) : void
+    + SetPlayerScore(entity : const Entity&) : void
+    + SetBossHealth(entity : const Entity&) : void
+    + SetPlayer(entity : const Entity&) : void
+    + GetPlayer() : Entity
+    + SetBoss(entity : const Entity&) : void
+    + GetBoss() : Entity
+}
+
+GameManagerSystem --|> System
+
+class IsEntityInsideTheScreenSystem {
+    + IsEntityInsideTheScreenSystem() : void
+    + Update(windowWidth : int, windowHeight : int) : void
+}
+
+IsEntityInsideTheScreenSystem --|> System
+
+IsEntityInsideTheScreenSystem ..> IsEntityInsideTheScreenComponent : requiere
+IsEntityInsideTheScreenSystem ..> TransformComponent : requiere
+IsEntityInsideTheScreenSystem ..> SpriteComponent : requiere
+
+class MovementSystem {
+    + MovementSystem() : void
+    + Update(dt : double, windowHeight : int, windowWidth : int, player : const Entity) : void
+    - BounceInBorders(w : double, h : double, transform : TransformComponent&, rigidBody : RigidBodyComponent&, sprite : SpriteComponent&, type : int) : void
+    - CheckProjectilesPosition(x : double, y : double, w : double, h : double, entity : Entity) : void
+    - Enemy2FollowUp(player : Entity, transform : TransformComponent&, rigidBody : RigidBodyComponent&) : void
+    - Enemy3Movement(rigidBody : RigidBodyComponent&) : void
+    - CheckPlayerPosition(player : Entity, screenWidth : int, screenHeight : int) : void
+}
+
+MovementSystem --|> System
+
+MovementSystem ..> RigidBodyComponent : requiere
+MovementSystem ..> TransformComponent : requiere
+MovementSystem ..> SpriteComponent : requiere
+MovementSystem ..> EntityTypeComponent : requiere
+MovementSystem ..> IsEntityInsideTheScreenComponent : usa
+MovementSystem ..> Entity : usa
+
+class RenderSystem {
+    + RenderSystem() : void
+    + Update(renderer : SDL_Renderer*, assetManager : const std::unique_ptr<AssetManager>&) : void
+}
+
+RenderSystem --|> System
+
+RenderSystem ..> SpriteComponent : requiere
+RenderSystem ..> TransformComponent : requiere
+RenderSystem ..> AssetManager : usa
+
+class UISystem {
+    + UISystem() : void
+    + SubscribeToClickEvent(eventManager : std::unique_ptr<EventManager>&) : void
+    + OnClickEvent(e : ClickEvent&) : void
+}
+
+UISystem --|> System
+
+UISystem ..> ClickableComponent : requiere
+UISystem ..> TextComponent : requiere
+UISystem ..> TransformComponent : requiere
+UISystem ..> ScriptComponent : opcional
+UISystem ..> EventManager : usa
+UISystem ..> ClickEvent : usa
+
+class ScriptSystem {
+    + ScriptSystem() : void
+    + CreateLuaBinding(lua : sol::state&) : void
+    + Update(lua : sol::state&, dt : double, wH : int, wW : int) : void
+}
+
+ScriptSystem --|> System
+
+ScriptSystem ..> ScriptComponent : requiere
+
+class SceneManager {
+- scenes: map<string, string>
+- nextScene: string
+- isSceneRunning: bool
+- sceneLoader: unique_ptr<SceneLoader>
+- sceneTypes: unordered_map<string, string>
+- sceneTimers: unordered_map<string, double>
+- currentSceneType: string
+- currentSceneTimer: double
+
++ SceneManager()
++ ~SceneManager()
++ LoadSceneFromScript(path: string, lua: sol::state&)
++ LoadScene()
++ GetNextScene(): string
++ SetNextScene(nextScene: string)
++ IsSceneRunning(): bool
++ StartScene()
++ StopScene()
++ GetCurrentSceneType(): string
++ GetCurrentSceneTimer(): double
+}
+
+class SceneLoader {
+- LoadSprites(renderer: SDL_Renderer*, sprites: sol::table, assetManager: unique_ptr<AssetManager>&)
+- LoadKeys(keys: sol::table, controllerManager: unique_ptr<ControllerManager>&)
+- LoadEntities(lua: sol::state&, entities: sol::table, registry: unique_ptr<Registry>&)
+- LoadFonts(fonts: sol::table, assetManager: unique_ptr<AssetManager>&)
+- LoadButtons(buttons: sol::table, controllerManager: unique_ptr<ControllerManager>&)
+- LoadBackgrounds(renderer: SDL_Renderer*, backgrounds: sol::table, assetManager: unique_ptr<AssetManager>&)
+- LoadSoundEffects(soundEffects: sol::table, assetManager: unique_ptr<AssetManager>&)
+- LoadBackgroundMusic(backgroundMusic: sol::table, assetManager: unique_ptr<AssetManager>&)
+
++ SceneLoader()
++ ~SceneLoader()
++ LoadScene(scenePath: string, lua: sol::state&, renderer: SDL_Renderer*, 
+            assetManager: unique_ptr<AssetManager>&,
+            controllerManager: unique_ptr<ControllerManager>&,
+            registry: unique_ptr<Registry>&)
+}
+
+SceneLoader ..> AssetManager : usa
+SceneLoader ..> ControllerManager : usa
+SceneLoader ..> GameManagerSystem : usa
+
+SceneManager "1" *-- "1" SceneLoader : owns
+
+class ClickEvent {
+    + int buttonCode
+    + int posX
+    + int posY
+
+    + ClickEvent(buttonCode: int = 0, posX: int = 0, posY: int = 0)
+}
+
+ClickEvent --|> Event
+
+class CollisionEvent {
+    + Entity a
+    + Entity b
+
+    + CollisionEvent(a: Entity, b: Entity)
+}
+
+CollisionEvent --|> Event
+
+class Event {
+    + Event()
+}
+
+interface IEventCallback {
+    + Execute(e: Event&)
+    # Call(e: Event&) <<abstract>>
+}
+
+class "EventCallback<TOwner, TEvent>" {
+    - ownerInstance: TOwner*
+    - callbackFunction: void (TOwner::*)(TEvent&)
+    # Call(e: Event&)
+    + EventCallback(ownerInstance: TOwner*, callbackFunction: void (TOwner::*)(TEvent&))
+}
+
+IEventCallback <|-- "EventCallback<TOwner, TEvent>"
+
+class EventManager {
+    - subscribers: map<std::type_index, std::unique_ptr<HandlerList>>
+    + EventManager()
+    + ~EventManager()
+    + Reset()
+    + SubscribeToEvent<TEvent, TOwner>(ownerInstance: TOwner*, callbackFunction: void (TOwner::*)(TEvent&))
+    + EmitEvent<TEvent, TArgs...>(args: TArgs&&...)
+}
+
+EventManager ..> Event : usa
+
+class ControllerManager {
+    - actionKeyName: map<string, int>
+    - keyDown: map<int, bool>
+    - mouseButtonName: map<string, int>
+    - mouseButtonDown: map<int, bool>
+    - mousePosX: int
+    - mousePosY: int
+
+    + ControllerManager()
+    + ~ControllerManager()
+
+    + void AddActionKey(action: string, keyCode: int)
+    + void KeyDown(keyCode: int)
+    + void KeyUp(keyCode: int)
+    + bool IsActionActivated(action: string)
+    + void Clear()
+
+    + void AddMouseButton(name: string, buttonCode: int)
+    + void MouseButtonDown(buttonCode: int)
+    + void MouseButtonUp(buttonCode: int)
+    + bool IsMouseButtonDown(name: string)
+
+    + void SetMousePosition(x: int, y: int)
+    + tuple<int, int> GetMousePosition()
+}
+
+class AssetManager {
+    - textures: map<string, SDL_Texture*>
+    - fonts: map<string, TTF_Font*>
+    - soundEffects: map<string, Mix_Chunk*>
+    - backgroundMusic: Mix_Music*
+    - backgroundTexture: SDL_Texture*
+
+    + AssetManager()
+    + ~AssetManager()
+
+    + void ClearAssets()
+
+    + void AddTexture(renderer: SDL_Renderer*, textureId: string, filePath: string)
+    + SDL_Texture* GetTexture(textureId: string)
+
+    + void AddFont(fontId: string, filePath: string, fontSize: int)
+    + TTF_Font* GetFont(fontId: string)
+
+    + void SetBackground(renderer: SDL_Renderer*, backgroundId: string, filePath: string)
+    + SDL_Texture* GetBackground(backgroundId: string)
+
+    + void AddSoundEffect(soundEffectId: string, filePath: string)
+    + Mix_Chunk* GetSoundEffect(soundEffectId: string)
+
+    + void SetBackgroundMusic(backgroundMusicId: string, filePath: string)
+    + Mix_Music* GetBackgroundMusic(backgroundMusicId: string)
+}
+
+class LuaBinding {
+  +AddScriptComponent(entity : Entity, scriptPath : string, luaFunctionName : string)
+  +AddTransformAndRigidBodyComponent(entity : Entity, height : int, width : int, type : int)
+  +PlaySoundEffect(soundEffectId : string, volume : int)
+  +IsActionActivated(action : string) : bool
+  +SetVelocity(entity : Entity, x : float, y : float)
+  +GoToScene(sceneName : string)
+  +GoToNextScene()
+  +BulletFactory(playerX : double, playerY : double)
+  +EnemyBulletsFactory(enemyX : double, enemyY : double)
+  +Enemy3Attack(enemyX : double, enemyY : double)
+  +Enemy1Factory(height : int, width : int)
+  +Enemy2Factory(height : int, width : int)
+  +Enemy3Factory(height : int, width : int)
+  +ExtraLifeFactory(height : int, width : int)
+  +NukeFactory(height : int, width : int)
+  +BossAttack(dirX : double, dirY : double, posX : double, posY : double)
+  +CheckBossHealth() : int
+}
+
+LuaBinding --> Entity : usa
+LuaBinding --> "1" Game : usa singleton
+LuaBinding --> GameManagerSystem : usa
+
+class AnimationComponent {
+  - int numFrames
+  - int currentFrame
+  - int frameSpeedRate
+  - bool isLoop
+  - int startTime
+
+  +AnimationComponent(numFrames : int = 1, frameSpeedRate : int = 1, isLoop : bool = true)
+}
+
+class CircleColliderComponent {
+  - int radius
+  - int width
+  - int height
+
+  +CircleColliderComponent(radius : int = 0, width : int = 0, height : int = 0)
+}
+
+class ClickableComponent {
+  - bool IsClicked
+
+  +ClickableComponent()
+}
+
+class EntityTypeComponent {
+  - int entityType
+
+  +EntityTypeComponent(int entityType = 0)
+}
+
+class HealthComponent {
+  - int health
+
+  +HealthComponent(int health = 0)
+}
+
+class IsEntityInsideTheScreenComponent {
+  - bool isEntityInsideTheScreen
+
+  +IsEntityInsideTheScreenComponent(bool isInside = false)
+}
+
+class RigidBodyComponent {
+  - glm::vec2 velocity
+
+  +RigidBodyComponent(glm::vec2 velocity = glm::vec2(0.0))
+}
+
+class ScoreComponent {
+  - int score
+
+  + ScoreComponent(int score = 0)
+}
+
+class ScriptComponent {
+  - sol::function update
+  - sol::function onClick
+  - sol::function updateBullets
+  - sol::function updateEnemy1Position
+  - sol::function updateEnemy3Position
+  - sol::function createEnemy1
+  - sol::function createEnemy2
+  - sol::function createEnemy3
+  - sol::function createExtraLife
+  - sol::function bossMechanics
+  - sol::function createNuke
+
+  + ScriptComponent()
+}
+
+class SpriteComponent {
+  - std::string textureId
+  - int width
+  - int height
+  - SDL_Rect srcRect
+
+  + SpriteComponent(
+      const std::string& textureId = "none",
+      int width = 0,
+      int height = 0,
+      int srcRectX = 0,
+      int srcRectY = 0
+    )
+}
+
+class TextComponent {
+  - std::string text
+  - std::string fontId
+  - SDL_Color textColor
+  - int width
+  - int height
+
+  + TextComponent(
+      const std::string& text = "",
+      const std::string& fontId = "",
+      uint8_t r = 0,
+      uint8_t g = 0,
+      uint8_t b = 0,
+      uint8_t a = 0
+    )
+}
+
+class TransformComponent {
+  - glm::vec2 position
+  - glm::vec2 scale
+  - double rotation
+
+  + TransformComponent(
+      glm::vec2 position = glm::vec2(0.0, 0.0),
+      glm::vec2 scale = glm::vec2(1.0, 1.0),
+      double rotation = 0.0
+    )
+}
+
+interface IComponent {
+  # static int nextId
+}
+
+class Component {
+  + int GetId()
+}
+
+Component ..|> IComponent
+
+class Entity {
+  - size_t id
+  - Registry* registry
+  + Entity()
+  + Entity(int id)
+  + int GetId() const
+  + void Kill()
+  + bool IsAlive()
+  + template AddComponent<TComponent, TArgs...>(TArgs&&... args)
+  + template RemoveComponent<TComponent>()
+  + template HasComponent<TComponent>() const
+  + template GetComponent<TComponent>() const
+  + operator ==, !=, <, >
+}
+
+class System {
+  - Signature componentSignature
+  - std::vector<Entity> entities
+  + void AddEntityToSystem(Entity entity)
+  + void RemoveEntityFromSystem(Entity entity)
+  + std::vector<Entity> GetSystemEntiities() const
+  + const Signature& GetComponentSignature() const
+  + template RequiredComponent<TComponent>()
+}
+
+class Registry {
+  - unsigned int numEntity
+  - std::vector<std::shared_ptr<IPool>> componentsPools
+  - std::vector<Signature> entityComponentSignatures
+  - std::unordered_map<std::type_index, std::shared_ptr<System>> systems
+  - std::set<Entity> entitiesToBeAdded
+  - std::set<Entity> entitiesToBeKilled
+  - std::deque<int> freeIds
+
+  + Registry()
+  + ~Registry()
+  + void Update()
+  + Entity CreateEntity()
+  + void KillEntity(Entity entity)
+  + bool CheckIfEntityIsAlive(Entity entity)
+  + template AddComponent<TComponent, TArgs...>(Entity entity, TArgs&&... args)
+  + template RemoveComponent<TComponent>(Entity entity)
+  + template HasComponent<TComponent>(Entity entity) const
+  + template GetComponent<TComponent>(Entity entity) const
+  + template AddSystem<TSystem, TArgs...>(TArgs&&... args)
+  + template RemoveSystem<TSystem>()
+  + template HasSystem<TSystem>() const
+  + template GetSystem<TSystem>() const
+  + void AddEntityToSystems(Entity entity)
+  + void RemoveEntityFromSystems(Entity entity)
+  + void ClearAllEntities()
+}
+
+Entity "1" --> "1" Registry : registry pointer
+System o-- "many" Entity : manages
+Registry "1" o-- "many" System : stores
+Registry "1" o-- "many" Signature : entityComponentSignatures
+Registry "1" o-- "many" Pool : componentsPools
+
+interface IPool {
+  + virtual ~IPool()
+}
+
+class Pool {
+  - std::vector<TComponent> data
+  + Pool(int size = 1000)
+  + virtual ~Pool()
+  + bool isEmpty() const
+  + int GetSize() const
+  + void Resize(int n)
+  + void Clear()
+  + void Add(TComponent object)
+  + void Set(unsigned int index, TComponent object)
+  + TComponent& Get(unsigned int index)
+  + TComponent& operator[](unsigned int index)
+}
+
+Pool ..|> IPool
+
+@enduml
