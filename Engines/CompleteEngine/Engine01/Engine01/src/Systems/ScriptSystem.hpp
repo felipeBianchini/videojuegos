@@ -22,6 +22,13 @@ public:
 		lua.set_function("is_action_activated", IsActionActivated);
 		lua.set_function("set_velocity", SetVelocity);
 		lua.set_function("go_to_scene", GoToScene);
+		lua.set_function("get_tag", GetTag);
+		lua.set_function("left_collision", LeftCollision);
+		lua.set_function("right_collision", RightCollision);
+		lua.set_function("get_position", GetPosition);
+		lua.set_function("set_position", SetPosition);
+		lua.set_function("get_size", GetSize);
+		lua.set_function("get_velocity", GetVelocity);
 	}
 
 	void Update(sol::state& lua) {

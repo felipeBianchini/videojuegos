@@ -6,12 +6,14 @@
 
 #include "../Systems/RenderSystem.hpp"
 #include "../Systems/MovementSystem.hpp"
-#include "../Systems/CollisionSystem.hpp"
+#include "../Systems/CircleCollisionSystem.hpp"
 #include "../Systems/DamageSystem.hpp"
 #include "../Systems/AnimationSystem.hpp"
 #include "../Systems/ScriptSystem.hpp"
 #include "../Systems/RenderTextSystem.hpp"
 #include "../Systems/UISystem.hpp"
+#include "../Systems/CameraMovementSystem.hpp"
+#include "../Systems/BoxCollisionSystem.hpp"
 
 Game::Game()
 {
@@ -21,11 +23,17 @@ Game::Game()
 	this->isRunning = true;
 	this->window_width = 800;
 	this->window_height = 600;
+	this->mapWidth = 2000;
+	this->mapHeigth = 2000;
 	this->registry = std::make_unique<Registry>();
 	assetManager = std::make_unique<AssetManager>();
 	eventManager = std::make_unique<EventManager>();
 	controllerManager = std::make_unique<ControllerManager>();
 	sceneManager = std::make_unique<SceneManager>();
+	camera.x = 0;
+	camera.y = 0;
+	camera.w = this->window_width;
+	camera.h = this->window_height;
 }
 
 Game& Game::GetInstance()
@@ -71,12 +79,14 @@ void Game::Setup()
 {
 	registry->AddSystem<MovementSystem>();
 	registry->AddSystem<RenderSystem>();
-	registry->AddSystem<CollisionSystem>();
+	registry->AddSystem<CircleCollisionSystem>();
 	registry->AddSystem<DamageSystem>();
 	registry->AddSystem<AnimationSystem>();
 	registry->AddSystem<RenderTextSystem>();
 	registry->AddSystem<ScriptSystem>();
 	registry->AddSystem<UISystem>();
+	registry->AddSystem<CameraMovementSystem>();
+	registry->AddSystem<BoxCollisionSystem>();
 
 	sceneManager->LoadSceneFromScript("./assets/scripts/scenes.lua", lua);
 
@@ -108,7 +118,7 @@ void Game::ProcessInput()
 		case SDL_MOUSEMOTION:
 			int x, y;
 			SDL_GetMouseState(&x, &y);
-			controllerManager->SetMousePosition(x,y);
+			controllerManager->SetMousePosition(x, y);
 			break;
 		case SDL_MOUSEBUTTONDOWN:
 			controllerManager->SetMousePosition(sdlEvent.button.x, sdlEvent.button.y);
@@ -135,19 +145,21 @@ void Game::Update()
 	millisecsPreviousFrame = SDL_GetTicks();
 	eventManager->Reset();
 	registry->GetSystem<UISystem>().SubscribeToClickEvent(eventManager);
-	registry->GetSystem<DamageSystem>().SubscribeToCollisionEvent(eventManager);
+	//registry->GetSystem<DamageSystem>().SubscribeToCollisionEvent(eventManager);
 	registry->Update();
 	registry->GetSystem<ScriptSystem>().Update(lua);
-	registry->GetSystem<MovementSystem>().Update(deltaTime);
-	registry->GetSystem<CollisionSystem>().Update(eventManager);
 	registry->GetSystem<AnimationSystem>().Update();
+	registry->GetSystem<MovementSystem>().Update(deltaTime);
+	registry->GetSystem<CameraMovementSystem>().Update(camera);
+	registry->GetSystem<BoxCollisionSystem>().Update(lua);
+	registry->GetSystem<CircleCollisionSystem>().Update(eventManager);
 }
 
 void Game::Render()
 {
 	SDL_SetRenderDrawColor(renderer, 31, 31, 31, 255);
 	SDL_RenderClear(renderer);
-	registry->GetSystem<RenderSystem>().Update(renderer, assetManager);
+	registry->GetSystem<RenderSystem>().Update(renderer, assetManager, camera);
 	registry->GetSystem<RenderTextSystem>().Update(renderer, assetManager);
 	SDL_RenderPresent(renderer);
 }

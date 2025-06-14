@@ -16,6 +16,9 @@
 #include "../Components/ScriptComponent.hpp"
 #include "../Components/TextComponent.hpp"
 #include "../Components/ClickableComponent.hpp"
+#include "../Components/CameraFollowComponent.hpp"
+#include "../Components/BoxColliderComponent.hpp"
+#include "../Components/TagComponent.hpp"
 #include "../ECS/ECS.hpp"
 
 class SceneLoader {

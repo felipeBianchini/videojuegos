@@ -59,6 +59,37 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 		if (hasComponents != sol::nullopt) {
 			sol::table components = entity["components"];
 			// AnimationComponent
+			sol::optional<sol::table> hasAnimation = components["animation"];
+			if (hasAnimation != sol::nullopt) {
+				newEntity.AddComponent<AnimationComponent>(
+					components["animation"]["num_frames"],
+					components["animation"]["spreed_rate"],
+					components["animation"]["is_loop"]
+				);
+			}
+			// BoxColliderComponent
+			sol::optional<sol::table> hasBoxCollider = components["box_collider"];
+			if (hasBoxCollider != sol::nullopt) {
+				newEntity.AddComponent<BoxColliderComponent>(
+					components["box_collider"]["width"],
+					components["box_collider"]["heigth"],
+					glm::vec2(
+						components["box_collider"]["offset"]["x"],
+						components["box_collider"]["offset"]["y"]
+					)
+				);
+			}			
+			// CameraFollowComponent
+			sol::optional<sol::table> hasCameraFollow = components["camera_follow"];
+			if (hasCameraFollow != sol::nullopt) {
+				newEntity.AddComponent<CameraFollowComponent>();
+			}
+			// TagComponent
+			sol::optional<sol::table> hasTag = components["tag"];
+			if (hasTag != sol::nullopt) {
+				std::string tag = components["tag"]["tag"];
+				newEntity.AddComponent<TagComponent>(tag);
+			}
 			// CircleColliderComponent
 			sol::optional<sol::table> hasCircleCollider = components["circle_collider"];
 			if (hasCircleCollider != sol::nullopt) {
@@ -88,6 +119,7 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 			if (hasScript != sol::nullopt) {
 				lua["on_click"] = sol::nil;
 				lua["update"] = sol::nil;
+				lua["onCollision"] = sol::nil;
 				std::string path = components["script"]["path"];
 				lua.script_file(path);
 				sol::optional<sol::function> hasUpdate = lua["update"];
@@ -100,7 +132,12 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 				if (hasOnClick != sol::nullopt) {
 					onClick = lua["on_click"];
 				}
-				newEntity.AddComponent<ScriptComponent>(update, onClick);
+				sol::optional<sol::function> hasOnCollision = lua["on_collision"];
+				sol::function onCollision = sol::nil;
+				if (hasOnCollision != sol::nullopt) {
+					onCollision = lua["on_collision"];
+				}
+				newEntity.AddComponent<ScriptComponent>(onCollision, update, onClick);
 			}
 			// SpriteComponent
 			sol::optional<sol::table> hasSprite = components["sprite"];

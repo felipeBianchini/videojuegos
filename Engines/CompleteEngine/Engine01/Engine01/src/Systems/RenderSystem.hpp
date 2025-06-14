@@ -14,15 +14,15 @@ public:
 		RequiredComponent<SpriteComponent>();
 		RequiredComponent<TransformComponent>();
 	}
-	void Update(SDL_Renderer* renderer, const std::unique_ptr<AssetManager>& AssetManager) {
+	void Update(SDL_Renderer* renderer, const std::unique_ptr<AssetManager>& AssetManager, SDL_Rect& camera) {
 		for (auto entity : GetSystemEntiities()) {
 			const auto sprite = entity.GetComponent<SpriteComponent>();
 			const auto transform = entity.GetComponent<TransformComponent>();
 
 			SDL_Rect srcRect = sprite.srcRect;
 			SDL_Rect dstRect = {
-				static_cast<int>(transform.position.x),
-				static_cast<int>(transform.position.y),
+				static_cast<int>(transform.position.x - camera.x),
+				static_cast<int>(transform.position.y - camera.y),
 				static_cast<int>(sprite.width * transform.scale.x),
 				static_cast<int>(sprite.height * transform.scale.y),
 			};

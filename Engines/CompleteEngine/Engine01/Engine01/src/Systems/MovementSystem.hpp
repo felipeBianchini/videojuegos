@@ -16,6 +16,7 @@ public:
 		for (auto entity : GetSystemEntiities()) {
 			const auto& rigidBody = entity.GetComponent<RigidBodyComponent>();
 			auto& transform = entity.GetComponent<TransformComponent>();
+			transform.previousPosition = transform.position;
 			transform.position.x += rigidBody.velocity.x * dt;
 			transform.position.y += rigidBody.velocity.y * dt;
 		}

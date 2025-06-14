@@ -31,13 +31,17 @@ private:
 
 	SDL_Window* window;
 
+	SDL_Rect camera = { 0,0,0,0 };
+
 	bool isRunning;
-	int window_width;
-	int window_height;
 
 	int millisecsPreviousFrame = 0;
 public:
+	int window_width = 0;
+	int window_height = 0;
 
+	int mapHeigth = 0;
+	int mapWidth = 0;
 	SDL_Renderer* renderer;
 	sol::state lua;
 	std::unique_ptr<AssetManager> assetManager;

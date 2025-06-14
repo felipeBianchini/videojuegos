@@ -3,6 +3,7 @@ scene = {
         [1] = {assetId = "alan", filePath = "./assets/images/enemy_alan.png"},
         [2] = {assetId = "crushingCyclops", filePath = "./assets/images/CrushingCyclops.png"},
         [3] = {assetId = "swampTroll", filePath = "./assets/images/SwampTroll.png"},
+        [4] = {assetId = "background", filePath = "./assets/images/background.png"},
     },
     fonts = {
         [1] = {fontId = "press_start", filePath = "./assets/fonts/press_start.ttf", fontSize = 24},
@@ -19,6 +20,22 @@ scene = {
     entities = {
         [1] = {
             components = {
+                sprite = {
+                    assetId = "background",
+                    width = 2000,
+                    heigth = 2000,
+                    src_rect = {x = 0, y = 0},
+                },
+                transform = {
+                    position = {x = 0.0, y = 0.0},
+                    scale = {x = 1.0, y = 1.0},
+                    rotation = 0.0,
+                }
+            }
+        },
+        [2] = {
+            components = {
+                camera_follow = {},
                 circle_collider = {
                     radius = 8,
                     width = 16,
@@ -43,15 +60,18 @@ scene = {
                 }
             }
         },
-        [2] = {
+        [3] = {
             components = {
-                circle_collider = {
-                    radius = 8,
-                    width = 16,
-                    heigth = 16
+                box_collider = {
+                    width = 32,
+                    heigth = 32,
+                    offset = {x = 0, y = 0}
                 },
                 rigid_body = {
-                    velocity = {x = -25, y = 0},
+                    velocity = {x = -50, y = 0},
+                },
+                script = {
+                    path = "./assets/scripts/enemy_alan.lua"
                 },
                 sprite = {
                     assetId = "crushingCyclops",
@@ -60,32 +80,12 @@ scene = {
                     src_rect = {x = 16, y = 0},
                 },
                 transform = {
-                    position = {x = 600.0, y = 100.0},
+                    position = {x = 200.0, y = 100.0},
                     scale = {x = 2.0, y = 2.0},
                     rotation = 0.0,
-                }
-            }
-        },
-        [3] = {
-            components = {
-                circle_collider = {
-                    radius = 8,
-                    width = 16,
-                    heigth = 16
                 },
-                rigid_body = {
-                    velocity = {x = 25, y = 0},
-                },
-                sprite = {
-                    assetId = "swampTroll",
-                    width = 16,
-                    heigth = 16,
-                    src_rect = {x = 16, y = 0},
-                },
-                transform = {
-                    position = {x = 50.0, y = 100.0},
-                    scale = {x = 2.0, y = 2.0},
-                    rotation = 0.0,
+                tag = {
+                    tag = "enemy 01"
                 }
             }
         },
@@ -107,5 +107,51 @@ scene = {
                 }
             }
         },
+        [5] = {
+            components = {
+                box_collider = {
+                    width = 32,
+                    heigth = 32,
+                    offset = {x = 0, y = 0}
+                },               
+                sprite = {
+                    assetId = "swampTroll",
+                    width = 16,
+                    heigth = 16,
+                    src_rect = {x = 16, y = 0},
+                },
+                transform = {
+                    position = {x = 100.0, y = 100.0},
+                    scale = {x = 2.0, y = 2.0},
+                    rotation = 0.0,
+                },
+                tag = {
+                    tag = "barrier"
+                }
+            }
+        },
+        [6] = {
+            components = {
+                box_collider = {
+                    width = 32,
+                    heigth = 32,
+                    offset = {x = 0, y = 0}
+                },               
+                sprite = {
+                    assetId = "swampTroll",
+                    width = 16,
+                    heigth = 16,
+                    src_rect = {x = 16, y = 0},
+                },
+                transform = {
+                    position = {x = 300.0, y = 100.0},
+                    scale = {x = 2.0, y = 2.0},
+                    rotation = 0.0,
+                },
+                tag = {
+                    tag = "barrier"
+                }
+            }
+        }
     },
 }
