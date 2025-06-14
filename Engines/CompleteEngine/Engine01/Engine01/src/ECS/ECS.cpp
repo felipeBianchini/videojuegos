@@ -4,8 +4,6 @@
 
 int IComponent::nextId = 0;
 
-Entity::Entity() {}
-
 Entity::Entity(int id)
 {
 	this->id = id;
@@ -19,10 +17,6 @@ int Entity::GetId() const
 void Entity::Kill()
 {
 	registry->KillEntity(*this);
-}
-
-bool Entity::IsAlive() {
-	return registry->CheckIfEntityIsAlive(*this);
 }
 
 void System::AddEntityToSystem(Entity entity)
@@ -64,9 +58,9 @@ void Registry::Update()
 	}
 	entitiesToBeAdded.clear();
 	for (auto entity : entitiesToBeKilled) {
+		freeIds.push_back(entity.GetId());
 		RemoveEntityFromSystems(entity);
 		entityComponentSignatures[entity.GetId()].reset();
-		freeIds.push_back(entity.GetId());
 	}
 	entitiesToBeKilled.clear();
 }
@@ -87,17 +81,13 @@ Entity Registry::CreateEntity()
 	Entity entity(entityId);
 	entity.registry = this;
 	entitiesToBeAdded.insert(entity);
+	std::cout << "[Registry] Se crea entidad " << entity.GetId() << std::endl;
 	return entity;
 }
 
 void Registry::KillEntity(Entity entity)
 {
 	entitiesToBeKilled.insert(entity);
-}
-
-bool Registry::CheckIfEntityIsAlive(Entity entity)
-{
-	return entitiesToBeKilled.find(entity) == entitiesToBeKilled.end();
 }
 
 void Registry::AddEntityToSystems(Entity entity)
@@ -125,7 +115,6 @@ void Registry::ClearAllEntities()
 	for (int i = 0; i < numEntity; i++) {
 		RemoveEntityFromSystems(Entity(i));
 		entityComponentSignatures[i].reset();
+		freeIds.push_back(i);
 	}
-	numEntity = 0;
-	freeIds.clear();
 }

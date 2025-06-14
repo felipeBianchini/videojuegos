@@ -7,8 +7,6 @@ SceneManager::SceneManager()
 {
 	std::cout << "[SCENEMANAGER] Se ejecuta constructor" << std::endl;
 	sceneLoader = std::make_unique<SceneLoader>();
-	this->currentSceneTimer = 0.0;
-	this->currentSceneType = "";
 }
 
 SceneManager::~SceneManager()
@@ -28,13 +26,7 @@ void SceneManager::LoadSceneFromScript(const std::string& path, sol::state& lua)
 			break;
 		}
 		sol::table scene = scenes[index];
-		std::string name = scene["name"];
-		std::string path = scene["path"];
-		std::string type = scene["type"];
-		double timer = static_cast<double>(scene["time"]);
-		this->scenes.emplace(name, path);
-		this->sceneTypes.emplace(name, type);
-		this->sceneTimers.emplace(name, timer);
+		this->scenes.emplace(scene["name"], scene["path"]);
 		if (index == 1) {
 			nextScene = scene["name"];
 		}
@@ -46,21 +38,13 @@ void SceneManager::LoadScene()
 {
 	Game& game = Game::GetInstance();
 	std::string scenePath = scenes[nextScene];
-	this->currentSceneType = sceneTypes[nextScene];
-	this->currentSceneTimer = sceneTimers[nextScene];
 	sceneLoader->LoadScene(scenePath, game.lua, game.renderer, game.assetManager, game.controllerManager, game.registry);
-	Mix_Music* music = Game::GetInstance().assetManager->GetBackgroundMusic("background_music");
-	if (music != nullptr) {
-		Mix_PlayMusic(music, -1);
-	}
-	else {
-		std::cerr << " ERROR [SceneManager::StartScene]: Music" << std::endl;
-	}
+
 }
 
 std::string SceneManager::GetNextScene() const
 {
-	return this->nextScene;
+	return nextScene;
 }
 
 void SceneManager::SetNextScene(const std::string& nextScene)
@@ -81,14 +65,4 @@ void SceneManager::StartScene()
 void SceneManager::StopScene()
 {
 	isSceneRunning = false;
-}
-
-std::string SceneManager::GetCurrentSceneType()
-{
-	return this->currentSceneType;
-}
-
-double SceneManager::GetCurrentSceneTimer()
-{
-	return this->currentSceneTimer;
 }

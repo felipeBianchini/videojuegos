@@ -12,8 +12,6 @@
 #include "../Systems/ScriptSystem.hpp"
 #include "../Systems/RenderTextSystem.hpp"
 #include "../Systems/UISystem.hpp"
-#include "../Systems/GameManagerSystem.hpp"
-#include "../Systems/IsEntityInsideTheScreenSystem.hpp"
 
 Game::Game()
 {
@@ -21,9 +19,8 @@ Game::Game()
 	this->window = nullptr;
 	this->renderer = nullptr;
 	this->isRunning = true;
-	this->keepRunning = true;
-	this->window_width = 1200;
-	this->window_height = 800;
+	this->window_width = 800;
+	this->window_height = 600;
 	this->registry = std::make_unique<Registry>();
 	assetManager = std::make_unique<AssetManager>();
 	eventManager = std::make_unique<EventManager>();
@@ -47,12 +44,6 @@ void Game::Init()
 		std::cerr << "Error inicializando TTF!" << std::endl;
 		return;
 	}
-
-	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
-		std::cerr << "Error inicializando SDL_mixer: " << Mix_GetError() << std::endl;
-		return;
-	}
-
 	this->Create();
 }
 
@@ -86,15 +77,10 @@ void Game::Setup()
 	registry->AddSystem<RenderTextSystem>();
 	registry->AddSystem<ScriptSystem>();
 	registry->AddSystem<UISystem>();
-	registry->AddSystem<GameManagerSystem>();
-	registry->AddSystem<IsEntityInsideTheScreenSystem>();
 
 	sceneManager->LoadSceneFromScript("./assets/scripts/scenes.lua", lua);
 
 	lua.open_libraries(sol::lib::base, sol::lib::math);
-
-	lua.script_file("./assets/scripts/endGameConditions.lua");
-	lua.script_file("./assets/scripts/go_to_next_scene.lua");
 
 	registry->GetSystem<ScriptSystem>().CreateLuaBinding(lua);
 }
@@ -113,9 +99,6 @@ void Game::ProcessInput()
 				sceneManager->StopScene();
 				isRunning = false;
 				break;
-			}
-			else if (sdlEvent.key.keysym.sym == SDLK_p) {
-				this->keepRunning = !keepRunning;
 			}
 			controllerManager->KeyDown(sdlEvent.key.keysym.sym);
 			break;
@@ -154,10 +137,8 @@ void Game::Update()
 	registry->GetSystem<UISystem>().SubscribeToClickEvent(eventManager);
 	registry->GetSystem<DamageSystem>().SubscribeToCollisionEvent(eventManager);
 	registry->Update();
-	registry->GetSystem<GameManagerSystem>().Update(deltaTime, sceneManager->GetCurrentSceneType(), lua);
-	registry->GetSystem<ScriptSystem>().Update(lua, deltaTime, window_height, window_width);
-	registry->GetSystem<MovementSystem>().Update(deltaTime, window_height, window_width, registry->GetSystem<GameManagerSystem>().GetPlayer());
-	registry->GetSystem<IsEntityInsideTheScreenSystem>().Update(window_width, window_height);
+	registry->GetSystem<ScriptSystem>().Update(lua);
+	registry->GetSystem<MovementSystem>().Update(deltaTime);
 	registry->GetSystem<CollisionSystem>().Update(eventManager);
 	registry->GetSystem<AnimationSystem>().Update();
 }
@@ -174,12 +155,9 @@ void Game::Render()
 void Game::RunScene()
 {
 	sceneManager->LoadScene();
-	registry->GetSystem<GameManagerSystem>().SetGameTimer(sceneManager->GetCurrentSceneTimer());
 	while (sceneManager->IsSceneRunning()) {
 		ProcessInput();
-		if (this->keepRunning) {
-			Update();
-		}
+		Update();
 		Render();
 	}
 	assetManager->ClearAssets();
@@ -199,8 +177,6 @@ void Game::Destroy()
 {
 	SDL_DestroyRenderer(this->renderer);
 	SDL_DestroyWindow(this->window);
-	Mix_CloseAudio();
-	Mix_Quit();
 	TTF_Quit();
 	SDL_Quit();
 }

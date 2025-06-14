@@ -1,5 +1,4 @@
 #include "SceneLoader.hpp"
-#include "../Systems/GameManagerSystem.hpp"
 
 #include <iostream>
 #include <glm/glm.hpp>
@@ -26,54 +25,6 @@ void SceneLoader::LoadSprites(SDL_Renderer* renderer, const sol::table& sprites,
 		std::string assetId = sprite["assetId"];
 		std::string filePath = sprite["filePath"];
 		assetManager->AddTexture(renderer, assetId, filePath);
-		index++;
-	}
-}
-
-void SceneLoader::LoadBackgrounds(SDL_Renderer* renderer, const sol::table& backgrounds, std::unique_ptr<AssetManager>& assetManager)
-{
-	int index = 1;
-	while (true) {
-		sol::optional<sol::table> hasBackground = backgrounds[index];
-		if (hasBackground == sol::nullopt) {
-			break;
-		}
-		sol::table background = backgrounds[index];
-		std::string backgroundId = background["backgroundId"];
-		std::string filePath = background["filePath"];
-		assetManager->SetBackground(renderer, backgroundId, filePath);
-		index++;
-	}
-}
-
-void SceneLoader::LoadSoundEffects(const sol::table& soundEffects, std::unique_ptr<AssetManager>& assetManager)
-{
-	int index = 1;
-	while (true) {
-		sol::optional<sol::table> hasSoundEffect = soundEffects[index];
-		if (hasSoundEffect == sol::nullopt) {
-			break;
-		}
-		sol::table soundEffect = soundEffects[index];
-		std::string soundEffectId = soundEffect["soundEffectId"];
-		std::string filePath = soundEffect["filePath"];
-		assetManager->AddSoundEffect(soundEffectId, filePath);
-		index++;
-	}
-}
-
-void SceneLoader::LoadBackgroundMusic(const sol::table& backgroundMusics, std::unique_ptr<AssetManager>& assetManager)
-{
-	int index = 1;
-	while (true) {
-		sol::optional<sol::table> hasBackgroundMusic = backgroundMusics[index];
-		if (hasBackgroundMusic == sol::nullopt) {
-			break;
-		}
-		sol::table backgroundMusic = backgroundMusics[index];
-		std::string backgroundMusicId = backgroundMusic["backgroundMusicId"];
-		std::string filePath = backgroundMusic["filePath"];
-		assetManager->SetBackgroundMusic(backgroundMusicId, filePath);
 		index++;
 	}
 }
@@ -137,16 +88,6 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 			if (hasScript != sol::nullopt) {
 				lua["on_click"] = sol::nil;
 				lua["update"] = sol::nil;
-				lua["updateBullets"] = sol::nil;
-				lua["createEnemy1"] = sol::nil;
-				lua["updateEnemy1Position"] = sol::nil;
-				lua["createEnemy2"] = sol::nil;
-				lua["createEnemy3"] = sol::nil;
-				lua["createEnemy4"] = sol::nil;
-				lua["createExtraLife"] = sol::nil;
-				lua["updateEnemy3Position"] = sol::nil;
-				lua["bossMechanics"] = sol::nil;
-				lua["createNuke"] = sol::nil;
 				std::string path = components["script"]["path"];
 				lua.script_file(path);
 				sol::optional<sol::function> hasUpdate = lua["update"];
@@ -159,53 +100,7 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 				if (hasOnClick != sol::nullopt) {
 					onClick = lua["on_click"];
 				}
-				sol::optional<sol::function> hasUpdateBullets = lua["updateBullets"];
-				sol::function updateBullets = sol::nil;
-				if (hasUpdateBullets != sol::nullopt) {
-					updateBullets = lua["updateBullets"];
-				}
-				sol::optional<sol::function> hasCreateEnemy1 = lua["createEnemy1"];
-				sol::function createEnemy1 = sol::nil;
-				if (hasCreateEnemy1 != sol::nullopt) {
-					createEnemy1 = lua["createEnemy1"];
-				}
-				sol::optional<sol::function> hasUpdateEnemy1Position = lua["updateEnemy1Position"];
-				sol::function updateEnemy1Position = sol::nil;
-				if (hasUpdateEnemy1Position != sol::nullopt) {
-					updateEnemy1Position = lua["updateEnemy1Position"];
-				}
-				sol::optional<sol::function> hasCreateEnemy2 = lua["createEnemy2"];
-				sol::function createEnemy2 = sol::nil;
-				if (hasCreateEnemy2 != sol::nullopt) {
-					createEnemy2 = lua["createEnemy2"];
-				}
-				sol::optional<sol::function> hasCreateEnemy3 = lua["createEnemy3"];
-				sol::function createEnemy3 = sol::nil;
-				if (hasCreateEnemy3 != sol::nullopt) {
-					createEnemy3 = lua["createEnemy3"];
-				}				
-				sol::optional<sol::function> hasCreateExtraLife = lua["createExtraLife"];
-				sol::function createExtraLife = sol::nil;
-				if (hasCreateExtraLife != sol::nullopt) {
-					createExtraLife = lua["createExtraLife"];
-				}
-				sol::optional<sol::function> hasUpdateEnemy3Position = lua["updateEnemy3Position"];
-				sol::function updateEnemy3Position = sol::nil;
-				if (hasUpdateEnemy3Position != sol::nullopt) {
-					updateEnemy3Position = lua["updateEnemy3Position"];
-				}
-				sol::optional<sol::function> hasBossMechanics = lua["bossMechanics"];
-				sol::function bossMechanics = sol::nil;
-				if (hasBossMechanics != sol::nullopt) {
-					bossMechanics = lua["bossMechanics"];
-				}
-				sol::optional<sol::function> hasCreateNuke = lua["createNuke"];
-				sol::function createNuke = sol::nil;
-				if (hasCreateNuke != sol::nullopt) {
-					createNuke = lua["createNuke"];
-				}
-				newEntity.AddComponent<ScriptComponent>(update, onClick, updateBullets, updateEnemy1Position,
-					createEnemy1, createEnemy2, createEnemy3, createExtraLife, updateEnemy3Position, bossMechanics, createNuke);
+				newEntity.AddComponent<ScriptComponent>(update, onClick);
 			}
 			// SpriteComponent
 			sol::optional<sol::table> hasSprite = components["sprite"];
@@ -245,56 +140,6 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 					components["transform"]["rotation"]
 				);
 			}
-			// HealthComponent
-			sol::optional<sol::table> hasHealth = components["health"];
-			if (hasHealth) {
-				sol::optional<int> health = (*hasHealth)["health"];
-				if (health) {
-					newEntity.AddComponent<HealthComponent>(*health);
-				}
-			}
-			// ScoreComponent
-			sol::optional<sol::table> hasScore = components["score"];
-			if (hasScore != sol::nullopt) {
-				sol::optional<int> score = (*hasScore)["score"];
-				if (score) {
-					newEntity.AddComponent<ScoreComponent>(*score);
-				}
-			}
-			// EntityTypeComponent
-			sol::optional<sol::table> hasType = components["type"];
-			if (hasType != sol::nullopt) {
-				sol::optional<int> type = (*hasType)["type"];
-				if (type) {
-					newEntity.AddComponent<EntityTypeComponent>(*type);
-				}
-			}
-			// IsEntityInsideTheScreenComponent
-			sol::optional<sol::table> hasIsEntityInside = components["isInside"];
-			if (hasIsEntityInside != sol::nullopt) {
-				sol::optional<bool> isInside = (*hasIsEntityInside)["isInside"];
-				if (isInside) {
-					newEntity.AddComponent<IsEntityInsideTheScreenComponent>(*isInside);
-				}
-			}
-		}
-		if (newEntity.HasComponent<EntityTypeComponent>() && newEntity.GetComponent<EntityTypeComponent>().entityType == 1) {
-			registry->GetSystem<GameManagerSystem>().SetPlayer(newEntity);
-		}
-		else if (newEntity.HasComponent<EntityTypeComponent>() && newEntity.GetComponent<EntityTypeComponent>().entityType == 0) {
-			registry->GetSystem<GameManagerSystem>().SetPlayerScore(newEntity);
-		}
-		else if (newEntity.HasComponent<EntityTypeComponent>() && newEntity.GetComponent<EntityTypeComponent>().entityType == -1) {
-			registry->GetSystem<GameManagerSystem>().SetPlayerHealth(newEntity);
-		}
-		else if (newEntity.HasComponent<EntityTypeComponent>() && newEntity.GetComponent<EntityTypeComponent>().entityType == -2) {
-			registry->GetSystem<GameManagerSystem>().SetGameTimer(newEntity);
-		}
-		else if (newEntity.HasComponent<EntityTypeComponent>() && newEntity.GetComponent<EntityTypeComponent>().entityType == 7) {
-			registry->GetSystem<GameManagerSystem>().SetBoss(newEntity);
-		}
-		else if (newEntity.HasComponent<EntityTypeComponent>() && newEntity.GetComponent<EntityTypeComponent>().entityType == -3) {
-			registry->GetSystem<GameManagerSystem>().SetBossHealth(newEntity);
 		}
 		index++;
 	}
@@ -346,8 +191,6 @@ void SceneLoader::LoadScene(const std::string& scenePath, sol::state& lua, SDL_R
 	sol::table scene = lua["scene"];
 	sol::table sprites = scene["sprites"];
 	LoadSprites(renderer, sprites, assetManager);
-	sol::table backgrounds = scene["backgrounds"];
-	LoadBackgrounds(renderer, backgrounds, assetManager);
 	sol::table fonts = scene["fonts"];
 	LoadFonts(fonts, assetManager);
 	sol::table buttons = scene["buttons"];
@@ -356,8 +199,4 @@ void SceneLoader::LoadScene(const std::string& scenePath, sol::state& lua, SDL_R
 	LoadKeys(keys, controllerManager);
 	sol::table entities = scene["entities"];
 	LoadEntities(lua, entities, registry);
-	sol::table soundEffects = scene["soundEffects"];
-	LoadSoundEffects(soundEffects, assetManager);
-	sol::table backgroundMusic = scene["backgroundMusic"];
-	LoadBackgroundMusic(backgroundMusic, assetManager);
 }
