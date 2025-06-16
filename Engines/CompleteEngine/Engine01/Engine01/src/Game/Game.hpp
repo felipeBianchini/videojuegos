@@ -34,6 +34,7 @@ private:
 	SDL_Rect camera = { 0,0,0,0 };
 
 	bool isRunning;
+	bool isDebugMode = false;
 
 	int millisecsPreviousFrame = 0;
 public:

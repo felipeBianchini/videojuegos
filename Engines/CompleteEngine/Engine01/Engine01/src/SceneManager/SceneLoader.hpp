@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 #include <sol/sol.hpp>
+#include <tinyxml2/tinyxml2.h>
 #include <SDL.h>
 
 #include "../AssetManager/AssetManager.hpp"
@@ -28,6 +29,9 @@ private:
 	void LoadEntities(sol::state& lua, const sol::table& entities, std::unique_ptr<Registry>& registry);
 	void LoadFonts(const sol::table& fonts, std::unique_ptr<AssetManager>& assetManager);
 	void LoadButtons(const sol::table& buttons, std::unique_ptr<ControllerManager>& controllerManager);
+	void LoadMap(const sol::table map, std::unique_ptr<Registry>& registry);
+	void LoadLayer(std::unique_ptr<Registry>& registry, tinyxml2::XMLElement* layer, int tileWidth, int tileHeigth, int mapWidth, int columns, const std::string& tileSet);
+	void LoadColliders(std::unique_ptr<Registry>& registry, tinyxml2::XMLElement* objectGroup);
 public:
 	SceneLoader();
 	~SceneLoader();

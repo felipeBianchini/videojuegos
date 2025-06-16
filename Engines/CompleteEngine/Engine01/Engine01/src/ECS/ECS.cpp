@@ -58,9 +58,9 @@ void Registry::Update()
 	}
 	entitiesToBeAdded.clear();
 	for (auto entity : entitiesToBeKilled) {
-		freeIds.push_back(entity.GetId());
 		RemoveEntityFromSystems(entity);
 		entityComponentSignatures[entity.GetId()].reset();
+		freeIds.push_back(entity.GetId());
 	}
 	entitiesToBeKilled.clear();
 }
@@ -81,7 +81,6 @@ Entity Registry::CreateEntity()
 	Entity entity(entityId);
 	entity.registry = this;
 	entitiesToBeAdded.insert(entity);
-	std::cout << "[Registry] Se crea entidad " << entity.GetId() << std::endl;
 	return entity;
 }
 
@@ -115,6 +114,7 @@ void Registry::ClearAllEntities()
 	for (int i = 0; i < numEntity; i++) {
 		RemoveEntityFromSystems(Entity(i));
 		entityComponentSignatures[i].reset();
-		freeIds.push_back(i);
 	}
+	numEntity = 0;
+	freeIds.clear();
 }

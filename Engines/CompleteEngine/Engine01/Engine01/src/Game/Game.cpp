@@ -14,6 +14,7 @@
 #include "../Systems/UISystem.hpp"
 #include "../Systems/CameraMovementSystem.hpp"
 #include "../Systems/BoxCollisionSystem.hpp"
+#include "../Systems/RenderBoxColliderSystem.hpp"
 
 Game::Game()
 {
@@ -23,8 +24,6 @@ Game::Game()
 	this->isRunning = true;
 	this->window_width = 800;
 	this->window_height = 600;
-	this->mapWidth = 2000;
-	this->mapHeigth = 2000;
 	this->registry = std::make_unique<Registry>();
 	assetManager = std::make_unique<AssetManager>();
 	eventManager = std::make_unique<EventManager>();
@@ -87,6 +86,7 @@ void Game::Setup()
 	registry->AddSystem<UISystem>();
 	registry->AddSystem<CameraMovementSystem>();
 	registry->AddSystem<BoxCollisionSystem>();
+	registry->AddSystem<RenderBoxColliderSystem>();
 
 	sceneManager->LoadSceneFromScript("./assets/scripts/scenes.lua", lua);
 
@@ -108,6 +108,10 @@ void Game::ProcessInput()
 			if (sdlEvent.key.keysym.sym == SDLK_ESCAPE) {
 				sceneManager->StopScene();
 				isRunning = false;
+				break;
+			}
+			if (sdlEvent.key.keysym.sym == SDLK_i) {
+				isDebugMode = !isDebugMode;
 				break;
 			}
 			controllerManager->KeyDown(sdlEvent.key.keysym.sym);
@@ -161,6 +165,9 @@ void Game::Render()
 	SDL_RenderClear(renderer);
 	registry->GetSystem<RenderSystem>().Update(renderer, assetManager, camera);
 	registry->GetSystem<RenderTextSystem>().Update(renderer, assetManager);
+	if (isDebugMode) {
+		registry->GetSystem<RenderBoxColliderSystem>().Update(renderer, camera);
+	}
 	SDL_RenderPresent(renderer);
 }
 
