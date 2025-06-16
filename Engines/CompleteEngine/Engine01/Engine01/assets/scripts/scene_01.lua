@@ -17,6 +17,10 @@ scene = {
     buttons = {
         [1] = {name = "mouse_left_button", button = 1},
     },
+    maps = {
+        width = 2000,
+        heigth = 2000
+    },
     entities = {
         [1] = {
             components = {
