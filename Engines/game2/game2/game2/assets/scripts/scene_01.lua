@@ -46,7 +46,8 @@ scene = {
                     heigth = 16
                 },
                 rigid_body = {
-                    velocity = {x = 0, y = 0},
+                    is_dynamic = false,
+                    mass = 1,
                 },
                 script = {
                     path = "./assets/scripts/player.lua"
@@ -72,7 +73,8 @@ scene = {
                     offset = {x = 0, y = 0}
                 },
                 rigid_body = {
-                    velocity = {x = -50, y = 0},
+                    is_dynamic = false,
+                    mass = 1,
                 },
                 script = {
                     path = "./assets/scripts/enemy_alan.lua"

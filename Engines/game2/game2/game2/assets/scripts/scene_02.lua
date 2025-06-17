@@ -1,6 +1,6 @@
 scene = {
     sprites = {
-        [1] = {assetId = "alan", filePath = "./assets/images/enemy_alan.png"},
+        [1] = {assetId = "frog_idle", filePath = "./assets/images/frog_idle.png"},
         [2] = {assetId = "terrain", filePath = "./assets/images/terrain.png"},
     },
     fonts = {},
@@ -20,26 +20,27 @@ scene = {
         [1] = {
             components = {
                 camera_follow = {},
-                circle_collider = {
-                    radius = 8,
-                    width = 16,
-                    heigth = 16
+                box_collider = {
+                    width = 32,
+                    heigth = 32,
+                    offset = {x = 0, y = 0}
                 },
                 rigid_body = {
-                    velocity = {x = 0, y = 0},
+                    is_dynamic = true,
+                    mass = 10,
                 },
                 script = {
-                    path = "./assets/scripts/player.lua"
+                    path = "./assets/scripts/player_frog.lua"
                 },
                 sprite = {
-                    assetId = "alan",
-                    width = 16,
-                    heigth = 16,
+                    assetId = "frog_idle",
+                    width = 32,
+                    heigth = 32,
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
                     position = {x = 400.0, y = 300.0},
-                    scale = {x = 2.0, y = 2.0},
+                    scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 }
             }

@@ -15,6 +15,7 @@
 #include "../Systems/CameraMovementSystem.hpp"
 #include "../Systems/BoxCollisionSystem.hpp"
 #include "../Systems/RenderBoxColliderSystem.hpp"
+#include "../Systems/PhysicsSystem.hpp"
 
 Game::Game()
 {
@@ -87,6 +88,7 @@ void Game::Setup()
 	registry->AddSystem<CameraMovementSystem>();
 	registry->AddSystem<BoxCollisionSystem>();
 	registry->AddSystem<RenderBoxColliderSystem>();
+	registry->AddSystem<PhysicsSystem>();
 
 	sceneManager->LoadSceneFromScript("./assets/scripts/scenes.lua", lua);
 
@@ -152,11 +154,12 @@ void Game::Update()
 	//registry->GetSystem<DamageSystem>().SubscribeToCollisionEvent(eventManager);
 	registry->Update();
 	registry->GetSystem<ScriptSystem>().Update(lua);
-	registry->GetSystem<AnimationSystem>().Update();
+	registry->GetSystem<PhysicsSystem>().Update();
 	registry->GetSystem<MovementSystem>().Update(deltaTime);
-	registry->GetSystem<CameraMovementSystem>().Update(camera);
 	registry->GetSystem<BoxCollisionSystem>().Update(lua);
 	registry->GetSystem<CircleCollisionSystem>().Update(eventManager);
+	registry->GetSystem<AnimationSystem>().Update();
+	registry->GetSystem<CameraMovementSystem>().Update(camera);
 }
 
 void Game::Render()

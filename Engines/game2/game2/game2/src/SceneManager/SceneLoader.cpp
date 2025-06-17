@@ -80,7 +80,7 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 						components["box_collider"]["offset"]["y"]
 					)
 				);
-			}			
+			}
 			// CameraFollowComponent
 			sol::optional<sol::table> hasCameraFollow = components["camera_follow"];
 			if (hasCameraFollow != sol::nullopt) {
@@ -109,37 +109,12 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 			// RigidBodyComponent
 			sol::optional<sol::table> hasRigidBody = components["rigid_body"];
 			if (hasRigidBody != sol::nullopt) {
+				std::cout << "aaaaa" << std::endl;
 				newEntity.AddComponent<RigidBodyComponent>(
-					glm::vec2(
-						components["rigid_body"]["velocity"]["x"],
-						components["rigid_body"]["velocity"]["y"]
-					)
+					components["rigid_body"]["is_dynamic"],
+					components["rigid_body"]["mass"]
 				);
-			}
-			// ScriptComponent
-			sol::optional<sol::table> hasScript = components["script"];
-			if (hasScript != sol::nullopt) {
-				lua["on_click"] = sol::nil;
-				lua["update"] = sol::nil;
-				lua["on_collision"] = sol::nil;
-				std::string path = components["script"]["path"];
-				lua.script_file(path);
-				sol::optional<sol::function> hasUpdate = lua["update"];
-				sol::function update = sol::nil;
-				if (hasUpdate != sol::nullopt) {
-					update = lua["update"];
-				}
-				sol::optional<sol::function> hasOnClick = lua["on_click"];
-				sol::function onClick = sol::nil;
-				if (hasOnClick != sol::nullopt) {
-					onClick = lua["on_click"];
-				}
-				sol::optional<sol::function> hasOnCollision = lua["on_collision"];
-				sol::function onCollision = sol::nil;
-				if (hasOnCollision != sol::nullopt) {
-					onCollision = lua["on_collision"];
-				}
-				newEntity.AddComponent<ScriptComponent>(onCollision, update, onClick);
+				std::cout << newEntity.GetComponent<RigidBodyComponent>().isDynamic << std::endl;
 			}
 			// SpriteComponent
 			sol::optional<sol::table> hasSprite = components["sprite"];
@@ -178,6 +153,38 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 					),
 					components["transform"]["rotation"]
 				);
+			}
+			// ScriptComponent
+			sol::optional<sol::table> hasScript = components["script"];
+			if (hasScript != sol::nullopt) {
+				lua["on_click"] = sol::nil;
+				lua["update"] = sol::nil;
+				lua["on_collision"] = sol::nil;
+				lua["on_awake"] = sol::nil;
+				std::string path = components["script"]["path"];
+				lua.script_file(path);
+				sol::optional<sol::function> hasOnAwake = lua["on_awake"];
+				if (hasOnAwake != sol::nullopt) {
+					lua["this"] = newEntity;
+					sol::function OnAwake = lua["on_awake"];
+					OnAwake();
+				}
+				sol::optional<sol::function> hasUpdate = lua["update"];
+				sol::function update = sol::nil;
+				if (hasUpdate != sol::nullopt) {
+					update = lua["update"];
+				}
+				sol::optional<sol::function> hasOnClick = lua["on_click"];
+				sol::function onClick = sol::nil;
+				if (hasOnClick != sol::nullopt) {
+					onClick = lua["on_click"];
+				}
+				sol::optional<sol::function> hasOnCollision = lua["on_collision"];
+				sol::function onCollision = sol::nil;
+				if (hasOnCollision != sol::nullopt) {
+					onCollision = lua["on_collision"];
+				}
+				newEntity.AddComponent<ScriptComponent>(onCollision, update, onClick);
 			}
 		}
 		index++;
@@ -324,8 +331,8 @@ void SceneLoader::LoadColliders(std::unique_ptr<Registry>& registry, tinyxml2::X
 		object->QueryIntAttribute("height", &h);
 		Entity collider = registry->CreateEntity();
 		collider.AddComponent<TagComponent>(tag);
-		collider.AddComponent<TransformComponent>(glm::vec2(x,y));
-		collider.AddComponent<BoxColliderComponent>(w,h);
+		collider.AddComponent<TransformComponent>(glm::vec2(x, y));
+		collider.AddComponent<BoxColliderComponent>(w, h);
 		object = object->NextSiblingElement("object");
 	}
 }
