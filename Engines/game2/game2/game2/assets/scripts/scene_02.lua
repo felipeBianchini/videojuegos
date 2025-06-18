@@ -9,6 +9,7 @@ scene = {
         [2] = {name = "down", key = 115},
         [3] = {name = "left", key = 97},
         [4] = {name = "right", key = 100},
+        [5] = {name = "jump", key = 32},
     },
     buttons = {},
     maps = {
@@ -43,6 +44,9 @@ scene = {
                     position = {x = 400.0, y = 300.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
+                },
+                tag = {
+                    tag = "player",
                 }
             }
         },

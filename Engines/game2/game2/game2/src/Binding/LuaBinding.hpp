@@ -90,7 +90,7 @@ std::tuple<int, int> GetPosition(Entity entity) {
 void SetPosition(Entity entity, int x, int y) {
 	auto& transform = entity.GetComponent<TransformComponent>();
 	transform.position.x = x;
-	transform.position.y;
+	transform.position.y = y;
 }
 
 std::tuple<int, int> GetSize(Entity entity) {
@@ -99,6 +99,11 @@ std::tuple<int, int> GetSize(Entity entity) {
 	int width = sprite.width * transform.scale.x;
 	int heigth = sprite.height * transform.scale.y;
 	return { width, heigth };
+}
+
+void AddForce(Entity entity, float x, float y) {
+	auto& rigidBody = entity.GetComponent<RigidBodyComponent>();
+	rigidBody.sumForces += glm::vec2(x, y);
 }
 
 #endif // !LUABINDING_HPP
