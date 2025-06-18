@@ -339,7 +339,28 @@ void SceneLoader::LoadColliders(std::unique_ptr<Registry>& registry, tinyxml2::X
 	}
 }
 
-void SceneLoader::LoadScene(const std::string& scenePath, sol::state& lua, SDL_Renderer* renderer, std::unique_ptr<AssetManager>& assetManager, std::unique_ptr<ControllerManager>& controllerManager, std::unique_ptr<Registry>& registry)
+void SceneLoader::LoadAnimations(const sol::table& animations, std::unique_ptr<AnimationManager>& animationManager)
+{
+	int index = 0;
+	while (true) {
+		sol::optional<sol::table> hasAnimation = animations[index];
+		if (hasAnimation == sol::nullopt) {
+			break;
+		}
+		sol::table animation = animations[index];
+		std::string animationId = animation["animation_id"];
+		std::string textureId = animation["texture_id"];
+		int width = animation["w"];
+		int height = animation["h"];
+		int numFrames = animation["num_frames"];
+		int speedRate = animation["speed_rate"];
+		bool isLoop = animation["is_loop"];
+		animationManager->AddAnimation(animationId, textureId, width, height, numFrames, speedRate, isLoop);
+		index++;
+	}
+}
+
+void SceneLoader::LoadScene(const std::string& scenePath, sol::state& lua, SDL_Renderer* renderer, std::unique_ptr<AnimationManager>& animationManager, std::unique_ptr<AssetManager>& assetManager, std::unique_ptr<ControllerManager>& controllerManager, std::unique_ptr<Registry>& registry)
 {
 	sol::load_result script_result = lua.load_file(scenePath);
 	if (!script_result.valid()) {
@@ -352,6 +373,8 @@ void SceneLoader::LoadScene(const std::string& scenePath, sol::state& lua, SDL_R
 	sol::table scene = lua["scene"];
 	sol::table sprites = scene["sprites"];
 	LoadSprites(renderer, sprites, assetManager);
+	sol::table animations = scene["animations"];
+	LoadAnimations(animations, animationManager);
 	sol::table fonts = scene["fonts"];
 	LoadFonts(fonts, assetManager);
 	sol::table buttons = scene["buttons"];

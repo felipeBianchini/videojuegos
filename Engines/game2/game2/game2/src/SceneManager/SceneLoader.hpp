@@ -20,6 +20,7 @@
 #include "../Components/CameraFollowComponent.hpp"
 #include "../Components/BoxColliderComponent.hpp"
 #include "../Components/TagComponent.hpp"
+#include "../AnimationManager/AnimationManager.hpp"
 #include "../ECS/ECS.hpp"
 
 class SceneLoader {
@@ -32,11 +33,13 @@ private:
 	void LoadMap(const sol::table map, std::unique_ptr<Registry>& registry);
 	void LoadLayer(std::unique_ptr<Registry>& registry, tinyxml2::XMLElement* layer, int tileWidth, int tileHeigth, int mapWidth, int columns, const std::string& tileSet);
 	void LoadColliders(std::unique_ptr<Registry>& registry, tinyxml2::XMLElement* objectGroup);
+	void LoadAnimations(const sol::table& animations, std::unique_ptr<AnimationManager>& animationManager);
 public:
 	SceneLoader();
 	~SceneLoader();
 	void LoadScene(const std::string& scenePath,
 		sol::state& lua, SDL_Renderer* renderer,
+		std::unique_ptr<AnimationManager>& animationManager,
 		std::unique_ptr<AssetManager>& assetManager,
 		std::unique_ptr<ControllerManager>& controllerManager,
 		std::unique_ptr<Registry>& registry
