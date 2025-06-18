@@ -60,4 +60,18 @@ function update_animation_state()
 			change_animation(this, "player_frog_run")
 		end
 	end
+	-- salta
+	if y_vel <= -0.001 then
+		if player_state ~= player_states["jump"] then
+			player_state = player_states["jump"]
+			change_animation(this, "player_frog_jump")
+		end
+	end
+	-- cae
+	if y_vel >= 0.001 then
+		if player_state ~= player_states["fall"] then
+			player_state = player_states["fall"]
+			change_animation(this, "player_frog_fall")
+		end
+	end
 end
