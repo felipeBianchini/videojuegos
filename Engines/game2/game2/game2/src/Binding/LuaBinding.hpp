@@ -126,4 +126,9 @@ void ChangeAnimation(Entity entity, const std::string& animationId) {
 	animation.startTime = SDL_GetTicks();
 }
 
+void FlipSprite(Entity entity, bool flip) {
+	auto& sprite = entity.GetComponent<SpriteComponent>();
+	sprite.flip = flip;
+}
+
 #endif // !LUABINDING_HPP
