@@ -20,6 +20,11 @@ scene = {
     entities = {
         [1] = {
             components = {
+                animation = {
+                    num_frames = 11,
+                    speed_rate = 15,
+                    is_loop = true,
+                },
                 camera_follow = {},
                 box_collider = {
                     width = 32,

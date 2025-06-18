@@ -65,7 +65,7 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 			if (hasAnimation != sol::nullopt) {
 				newEntity.AddComponent<AnimationComponent>(
 					components["animation"]["num_frames"],
-					components["animation"]["spreed_rate"],
+					components["animation"]["speed_rate"],
 					components["animation"]["is_loop"]
 				);
 			}

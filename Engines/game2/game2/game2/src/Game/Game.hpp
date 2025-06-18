@@ -14,6 +14,7 @@
 #include "../EventManager/EventManager.hpp"
 #include "../ControllerManager/ControllerManager.hpp"
 #include "../SceneManager/SceneManager.hpp"
+#include "../AnimationManager/AnimationManager.hpp"
 
 const int FPS = 40;
 const int MILISECS_PER_FRAME = 1000 / FPS;
@@ -50,7 +51,7 @@ public:
 	std::unique_ptr<ControllerManager> controllerManager;
 	std::unique_ptr<Registry> registry;
 	std::unique_ptr<SceneManager> sceneManager;
-
+	std::unique_ptr<AnimationManager> animationManager;
 
 	static Game& GetInstance();
 	void Init();

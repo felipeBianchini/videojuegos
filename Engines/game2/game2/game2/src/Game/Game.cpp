@@ -31,6 +31,7 @@ Game::Game()
 	eventManager = std::make_unique<EventManager>();
 	controllerManager = std::make_unique<ControllerManager>();
 	sceneManager = std::make_unique<SceneManager>();
+	animationManager = std::make_unique<AnimationManager>();
 	camera.x = 0;
 	camera.y = 0;
 	camera.w = this->window_width;
@@ -216,4 +217,5 @@ Game::~Game()
 	this->assetManager.reset();
 	this->controllerManager.reset();
 	this->sceneManager.reset();
+	this->animationManager.reset();
 }
