@@ -45,13 +45,13 @@ private:
 		} else if (Direction::left == dir) {
 			return (
 				aY < bY + bH &&
-				aY + aH < bY &&
+				aY + aH > bY &&
 				aX > bX
 				);
 		} else if (Direction::right == dir) {
 			return (
 				aY < bY + bH &&
-				aY + aH < bY &&
+				aY + aH > bY &&
 				aX < bX
 				);
 		}
@@ -78,14 +78,14 @@ private:
 			bRigidbody.velocity = glm::vec2(bRigidbody.velocity.x, 0.0f);
 		}
 		else if (CheckCollision(a, b, Direction::right)) {
-			bTransform.position = glm::vec2(bTransform.position.x,
-				aTransform.position.y - bCollider.heigth);
-			bRigidbody.velocity = glm::vec2(bRigidbody.velocity.x, 0.0f);
+			bTransform.position = glm::vec2(aTransform.position.x + aCollider.width,
+				bTransform.position.y);
+			bRigidbody.velocity = glm::vec2(0.0f, bRigidbody.velocity.y);
 		}
 		else if (CheckCollision(a, b, Direction::left)) {
-			bTransform.position = glm::vec2(bTransform.position.x,
-				aTransform.position.y - bCollider.heigth);
-			bRigidbody.velocity = glm::vec2(bRigidbody.velocity.x, 0.0f);
+			bTransform.position = glm::vec2(aTransform.position.x - bCollider.width,
+				bTransform.position.y);
+			bRigidbody.velocity = glm::vec2(0.0f, bRigidbody.velocity.y);
 		}
 	}
 public:
