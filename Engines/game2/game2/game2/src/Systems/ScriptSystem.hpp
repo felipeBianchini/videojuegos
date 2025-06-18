@@ -30,6 +30,7 @@ public:
 		lua.set_function("get_size", GetSize);
 		lua.set_function("get_velocity", GetVelocity);
 		lua.set_function("add_force", AddForce);
+		lua.set_function("change_animation", ChangeAnimation);
 	}
 
 	void Update(sol::state& lua) {

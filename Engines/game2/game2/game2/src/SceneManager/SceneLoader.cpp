@@ -109,13 +109,11 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 			// RigidBodyComponent
 			sol::optional<sol::table> hasRigidBody = components["rigid_body"];
 			if (hasRigidBody != sol::nullopt) {
-				std::cout << "aaaaa" << std::endl;
 				newEntity.AddComponent<RigidBodyComponent>(
 					components["rigid_body"]["is_dynamic"],
 					components["rigid_body"]["is_solid"],
 					components["rigid_body"]["mass"]
 				);
-				std::cout << newEntity.GetComponent<RigidBodyComponent>().isDynamic << std::endl;
 			}
 			// SpriteComponent
 			sol::optional<sol::table> hasSprite = components["sprite"];
@@ -341,7 +339,7 @@ void SceneLoader::LoadColliders(std::unique_ptr<Registry>& registry, tinyxml2::X
 
 void SceneLoader::LoadAnimations(const sol::table& animations, std::unique_ptr<AnimationManager>& animationManager)
 {
-	int index = 0;
+	int index = 1;
 	while (true) {
 		sol::optional<sol::table> hasAnimation = animations[index];
 		if (hasAnimation == sol::nullopt) {

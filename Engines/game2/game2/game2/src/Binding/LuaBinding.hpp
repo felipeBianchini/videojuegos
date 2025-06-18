@@ -3,11 +3,14 @@
 
 #include <string>
 #include <tuple>
+#include <SDL.h>
 
 #include "../Components/RigidBodyComponent.hpp"
 #include "../Components/TagComponent.hpp"
 #include "../Components/BoxColliderComponent.hpp"
 #include "../Components/SpriteComponent.hpp"
+#include "../AnimationManager/AnimationManager.hpp"
+#include "../Components/AnimationComponent.hpp"
 #include "../Game/Game.hpp"
 #include "../ECS/ECS.hpp"
 
@@ -104,6 +107,23 @@ std::tuple<int, int> GetSize(Entity entity) {
 void AddForce(Entity entity, float x, float y) {
 	auto& rigidBody = entity.GetComponent<RigidBodyComponent>();
 	rigidBody.sumForces += glm::vec2(x, y);
+}
+
+void ChangeAnimation(Entity entity, const std::string& animationId) {
+	auto& animation = entity.GetComponent<AnimationComponent>();
+	auto& sprite = entity.GetComponent<SpriteComponent>();
+	AnimationData animationData;
+	animationData = Game::GetInstance().animationManager->GetAnimation(animationId);
+	sprite.textureId = animationData.textureId;
+	sprite.width = animationData.width;
+	sprite.height = animationData.height;
+	sprite.srcRect.x = 0;
+	sprite.srcRect.y = 0;
+	animation.currentFrame = 1;
+	animation.frameSpeedRate = animationData.frameSpeedRate;
+	animation.numFrames = animationData.numFrames;
+	animation.isLoop = animationData.isLoop;
+	animation.startTime = SDL_GetTicks();
 }
 
 #endif // !LUABINDING_HPP
