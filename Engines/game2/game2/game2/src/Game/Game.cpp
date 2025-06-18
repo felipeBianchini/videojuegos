@@ -16,6 +16,7 @@
 #include "../Systems/BoxCollisionSystem.hpp"
 #include "../Systems/RenderBoxColliderSystem.hpp"
 #include "../Systems/PhysicsSystem.hpp"
+#include "../Systems/OverlapSystem.hpp"
 
 Game::Game()
 {
@@ -89,6 +90,7 @@ void Game::Setup()
 	registry->AddSystem<BoxCollisionSystem>();
 	registry->AddSystem<RenderBoxColliderSystem>();
 	registry->AddSystem<PhysicsSystem>();
+	registry->AddSystem<OverlapSystem>();
 
 	sceneManager->LoadSceneFromScript("./assets/scripts/scenes.lua", lua);
 
@@ -151,12 +153,13 @@ void Game::Update()
 	millisecsPreviousFrame = SDL_GetTicks();
 	eventManager->Reset();
 	registry->GetSystem<UISystem>().SubscribeToClickEvent(eventManager);
+	registry->GetSystem<OverlapSystem>().SubscribeToCollisionEvent(eventManager);
 	//registry->GetSystem<DamageSystem>().SubscribeToCollisionEvent(eventManager);
 	registry->Update();
 	registry->GetSystem<ScriptSystem>().Update(lua);
 	registry->GetSystem<PhysicsSystem>().Update();
 	registry->GetSystem<MovementSystem>().Update(deltaTime);
-	registry->GetSystem<BoxCollisionSystem>().Update(lua);
+	registry->GetSystem<BoxCollisionSystem>().Update(lua, eventManager);
 	registry->GetSystem<CircleCollisionSystem>().Update(eventManager);
 	registry->GetSystem<AnimationSystem>().Update();
 	registry->GetSystem<CameraMovementSystem>().Update(camera);

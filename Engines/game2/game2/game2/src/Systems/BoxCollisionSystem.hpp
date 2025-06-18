@@ -1,11 +1,13 @@
 #ifndef BOXCOLLISIONSYSTEM_HPP
 #define BOXCOLLISIONSYSTEM_HPP
 
-#include <iostream>
+#include <memory>
 
 #include "../Components/BoxColliderComponent.hpp"
 #include "../Components/ScriptComponent.hpp"
 #include "../Components/TransformComponent.hpp"
+#include "../EventManager/EventManager.hpp"
+#include "../Events/CollisionEvent.hpp"
 #include "../ECS/ECS.hpp"
 
 class BoxCollisionSystem : public System {
@@ -24,7 +26,7 @@ public:
 		RequiredComponent<TransformComponent>();
 	}
 
-	void Update(sol::state& lua) {
+	void Update(sol::state& lua, const std::unique_ptr<EventManager>& eventManager) {
 		auto entities = GetSystemEntiities();
 		for (auto i = entities.begin(); i != entities.end(); i++) {
 			Entity a = *i;
@@ -45,6 +47,7 @@ public:
 				);
 
 				if (collision) {
+					eventManager->EmitEvent<CollisionEvent>(a, b);
 					if (a.HasComponent<ScriptComponent>()) {
 						const auto& script = a.GetComponent<ScriptComponent>();
 						if (script.onCollision != sol::nil) {

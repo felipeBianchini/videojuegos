@@ -47,6 +47,7 @@ scene = {
                 },
                 rigid_body = {
                     is_dynamic = false,
+                    is_solid = false,
                     mass = 1,
                 },
                 script = {
@@ -74,6 +75,7 @@ scene = {
                 },
                 rigid_body = {
                     is_dynamic = false,
+                    is_solid = false,
                     mass = 1,
                 },
                 script = {

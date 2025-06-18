@@ -27,6 +27,7 @@ scene = {
                 },
                 rigid_body = {
                     is_dynamic = true,
+                    is_solid = true,
                     mass = 10,
                 },
                 script = {

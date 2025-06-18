@@ -112,6 +112,7 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 				std::cout << "aaaaa" << std::endl;
 				newEntity.AddComponent<RigidBodyComponent>(
 					components["rigid_body"]["is_dynamic"],
+					components["rigid_body"]["is_solid"],
 					components["rigid_body"]["mass"]
 				);
 				std::cout << newEntity.GetComponent<RigidBodyComponent>().isDynamic << std::endl;
@@ -333,6 +334,7 @@ void SceneLoader::LoadColliders(std::unique_ptr<Registry>& registry, tinyxml2::X
 		collider.AddComponent<TagComponent>(tag);
 		collider.AddComponent<TransformComponent>(glm::vec2(x, y));
 		collider.AddComponent<BoxColliderComponent>(w, h);
+		collider.AddComponent<RigidBodyComponent>(false, true, 9999999999.0f);
 		object = object->NextSiblingElement("object");
 	}
 }
