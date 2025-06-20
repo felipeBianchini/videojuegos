@@ -29,7 +29,8 @@ function update()
 end
 
 function on_collision(other)
-	if get_tag(other) == "floor" then
+	local tag =  get_tag(other)
+	if tag == "floor" or tag == "obstacle" then
 		local x_vel, y_vel = get_velocity(this)
 		if y_vel == 0 then
 			player_can_jump = true

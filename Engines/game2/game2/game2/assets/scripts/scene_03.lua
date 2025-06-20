@@ -4,7 +4,7 @@ scene = {
         [2] = {assetId = "frog_run", filePath = "./assets/images/frog_run.png"},
         [3] = {assetId = "frog_jump", filePath = "./assets/images/frog_jump.png"},
         [4] = {assetId = "frog_fall", filePath = "./assets/images/frog_fall.png"},
-        [5] = {assetId = "tileset", filePath = "./assets/images/tileset.png"},
+        [5] = {assetId = "terrain", filePath = "./assets/images/terrain.png"},
     },
     animations = {
         [1] = {animation_id = "player_frog_idle", texture_id = "frog_idle", w = 32, h = 32, num_frames = 11, speed_rate = 15, is_loop = true},
@@ -22,9 +22,9 @@ scene = {
     },
     buttons = {},
     maps = {
-        map_path = "./assets/maps/map02/map02.tmx",
-        tile_path = "./assets/maps/map02/tileset02.tsx",
-        tile_name = "tileset"
+        map_path = "./assets/map/level_01.tmx",
+        tile_path = "./assets/map/terrain.tsx",
+        tile_name = "terrain"
     },
     entities = {
         [1] = {
@@ -55,7 +55,7 @@ scene = {
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 25.0, y = -75.0},
+                    position = {x = 400.0, y = 300.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 },

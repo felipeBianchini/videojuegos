@@ -1,165 +1,68 @@
 scene = {
     sprites = {
-        [1] = {assetId = "alan", filePath = "./assets/images/enemy_alan.png"},
-        [2] = {assetId = "crushingCyclops", filePath = "./assets/images/CrushingCyclops.png"},
-        [3] = {assetId = "swampTroll", filePath = "./assets/images/SwampTroll.png"},
-        [4] = {assetId = "background", filePath = "./assets/images/background.png"},
+        [1] = {assetId = "frog_idle", filePath = "./assets/images/frog_idle.png"},
+        [2] = {assetId = "frog_run", filePath = "./assets/images/frog_run.png"},
+        [3] = {assetId = "frog_jump", filePath = "./assets/images/frog_jump.png"},
+        [4] = {assetId = "frog_fall", filePath = "./assets/images/frog_fall.png"},
+        [5] = {assetId = "terrain", filePath = "./assets/images/terrain.png"},
     },
-    fonts = {
-        [1] = {fontId = "press_start", filePath = "./assets/fonts/press_start.ttf", fontSize = 24},
+    animations = {
+        [1] = {animation_id = "player_frog_idle", texture_id = "frog_idle", w = 32, h = 32, num_frames = 11, speed_rate = 15, is_loop = true},
+        [2] = {animation_id = "player_frog_run", texture_id = "frog_run", w = 32, h = 32, num_frames = 12, speed_rate = 15, is_loop = true},
+        [3] = {animation_id = "player_frog_jump", texture_id = "frog_jump", w = 32, h = 32, num_frames = 1, speed_rate = 1, is_loop = true},
+        [4] = {animation_id = "player_frog_fall", texture_id = "frog_fall", w = 32, h = 32, num_frames = 1, speed_rate = 1, is_loop = true},
     },
+    fonts = {},
     keys = {
         [1] = {name = "up", key = 119},
         [2] = {name = "down", key = 115},
         [3] = {name = "left", key = 97},
         [4] = {name = "right", key = 100},
+        [5] = {name = "jump", key = 32},
     },
-    buttons = {
-        [1] = {name = "mouse_left_button", button = 1},
-    },
+    buttons = {},
     maps = {
-        width = 2000,
-        heigth = 2000
+        map_path = "./assets/maps/map01/level_01.tmx",
+        tile_path = "./assets/maps/map01/terrain.tsx",
+        tile_name = "terrain"
     },
     entities = {
         [1] = {
             components = {
-                sprite = {
-                    assetId = "background",
-                    width = 2000,
-                    heigth = 2000,
-                    src_rect = {x = 0, y = 0},
+                animation = {
+                    num_frames = 11,
+                    speed_rate = 15,
+                    is_loop = true,
                 },
-                transform = {
-                    position = {x = 0.0, y = 0.0},
-                    scale = {x = 1.0, y = 1.0},
-                    rotation = 0.0,
-                }
-            }
-        },
-        [2] = {
-            components = {
                 camera_follow = {},
-                circle_collider = {
-                    radius = 8,
-                    width = 16,
-                    heigth = 16
+                box_collider = {
+                    width = 32,
+                    heigth = 32,
+                    offset = {x = 0, y = 0}
                 },
                 rigid_body = {
-                    is_dynamic = false,
-                    is_solid = false,
-                    mass = 1,
+                    is_dynamic = true,
+                    is_solid = true,
+                    mass = 10,
                 },
                 script = {
-                    path = "./assets/scripts/player.lua"
+                    path = "./assets/scripts/player_frog.lua"
                 },
                 sprite = {
-                    assetId = "alan",
-                    width = 16,
-                    heigth = 16,
+                    assetId = "frog_idle",
+                    width = 32,
+                    heigth = 32,
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
                     position = {x = 400.0, y = 300.0},
-                    scale = {x = 2.0, y = 2.0},
-                    rotation = 0.0,
-                }
-            }
-        },
-        [3] = {
-            components = {
-                box_collider = {
-                    width = 32,
-                    heigth = 32,
-                    offset = {x = 0, y = 0}
-                },
-                rigid_body = {
-                    is_dynamic = false,
-                    is_solid = false,
-                    mass = 1,
-                },
-                script = {
-                    path = "./assets/scripts/enemy_alan.lua"
-                },
-                sprite = {
-                    assetId = "crushingCyclops",
-                    width = 16,
-                    heigth = 16,
-                    src_rect = {x = 16, y = 0},
-                },
-                transform = {
-                    position = {x = 200.0, y = 100.0},
-                    scale = {x = 2.0, y = 2.0},
-                    rotation = 0.0,
-                },
-                tag = {
-                    tag = "enemy 01"
-                }
-            }
-        },
-        [4] = {
-            components = {
-                clickable = {},
-                text = {
-                    text = "Score: 100",
-                    fontId = "press_start",
-                    r = 150,
-                    g = 0,
-                    b = 150,
-                    a = 255
-                },
-                transform = {
-                    position = {x = 500.0, y = 50.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
+                },
+                tag = {
+                    tag = "player",
                 }
             }
         },
-        [5] = {
-            components = {
-                box_collider = {
-                    width = 32,
-                    heigth = 32,
-                    offset = {x = 0, y = 0}
-                },               
-                sprite = {
-                    assetId = "swampTroll",
-                    width = 16,
-                    heigth = 16,
-                    src_rect = {x = 16, y = 0},
-                },
-                transform = {
-                    position = {x = 100.0, y = 100.0},
-                    scale = {x = 2.0, y = 2.0},
-                    rotation = 0.0,
-                },
-                tag = {
-                    tag = "barrier"
-                }
-            }
-        },
-        [6] = {
-            components = {
-                box_collider = {
-                    width = 32,
-                    heigth = 32,
-                    offset = {x = 0, y = 0}
-                },               
-                sprite = {
-                    assetId = "swampTroll",
-                    width = 16,
-                    heigth = 16,
-                    src_rect = {x = 16, y = 0},
-                },
-                transform = {
-                    position = {x = 300.0, y = 100.0},
-                    scale = {x = 2.0, y = 2.0},
-                    rotation = 0.0,
-                },
-                tag = {
-                    tag = "barrier"
-                }
-            }
-        }
     },
 }
