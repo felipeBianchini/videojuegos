@@ -24,8 +24,8 @@ Game::Game()
 	this->window = nullptr;
 	this->renderer = nullptr;
 	this->isRunning = true;
-	this->window_width = 800;
-	this->window_height = 600;
+	this->window_width = 1280;
+	this->window_height = 720;
 	this->registry = std::make_unique<Registry>();
 	assetManager = std::make_unique<AssetManager>();
 	eventManager = std::make_unique<EventManager>();
