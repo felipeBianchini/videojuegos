@@ -4,6 +4,8 @@
 
 int IComponent::nextId = 0;
 
+Entity::Entity(){}
+
 Entity::Entity(int id)
 {
 	this->id = id;

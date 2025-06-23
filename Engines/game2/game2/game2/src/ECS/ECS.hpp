@@ -34,6 +34,7 @@ public:
 
 class Entity {
 public:
+	Entity();
 	Entity(int id);
 	int GetId() const;
 	void Kill();

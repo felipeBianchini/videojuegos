@@ -37,6 +37,7 @@ std::tuple<int, int> GetVelocity(Entity entity) {
 }
 
 void GoToScene(const std::string& sceneName) {
+	std::cout << sceneName << std::endl;
 	Game::GetInstance().sceneManager->SetNextScene(sceneName);
 	Game::GetInstance().sceneManager->StopScene();
 }
