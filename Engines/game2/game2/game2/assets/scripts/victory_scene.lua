@@ -28,22 +28,22 @@ scene = {
         tile_name = "tileset"
     },
     entities = {
-        --[1] = {
-         --   components = {
-         --       sprite = {
-          --          assetId = "background",
-           --         width = 480,
-           --         heigth = 272,
-            --        src_rect = {x = 0, y = 0},
-            --    },
-            --    transform = {
-              --      position = {x = 0.0, y = 3600.0},
-             --       scale = {x = 2.0, y = 2.0},
-              --      rotation = 0.0,
-              --  }
-          --  }
-       -- },
         [1] = {
+            components = {
+                sprite = {
+                    assetId = "background",
+                    width = 480,
+                    heigth = 272,
+                    src_rect = {x = 0, y = 0},
+                },
+                transform = {
+                    position = {x = 0.0, y = 2000.0},
+                    scale = {x = 3.0, y = 3.0},
+                    rotation = 0.0,
+                }
+            }
+        },
+        [2] = {
             components = {
                 animation = {
                     num_frames = 11,
