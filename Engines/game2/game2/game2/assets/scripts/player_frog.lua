@@ -6,7 +6,7 @@ player_states = {
 }
 player_state = player_states["idle"]
 player_can_jump = false
-player_jump_force = -1500.0 * 64.0
+player_jump_force = -1200.0 * 64.0
 player_speed = 3.0 * 64.0
 
 function update()
@@ -29,13 +29,19 @@ function update()
 end
 
 function on_collision(other)
-	local tag =  get_tag(other)
-	if tag == "floor" or tag == "obstacle" then
-		local x_vel, y_vel = get_velocity(this)
-		if y_vel == 0 then
-			player_can_jump = true
-		end
-	end
+    local tag = get_tag(other)
+    if tag == "floor" or tag == "obstacle" then
+        local x_vel, y_vel = get_velocity(this)
+        if y_vel == 0 then
+            player_can_jump = true
+        end
+	elseif tag == "mushroom" then
+		add_force(this, 0, player_jump_force * 2.5)
+    elseif tag == "goal" then
+        go_to_scene("victory")
+    elseif tag == "deadly_obstacle" then
+        go_to_scene("defeat")
+    end
 end
 
 function update_animation_state()
