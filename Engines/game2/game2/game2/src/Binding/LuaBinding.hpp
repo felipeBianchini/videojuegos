@@ -37,7 +37,6 @@ std::tuple<int, int> GetVelocity(Entity entity) {
 }
 
 void GoToScene(const std::string& sceneName) {
-	std::cout << sceneName << std::endl;
 	Game::GetInstance().sceneManager->SetNextScene(sceneName);
 	Game::GetInstance().sceneManager->StopScene();
 }
@@ -130,6 +129,14 @@ void ChangeAnimation(Entity entity, const std::string& animationId) {
 void FlipSprite(Entity entity, bool flip) {
 	auto& sprite = entity.GetComponent<SpriteComponent>();
 	sprite.flip = flip;
+}
+
+void PlaySoundEffect(const std::string& soundEffectId, int volume) {
+	Mix_Chunk* soundEffect = Game::GetInstance().assetManager->GetSoundEffect(soundEffectId);
+	if (soundEffect) {
+		Mix_VolumeChunk(soundEffect, volume);
+		Mix_PlayChannel(-1, soundEffect, 0);
+	}
 }
 
 #endif // !LUABINDING_HPP
