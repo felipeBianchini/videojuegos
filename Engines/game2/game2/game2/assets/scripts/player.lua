@@ -48,6 +48,14 @@ function on_collision(other)
 		if left_collision(this, other) or right_collision(this, other) then
 			player_death()
 		end
+	elseif tag == "enemy_turtle" then
+		if turtle_state == turtle_states["spikes_out"] or turtle_state == turtle_states["transitioning_out"] then
+			player_death()
+		else
+        local x_vel, y_vel = get_velocity(this)
+        if y_vel == 0 then
+            player_can_jump = true
+        end		end
     end
 end
 
