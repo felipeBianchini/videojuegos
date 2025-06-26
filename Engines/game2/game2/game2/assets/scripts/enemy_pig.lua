@@ -48,4 +48,5 @@ end
 
 function enemy_pig_is_dying()
 	change_animation(this, "enemy_pig_hit")
+	kill_entity(this)
 end

@@ -1,9 +1,9 @@
 scene = {
     sprites = {
-        [1] = {assetId = "frog_idle", filePath = "./assets/images/frog_idle.png"},
-        [2] = {assetId = "frog_run", filePath = "./assets/images/frog_run.png"},
-        [3] = {assetId = "frog_jump", filePath = "./assets/images/frog_jump.png"},
-        [4] = {assetId = "frog_fall", filePath = "./assets/images/frog_fall.png"},
+        [1] = {assetId = "player_idle", filePath = "./assets/images/MainCharacters/MaskedMan/player_idle.png"},
+        [2] = {assetId = "player_run", filePath = "./assets/images/MainCharacters/MaskedMan/player_run.png"},
+        [3] = {assetId = "player_jump", filePath = "./assets/images/MainCharacters/MaskedMan/player_jump.png"},
+        [4] = {assetId = "player_fall", filePath = "./assets/images/MainCharacters/MaskedMan/player_fall.png"},
         [5] = {assetId = "tileset", filePath = "./assets/images/tileset.png"},
         [6] = {assetId = "background", filePath = "./assets/images/background2.png"},
         [7] = {assetId = "pig_idle", filePath = "./assets/images/Enemies/AngryPig/pig_idle.png"},
@@ -12,10 +12,10 @@ scene = {
 
     },
     animations = {
-        [1] = {animation_id = "player_frog_idle", texture_id = "frog_idle", w = 32, h = 32, num_frames = 11, speed_rate = 15, is_loop = true},
-        [2] = {animation_id = "player_frog_run", texture_id = "frog_run", w = 32, h = 32, num_frames = 12, speed_rate = 15, is_loop = true},
-        [3] = {animation_id = "player_frog_jump", texture_id = "frog_jump", w = 32, h = 32, num_frames = 1, speed_rate = 1, is_loop = true},
-        [4] = {animation_id = "player_frog_fall", texture_id = "frog_fall", w = 32, h = 32, num_frames = 1, speed_rate = 1, is_loop = true},
+        [1] = {animation_id = "player_idle", texture_id = "player_idle", w = 32, h = 32, num_frames = 11, speed_rate = 15, is_loop = true},
+        [2] = {animation_id = "player_run", texture_id = "player_run", w = 32, h = 32, num_frames = 12, speed_rate = 15, is_loop = true},
+        [3] = {animation_id = "player_jump", texture_id = "player_jump", w = 32, h = 32, num_frames = 1, speed_rate = 1, is_loop = true},
+        [4] = {animation_id = "player_fall", texture_id = "player_fall", w = 32, h = 32, num_frames = 1, speed_rate = 1, is_loop = true},
         [5] = {animation_id = "enemy_pig_idle", texture_id = "pig_idle", w = 36, h = 30, num_frames = 9, speed_rate = 15, is_loop = true},
         [6] = {animation_id = "enemy_pig_walk", texture_id = "pig_walk", w = 36, h = 30, num_frames = 16, speed_rate = 15, is_loop = true},
         [7] = {animation_id = "enemy_pig_hit", texture_id = "pig_hit", w = 36, h = 30, num_frames = 5, speed_rate = 15, is_loop = true},
@@ -78,10 +78,10 @@ scene = {
                     mass = 10,
                 },
                 script = {
-                    path = "./assets/scripts/player_frog.lua"
+                    path = "./assets/scripts/player.lua"
                 },
                 sprite = {
-                    assetId = "frog_idle",
+                    assetId = "player_idle",
                     width = 32,
                     heigth = 32,
                     src_rect = {x = 0, y = 0},
