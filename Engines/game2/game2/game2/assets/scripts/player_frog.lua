@@ -37,19 +37,6 @@ function on_collision(other)
             player_can_jump = true
         end
 	elseif tag == "mushroom" then
-		add_force(this, 0, player_jump_force * 2.5)
-    elseif tag == "goal" then
-        go_to_scene("victory")
-    elseif tag == "deadly_obstacle" then
-        go_to_scene("defeat")
-    end
-    local tag = get_tag(other)
-    if tag == "floor" or tag == "obstacle" then
-        local x_vel, y_vel = get_velocity(this)
-        if y_vel == 0 then
-            player_can_jump = true
-        end
-	elseif tag == "mushroom" then
 		play_soundEffect("boing", 75)
 		add_force(this, 0, player_jump_force * 2.5)
     elseif tag == "goal" then
