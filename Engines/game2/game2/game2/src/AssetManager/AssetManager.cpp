@@ -52,3 +52,35 @@ TTF_Font* AssetManager::GetFont(const std::string& fontId)
 {
 	return fonts[fontId];
 }
+
+void AssetManager::AddSoundEffect(const std::string& soundEffectId, const std::string& filePath)
+{
+	Mix_Chunk* chunk = Mix_LoadWAV(filePath.c_str());
+	if (!chunk) {
+		std::string error = Mix_GetError();
+		std::cerr << "[ASSETMANAGER] " << error << std::endl;
+		return;
+	}
+	soundEffects.emplace(soundEffectId, chunk);
+}
+
+Mix_Chunk* AssetManager::GetSoundEffect(const std::string& soundEffectId)
+{
+	return soundEffects[soundEffectId];
+}
+
+void AssetManager::SetBackgroundMusic(const std::string& backgroundMusicId, const std::string& filePath)
+{
+	std::cout << filePath << std::endl;
+	backgroundMusic = Mix_LoadMUS(filePath.c_str());
+	if (!backgroundMusic) {
+		std::string error = Mix_GetError();
+		std::cerr << "[ASSETMANAGER] " << error << std::endl;
+		return;
+	}
+}
+
+Mix_Music* AssetManager::GetBackgroundMusic(const std::string& backgroundMusicId)
+{
+	return backgroundMusic;
+}

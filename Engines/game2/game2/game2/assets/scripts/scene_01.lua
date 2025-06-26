@@ -13,6 +13,8 @@ scene = {
         [4] = {animation_id = "player_frog_fall", texture_id = "frog_fall", w = 32, h = 32, num_frames = 1, speed_rate = 1, is_loop = true},
     },
     fonts = {},
+    soundEffects = {},
+    backgroundMusic = {},
     keys = {
         [1] = {name = "up", key = 119},
         [2] = {name = "down", key = 115},

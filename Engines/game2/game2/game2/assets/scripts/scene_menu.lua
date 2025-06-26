@@ -5,6 +5,8 @@ scene = {
         [2] = {fontId = "press_start_32", filePath = "./assets/fonts/press_start.ttf", fontSize = 32},
 
     },
+    soundEffects = {},
+    backgroundMusic = {},
     keys = {
         [1] = {name = "up", key = 119},
         [2] = {name = "down", key = 115},

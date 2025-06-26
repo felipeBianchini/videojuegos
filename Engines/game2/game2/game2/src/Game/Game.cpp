@@ -54,6 +54,12 @@ void Game::Init()
 		std::cerr << "Error inicializando TTF!" << std::endl;
 		return;
 	}
+
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+		std::cerr << "Error inicializando SDL_mixer: " << Mix_GetError() << std::endl;
+		return;
+	}
+
 	this->Create();
 }
 

@@ -31,6 +31,38 @@ void SceneLoader::LoadSprites(SDL_Renderer* renderer, const sol::table& sprites,
 	}
 }
 
+void SceneLoader::LoadSoundEffects(const sol::table& soundEffects, std::unique_ptr<AssetManager>& assetManager)
+{
+	int index = 1;
+	while (true) {
+		sol::optional<sol::table> hasSoundEffect = soundEffects[index];
+		if (hasSoundEffect == sol::nullopt) {
+			break;
+		}
+		sol::table soundEffect = soundEffects[index];
+		std::string soundEffectId = soundEffect["soundEffectId"];
+		std::string filePath = soundEffect["filePath"];
+		assetManager->AddSoundEffect(soundEffectId, filePath);
+		index++;
+	}
+}
+
+void SceneLoader::LoadBackgroundMusic(const sol::table& backgroundMusics, std::unique_ptr<AssetManager>& assetManager)
+{
+	int index = 1;
+	while (true) {
+		sol::optional<sol::table> hasBackgroundMusic = backgroundMusics[index];
+		if (hasBackgroundMusic == sol::nullopt) {
+			break;
+		}
+		sol::table backgroundMusic = backgroundMusics[index];
+		std::string backgroundMusicId = backgroundMusic["backgroundMusicId"];
+		std::string filePath = backgroundMusic["filePath"];
+		assetManager->SetBackgroundMusic(backgroundMusicId, filePath);
+		index++;
+	}
+}
+
 void SceneLoader::LoadKeys(const sol::table& keys, std::unique_ptr<ControllerManager>& controllerManager)
 {
 	int index = 1;
@@ -381,6 +413,10 @@ void SceneLoader::LoadScene(const std::string& scenePath, sol::state& lua, SDL_R
 	LoadKeys(keys, controllerManager);
 	sol::table maps = scene["maps"];
 	LoadMap(maps, registry);
+	sol::table soundEffects = scene["soundEffects"];
+	LoadSoundEffects(soundEffects, assetManager);
+	sol::table backgroundMusic = scene["backgroundMusic"];
+	LoadBackgroundMusic(backgroundMusic, assetManager);
 	sol::table entities = scene["entities"];
 	LoadEntities(lua, entities, registry);
 }

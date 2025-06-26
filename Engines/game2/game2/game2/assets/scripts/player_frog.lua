@@ -14,6 +14,7 @@ function update()
 	x_vel = 0
 		if is_action_activated("jump") then
 			if player_can_jump then
+				play_soundEffect("player_jump", 75)
 				add_force(this, 0, player_jump_force)
 			end
 		end
@@ -36,11 +37,14 @@ function on_collision(other)
             player_can_jump = true
         end
 	elseif tag == "mushroom" then
+		play_soundEffect("boing", 75)
 		add_force(this, 0, player_jump_force * 2.5)
     elseif tag == "goal" then
+		play_soundEffect("win", 90)
         go_to_scene("victory")
     elseif tag == "deadly_obstacle" then
-        go_to_scene("defeat")
+		play_soundEffect("player_hurt", 75)
+        set_position(this, 75, 3750)
     end
 end
 

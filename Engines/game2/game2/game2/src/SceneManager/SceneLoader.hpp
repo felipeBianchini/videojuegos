@@ -34,6 +34,27 @@ private:
 	void LoadLayer(std::unique_ptr<Registry>& registry, tinyxml2::XMLElement* layer, int tileWidth, int tileHeigth, int mapWidth, int columns, const std::string& tileSet);
 	void LoadColliders(std::unique_ptr<Registry>& registry, tinyxml2::XMLElement* objectGroup);
 	void LoadAnimations(const sol::table& animations, std::unique_ptr<AnimationManager>& animationManager);
+    /**
+     * @brief Loads sound effect assets into the AssetManager.
+     *
+     * Processes the sound effects table from the Lua configuration and loads the corresponding sound
+     * effects into the AssetManager.
+     *
+     * @param soundEffects The Lua table containing sound effect configuration data.
+     * @param assetManager A unique pointer to the AssetManager for storing loaded sound effects.
+     */
+    void LoadSoundEffects(const sol::table& soundEffects, std::unique_ptr<AssetManager>& assetManager);
+
+    /**
+     * @brief Loads background music assets into the AssetManager.
+     *
+     * Processes the background music table from the Lua configuration and loads the corresponding
+     * background music into the AssetManager.
+     *
+     * @param backgroundMusic The Lua table containing background music configuration data.
+     * @param assetManager A unique pointer to the AssetManager for storing loaded background music.
+     */
+    void LoadBackgroundMusic(const sol::table& backgroundMusic, std::unique_ptr<AssetManager>& assetManager);
 public:
 	SceneLoader();
 	~SceneLoader();
