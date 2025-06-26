@@ -25,6 +25,8 @@ public:
 		lua.set_function("get_tag", GetTag);
 		lua.set_function("left_collision", LeftCollision);
 		lua.set_function("right_collision", RightCollision);
+		lua.set_function("bottom_collision", BottomCollision);
+		lua.set_function("top_collision", TopCollision);
 		lua.set_function("get_position", GetPosition);
 		lua.set_function("set_position", SetPosition);
 		lua.set_function("get_size", GetSize);
@@ -33,14 +35,19 @@ public:
 		lua.set_function("change_animation", ChangeAnimation);
 		lua.set_function("flip_sprite", FlipSprite);
 		lua.set_function("play_soundEffect", PlaySoundEffect);
+		lua.set_function("kill_entity", KillEntity);
 	}
 
-	void Update(sol::state& lua) {
+	void Update(sol::state& lua, double dt) {
 		for (auto entity :  GetSystemEntiities()) {
 			const auto& script = entity.GetComponent<ScriptComponent>();
 			if (script.update != sol::lua_nil) {
 				lua["this"] = entity;
 				script.update();
+			}
+			else if (script.enemy_pig_update != sol::lua_nil) {
+				lua["this"] = entity;
+				script.enemy_pig_update(dt);
 			}
 		}
 	}

@@ -163,7 +163,7 @@ void Game::Update()
 	registry->GetSystem<OverlapSystem>().SubscribeToCollisionEvent(eventManager);
 	//registry->GetSystem<DamageSystem>().SubscribeToCollisionEvent(eventManager);
 	registry->Update();
-	registry->GetSystem<ScriptSystem>().Update(lua);
+	registry->GetSystem<ScriptSystem>().Update(lua, deltaTime);
 	registry->GetSystem<PhysicsSystem>().Update();
 	registry->GetSystem<MovementSystem>().Update(deltaTime);
 	registry->GetSystem<BoxCollisionSystem>().Update(lua, eventManager);

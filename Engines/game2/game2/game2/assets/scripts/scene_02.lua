@@ -104,26 +104,26 @@ scene = {
                     is_loop = true,
                 },
                 box_collider = {
-                    width = 32,
-                    heigth = 32,
+                    width = 36,
+                    heigth = 30,
                     offset = {x = 0, y = 0}
                 },
                 rigid_body = {
                     is_dynamic = true,
                     is_solid = true,
-                    mass = 10,
+                    mass = 10000000000,
                 },
                 script = {
                     path = "./assets/scripts/enemy_pig.lua"
                 },
                 sprite = {
                     assetId = "pig_idle",
-                    width = 32,
-                    heigth = 32,
+                    width = 36,
+                    heigth = 30,
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 75.0, y = 3750.0},
+                    position = {x = 350.0, y = 3750.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 },

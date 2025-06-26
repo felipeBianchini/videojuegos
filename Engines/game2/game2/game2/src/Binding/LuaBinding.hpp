@@ -82,6 +82,52 @@ bool RightCollision(Entity e, Entity other) {
 		);
 }
 
+bool BottomCollision(Entity e, Entity other) {
+	const auto& eCollider = e.GetComponent<BoxColliderComponent>();
+	const auto& eTransform = e.GetComponent<TransformComponent>();
+	const auto& otherCollider = other.GetComponent<BoxColliderComponent>();
+	const auto& otherTransform = other.GetComponent<TransformComponent>();
+
+	float eX = eTransform.previousPosition.x;
+	float eY = eTransform.previousPosition.y;
+	float eW = static_cast<float>(eCollider.width);
+	float eH = static_cast<float>(eCollider.heigth);
+
+	float oX = otherTransform.previousPosition.x;
+	float oY = otherTransform.previousPosition.y;
+	float oW = static_cast<float>(otherCollider.width);
+	float oH = static_cast<float>(otherCollider.heigth);
+
+	return (
+		oX < eX + eW &&
+		oX + oW > eX &&
+		oY > eY
+		);
+}
+
+bool TopCollision(Entity e, Entity other) {
+	const auto& eCollider = e.GetComponent<BoxColliderComponent>();
+	const auto& eTransform = e.GetComponent<TransformComponent>();
+	const auto& otherCollider = other.GetComponent<BoxColliderComponent>();
+	const auto& otherTransform = other.GetComponent<TransformComponent>();
+
+	float eX = eTransform.previousPosition.x;
+	float eY = eTransform.previousPosition.y;
+	float eW = static_cast<float>(eCollider.width);
+	float eH = static_cast<float>(eCollider.heigth);
+
+	float oX = otherTransform.previousPosition.x;
+	float oY = otherTransform.previousPosition.y;
+	float oW = static_cast<float>(otherCollider.width);
+	float oH = static_cast<float>(otherCollider.heigth);
+
+	return (
+		oX < eX + eW &&
+		oX + oW > eX &&
+		oY + oH < eY
+		);
+}
+
 std::tuple<int, int> GetPosition(Entity entity) {
 	const auto& transform = entity.GetComponent<TransformComponent>();
 	return {
@@ -137,6 +183,10 @@ void PlaySoundEffect(const std::string& soundEffectId, int volume) {
 		Mix_VolumeChunk(soundEffect, volume);
 		Mix_PlayChannel(-1, soundEffect, 0);
 	}
+}
+
+void KillEntity(Entity entity) {
+	entity.Kill();
 }
 
 #endif // !LUABINDING_HPP

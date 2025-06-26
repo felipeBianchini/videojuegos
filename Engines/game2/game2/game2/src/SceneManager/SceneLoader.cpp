@@ -192,6 +192,7 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 				lua["update"] = sol::nil;
 				lua["on_collision"] = sol::nil;
 				lua["on_awake"] = sol::nil;
+				lua["enemy_pig_update"] = sol::nil;
 				std::string path = components["script"]["path"];
 				lua.script_file(path);
 				sol::optional<sol::function> hasOnAwake = lua["on_awake"];
@@ -215,7 +216,12 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 				if (hasOnCollision != sol::nullopt) {
 					onCollision = lua["on_collision"];
 				}
-				newEntity.AddComponent<ScriptComponent>(onCollision, update, onClick);
+				sol::optional<sol::function> hasEnemyPigUpdate = lua["enemy_pig_update"];
+				sol::function enemyPigUpdate = sol::nil;
+				if (hasEnemyPigUpdate != sol::nullopt) {
+					enemyPigUpdate = lua["enemy_pig_update"];
+				}
+				newEntity.AddComponent<ScriptComponent>(onCollision, update, onClick, enemyPigUpdate);
 			}
 		}
 		index++;

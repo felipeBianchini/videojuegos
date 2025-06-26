@@ -43,9 +43,19 @@ function on_collision(other)
 		play_soundEffect("win", 90)
         go_to_scene("victory")
     elseif tag == "deadly_obstacle" then
-		play_soundEffect("player_hurt", 75)
-        set_position(this, 75, 3750)
+		player_death()
+	elseif tag == "enemy_pig" then
+		if bottom_collision(this, other) then
+			kill_entity(other)
+		elseif left_collision(this, other) or right_collision(this, other) then
+			player_death()
+		end
     end
+end
+
+function player_death()
+	play_soundEffect("player_hurt", 75)
+	set_position(this, 75, 3750)
 end
 
 function update_animation_state()

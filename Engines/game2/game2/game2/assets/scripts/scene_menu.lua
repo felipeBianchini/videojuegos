@@ -6,7 +6,9 @@ scene = {
 
     },
     soundEffects = {},
-    backgroundMusic = {},
+    backgroundMusic = {
+        [1] = {backgroundMusicId = "background_music", filePath = "./assets/backgroundMusic/option1.wav"},
+    },
     keys = {
         [1] = {name = "up", key = 119},
         [2] = {name = "down", key = 115},
