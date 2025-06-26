@@ -9,7 +9,10 @@ scene = {
         [7] = {assetId = "pig_idle", filePath = "./assets/images/Enemies/AngryPig/pig_idle.png"},
         [8] = {assetId = "pig_walk", filePath = "./assets/images/Enemies/AngryPig/pig_walk.png"},
         [9] = {assetId = "pig_hit", filePath = "./assets/images/Enemies/AngryPig/pig_hit.png"},
-
+        [10] = {assetId = "turtle_idle_spikes_out", filePath = "./assets/images/Enemies/Turtle/turtle_idle_spikes_out.png"},
+        [11] = {assetId = "turtle_idle_spikes_in", filePath = "./assets/images/Enemies/Turtle/turtle_idle_spikes_in.png"},
+        [12] = {assetId = "turtle_spikes_in", filePath = "./assets/images/Enemies/Turtle/turtle_spikes_in.png"},
+        [13] = {assetId = "turtle_spikes_out", filePath = "./assets/images/Enemies/Turtle/turtle_spikes_out.png"},
     },
     animations = {
         [1] = {animation_id = "player_idle", texture_id = "player_idle", w = 32, h = 32, num_frames = 11, speed_rate = 15, is_loop = true},
@@ -19,6 +22,10 @@ scene = {
         [5] = {animation_id = "enemy_pig_idle", texture_id = "pig_idle", w = 36, h = 30, num_frames = 9, speed_rate = 15, is_loop = true},
         [6] = {animation_id = "enemy_pig_walk", texture_id = "pig_walk", w = 36, h = 30, num_frames = 16, speed_rate = 15, is_loop = true},
         [7] = {animation_id = "enemy_pig_hit", texture_id = "pig_hit", w = 36, h = 30, num_frames = 5, speed_rate = 15, is_loop = true},
+        [8] = {animation_id = "enemy_turtle_idle_spikes_out", texture_id = "turtle_idle_spikes_out", w = 44, h = 26, num_frames = 14, speed_rate = 15, is_loop = true},
+        [9] = {animation_id = "enemy_turtle_idle_spikes_in", texture_id = "turtle_idle_spikes_in", w = 44, h = 26, num_frames = 14, speed_rate = 15, is_loop = true},
+        [10] = {animation_id = "enemy_turtle_spikes_in", texture_id = "turtle_spikes_in", w = 44, h = 26, num_frames = 8, speed_rate = 15, is_loop = false},
+        [11] = {animation_id = "enemy_turtle_spikes_out", texture_id = "turtle_spikes_out", w = 44, h = 26, num_frames = 8, speed_rate = 15, is_loop = false},
     },
     fonts = {},
     soundEffects = {
@@ -111,7 +118,7 @@ scene = {
                 rigid_body = {
                     is_dynamic = true,
                     is_solid = true,
-                    mass = 10000000000,
+                    mass = 100,
                 },
                 script = {
                     path = "./assets/scripts/enemy_pig.lua"
@@ -129,6 +136,42 @@ scene = {
                 },
                 tag = {
                     tag = "enemy_pig",
+                },
+            }
+        },
+        [3] = {
+            components = {
+                animation = {
+                    num_frames = 15,
+                    speed_rate = 15,
+                    is_loop = true,
+                },
+                box_collider = {
+                    width = 44,
+                    heigth = 26,
+                    offset = {x = 0, y = 0}
+                },
+                rigid_body = {
+                    is_dynamic = true,
+                    is_solid = true,
+                    mass = 1000,
+                },
+                script = {
+                    path = "./assets/scripts/enemy_turtle.lua"
+                },
+                sprite = {
+                    assetId = "turtle_idle_spikes_in",
+                    width = 36,
+                    heigth = 30,
+                    src_rect = {x = 0, y = 0},
+                },
+                transform = {
+                    position = {x = 2025.0, y = 3600.0},
+                    scale = {x = 1.0, y = 1.0},
+                    rotation = 0.0,
+                },
+                tag = {
+                    tag = "enemy_turtle",
                 },
             }
         },

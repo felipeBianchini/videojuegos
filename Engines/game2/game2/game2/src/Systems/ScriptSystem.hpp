@@ -49,6 +49,10 @@ public:
 				lua["this"] = entity;
 				script.enemy_pig_update(dt);
 			}
+			else if (script.enemy_turtle_update != sol::lua_nil) {
+				lua["this"] = entity;
+				script.enemy_turtle_update(dt);
+			}
 		}
 	}
 };
