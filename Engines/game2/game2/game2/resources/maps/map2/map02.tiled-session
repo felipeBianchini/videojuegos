@@ -7,6 +7,7 @@
     "expandedProjectPaths": [
         "."
     ],
+    "file.lastUsedOpenFilter": "Todos los archivos (*)",
     "fileStates": {
         "C:/Users/fbian/OneDrive/Escritorio/Cursos U/Creación de Videojuegos/videojuegos/Engines/game2/game2/game2/assets/maps/map02/map02.tmx": {
             "scale": 0.75,
@@ -19,15 +20,26 @@
         "C:/Users/fbian/OneDrive/Escritorio/Cursos U/Creación de Videojuegos/videojuegos/Engines/game2/game2/game2/assets/maps/map1/tileset.tsx": {
             "scaleInDock": 1
         },
-        "C:/Users/fbian/OneDrive/Escritorio/Cursos U/Creación de Videojuegos/videojuegos/Engines/game2/game2/game2/resources/maps/map1/tileset.tsx": {
-            "scaleInDock": 0.75
-        },
-        "map02.tmx": {
-            "scale": 4,
+        "C:/Users/fbian/OneDrive/Escritorio/Cursos U/Creación de Videojuegos/videojuegos/Engines/game2/game2/game2/resources/maps/map1/map01.tmx": {
+            "scale": 1,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 2031.75,
-                "y": 3896.5
+                "x": 1338,
+                "y": 4004
+            }
+        },
+        "C:/Users/fbian/OneDrive/Escritorio/Cursos U/Creación de Videojuegos/videojuegos/Engines/game2/game2/game2/resources/maps/map1/tileset.tsx": {
+            "scaleInDock": 1.5
+        },
+        "map02.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
+            "scale": 1.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 225.99999999999997,
+                "y": 4104.666666666666
             }
         },
         "tileset.tsx": {
@@ -47,6 +59,7 @@
     "project": "map02.tiled-project",
     "recentFiles": [
         "map02.tmx",
+        "C:/Users/fbian/OneDrive/Escritorio/Cursos U/Creación de Videojuegos/videojuegos/Engines/game2/game2/game2/resources/maps/map1/map01.tmx",
         "C:/Users/fbian/OneDrive/Escritorio/Cursos U/Creación de Videojuegos/videojuegos/Engines/game2/game2/game2/assets/maps/map02/map02.tmx",
         "tileset.tsx"
     ],

@@ -5,7 +5,7 @@ turtle_states = {
 	transitioning_out = 4,
 }
 
-turtle_state = turtle_states["spikes_in"]
+local turtle_state = turtle_states["spikes_in"]
 local timer = 0.0
 local wait_duration = 4.0
 local transition_duration = 8 / 15 
@@ -37,4 +37,11 @@ function enemy_turtle_update(dt)
 			timer = 0.0
 		end
 	end
+end
+
+function on_collision(other)
+    local tag = get_tag(other)
+    if tag == "player" and top_collision(this, other) and (turtle_state == turtle_states["spikes_out"] or turtle_state == turtle_states["transitioning_out"]) then
+		player_death(other)
+    end
 end

@@ -6,7 +6,7 @@ player_states = {
 }
 player_state = player_states["idle"]
 player_can_jump = false
-player_jump_force = -1200.0 * 64.0
+player_jump_force = -1300.0 * 64.0
 player_speed = 3.0 * 64.0
 
 function update()
@@ -43,37 +43,32 @@ function on_collision(other)
 		play_soundEffect("win", 90)
         go_to_scene("victory")
     elseif tag == "deadly_obstacle" then
-		player_death()
+		player_death(this)
 	elseif tag == "enemy_pig" then
 		if left_collision(this, other) or right_collision(this, other) then
-			player_death()
+			player_death(this)
 		end
 	elseif tag == "enemy_turtle" then
-		if turtle_state == turtle_states["spikes_out"] or turtle_state == turtle_states["transitioning_out"] then
-			player_death()
-		else
         local x_vel, y_vel = get_velocity(this)
         if y_vel == 0 then
             player_can_jump = true
-        end		end
+        end		
     end
 end
 
-function player_death()
+function player_death(entity)
 	play_soundEffect("player_hurt", 75)
-	set_position(this, 75, 3750)
+	set_position(entity, 16, 3000)
 end
 
 function update_animation_state()
 	local x_vel, y_vel = get_velocity(this)
-	-- no se mueve
 	if -0.001 < x_vel and x_vel < 0.001 then
 		if player_state ~= player_states["idle"] then
 			player_state = player_states["idle"]
 			change_animation(this, "player_idle")
 		end
 	end
-	-- derecha
 	if x_vel >= 0.001 then
 		flip_sprite(this, false)
 		if player_state ~= player_states["run"] then
@@ -81,7 +76,6 @@ function update_animation_state()
 			change_animation(this, "player_run")
 		end
 	end
-	-- izquierda
 	if x_vel <= -0.001 then
 		flip_sprite(this, true)
 		if player_state ~= player_states["run"] then
@@ -89,14 +83,12 @@ function update_animation_state()
 			change_animation(this, "player_run")
 		end
 	end
-	-- salta
 	if y_vel <= -0.001 then
 		if player_state ~= player_states["jump"] then
 			player_state = player_states["jump"]
 			change_animation(this, "player_jump")
 		end
 	end
-	-- cae
 	if y_vel >= 0.001 then
 		if player_state ~= player_states["fall"] then
 			player_state = player_states["fall"]

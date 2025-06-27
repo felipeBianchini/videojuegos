@@ -1,23 +1,23 @@
-enemy_states = {
+pig_states = {
 	idle = 1,
 	walk = 2,
 	hit = 3,
 }
 
-enemy_state = enemy_states["idle"]
-enemy_speed = 1.0 * 64.0
-enemy_direction = 1
-enemy_timer = 0.0
-enemy_move_duration = 3.0
+local pig_state = pig_states["idle"]
+pig_speed = 1.0 * 64.0
+local pig_direction = 1
+local pig_timer = 0.0
+pig_move_duration = 3.0
 
 function enemy_pig_update(dt)
 	local x_vel, y_vel = get_velocity(this)
-	enemy_timer = enemy_timer + dt
-	if enemy_timer >= enemy_move_duration then
-		enemy_direction = -enemy_direction
-		enemy_timer = 0.0
+	pig_timer = pig_timer + dt
+	if pig_timer >= pig_move_duration then
+		pig_direction = -pig_direction
+		pig_timer = 0.0
 	end
-	local x_vel = enemy_direction * enemy_speed
+	local x_vel = pig_direction * pig_speed
 	set_velocity(this, x_vel, y_vel)
 	update_pig_animation_state()
 end
@@ -33,14 +33,14 @@ function update_pig_animation_state()
 	local x_vel, y_vel = get_velocity(this)
 	if x_vel < 0.001 then
 		flip_sprite(this, false)
-		if enemy_state ~= enemy_states["walk"] then
-			enemy_state = enemy_states["walk"]
+		if pig_state ~= pig_states["walk"] then
+			pig_state = pig_states["walk"]
 			change_animation(this, "enemy_pig_walk")
 		end
 	elseif x_vel > -0.001 then
 		flip_sprite(this, true)
-		if enemy_state ~= enemy_states["walk"] then
-			enemy_state = enemy_states["walk"]
+		if pig_state ~= pig_states["walk"] then
+			pig_state = pig_states["walk"]
 			change_animation(this, "enemy_pig_walk")
 		end
 	end
