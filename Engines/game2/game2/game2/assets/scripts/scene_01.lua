@@ -94,7 +94,7 @@ scene = {
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 16.0, y = 3000.0},
+                    position = {x = 16.0, y = 3000.0}, -- x = 3100.0, y = 2900.0
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 },
@@ -274,7 +274,7 @@ scene = {
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 2000.0, y = 3100.0},
+                    position = {x = 2000.0, y = 3000.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 },
