@@ -6,28 +6,41 @@ player_states = {
 }
 player_state = player_states["idle"]
 player_can_jump = false
-player_jump_force = -1300.0 * 64.0
+player_jump_force = -1200.0 * 64.0
+player_ladder_velocity = -128.0
+player_on_ladder = false
 player_speed = 3.0 * 64.0
 
 function update()
 	local x_vel, y_vel = get_velocity(this)
 	x_vel = 0
-		if is_action_activated("jump") then
-			if player_can_jump then
-				play_soundEffect("player_jump", 75)
-				add_force(this, 0, player_jump_force)
-			end
+	local final_y_vel = y_vel
+
+	if is_action_activated("jump") then
+		if player_can_jump then
+			play_soundEffect("player_jump", 75)
+			add_force(this, 0, player_jump_force)
 		end
-		if is_action_activated("left") then
-			x_vel = x_vel - player_speed
-		end
-		if is_action_activated("right") then
-			x_vel = x_vel + player_speed
-		end
-		set_velocity(this, x_vel, y_vel)
-		player_can_jump = false
-		update_animation_state()
+	end
+
+	if is_action_activated("left") then
+		x_vel = x_vel - player_speed
+	end
+	if is_action_activated("right") then
+		x_vel = x_vel + player_speed
+	end
+
+	if player_on_ladder and is_action_activated("up") then
+		final_y_vel = player_ladder_velocity
+	end
+
+	set_velocity(this, x_vel, final_y_vel)
+
+	player_can_jump = false
+	player_on_ladder = false
+	update_animation_state()
 end
+
 
 function on_collision(other)
     local tag = get_tag(other)
@@ -52,7 +65,9 @@ function on_collision(other)
         local x_vel, y_vel = get_velocity(this)
         if y_vel == 0 then
             player_can_jump = true
-        end		
+        end	
+	elseif tag == "ladder" then
+		player_on_ladder = true
     end
 end
 

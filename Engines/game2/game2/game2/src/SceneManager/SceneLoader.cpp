@@ -376,7 +376,12 @@ void SceneLoader::LoadColliders(std::unique_ptr<Registry>& registry, tinyxml2::X
 		collider.AddComponent<TagComponent>(tag);
 		collider.AddComponent<TransformComponent>(glm::vec2(x, y));
 		collider.AddComponent<BoxColliderComponent>(w, h);
-		collider.AddComponent<RigidBodyComponent>(false, true, 9999999999.0f);
+		if (tag == "ladder") {
+			collider.AddComponent<RigidBodyComponent>(false, false, 0);
+		}
+		else {
+			collider.AddComponent<RigidBodyComponent>(false, true, 9999999999.0f);
+		}
 		object = object->NextSiblingElement("object");
 	}
 }
