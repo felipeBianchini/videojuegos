@@ -53,6 +53,10 @@ public:
 				lua["this"] = entity;
 				script.enemy_turtle_update(dt);
 			}
+			else if (script.enemy_bird_update != sol::lua_nil) {
+				lua["this"] = entity;
+				script.enemy_bird_update(dt);
+			}
 		}
 	}
 };

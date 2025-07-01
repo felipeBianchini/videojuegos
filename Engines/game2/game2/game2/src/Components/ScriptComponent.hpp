@@ -9,14 +9,16 @@ struct ScriptComponent {
 	sol::function onClick;
 	sol::function enemy_pig_update;
 	sol::function enemy_turtle_update;
+	sol::function enemy_bird_update;
 
 	ScriptComponent(sol::function onCollision = sol::lua_nil, sol::function update = sol::lua_nil, sol::function onClick = sol::lua_nil,
-		sol::function enemy_pig_update = sol::lua_nil, sol::function enemy_turtle_update = sol::lua_nil) {
+		sol::function enemy_pig_update = sol::lua_nil, sol::function enemy_turtle_update = sol::lua_nil, sol::function enemy_bird_update = sol::lua_nil) {
 		this->update = update;
 		this->onClick = onClick;
 		this->onCollision = onCollision;
 		this->enemy_pig_update = enemy_pig_update;
 		this->enemy_turtle_update = enemy_turtle_update;
+		this->enemy_bird_update = enemy_bird_update;
 	}
 };
 

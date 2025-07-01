@@ -6,7 +6,7 @@ player_states = {
 }
 player_state = player_states["idle"]
 player_can_jump = false
-player_jump_force = -1200.0 * 64.0
+player_jump_force = -1100.0 * 64.0
 player_ladder_velocity = -128.0
 player_on_ladder = false
 player_speed = 3.0 * 64.0
@@ -57,7 +57,7 @@ function on_collision(other)
         go_to_scene("victory")
     elseif tag == "deadly_obstacle" then
 		player_death(this)
-	elseif tag == "enemy_pig" then
+	elseif tag == "enemy_pig" or tag == "enemy_bird" then
 		if left_collision(this, other) or right_collision(this, other) then
 			player_death(this)
 		end
