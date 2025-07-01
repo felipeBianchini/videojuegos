@@ -17,15 +17,15 @@
             }
         },
         "map01.tmx": {
-            "scale": 0.33,
+            "scale": 0.25,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 3630.30303030303,
-                "y": 1809.090909090909
+                "x": 4252,
+                "y": 1252
             }
         },
         "tileset.tsx": {
-            "scaleInDock": 1.5,
+            "scaleInDock": 2,
             "scaleInEditor": 1
         }
     },

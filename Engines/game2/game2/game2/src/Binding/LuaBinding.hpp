@@ -133,7 +133,7 @@ std::tuple<int, int> GetPosition(Entity entity) {
 	};
 }
 
-void SetPosition(Entity entity, int x, int y) {
+void SetPosition(Entity entity, float x, float y) {
 	auto& transform = entity.GetComponent<TransformComponent>();
 	transform.position.x = x;
 	transform.position.y = y;
