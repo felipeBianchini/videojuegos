@@ -81,6 +81,7 @@ private:
 	std::map<std::string, TTF_Font*> fonts;             ///< Map of font IDs to TTF fonts.
 	std::map<std::string, Mix_Chunk*> soundEffects;     ///< Map of sound effect IDs to sound chunks.
 	Mix_Music* backgroundMusic;                         ///< Pointer to the loaded background music.
+	std::string currentSong; 							///< Name of current song
 };
 
 #endif // !ASSET_MANAGER_HPP

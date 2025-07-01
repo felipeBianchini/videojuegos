@@ -187,7 +187,8 @@ void Game::Render()
 void Game::RunScene()
 {
 	sceneManager->LoadScene();
-	while (sceneManager->IsSceneRunning()) {
+	this->isRestarting = false;
+	while (sceneManager->IsSceneRunning() && !this->isRestarting) {
 		ProcessInput();
 		Update();
 		Render();
@@ -215,7 +216,7 @@ void Game::Destroy()
 
 Game::~Game()
 {
-	std::cout << "GAME se ejecuta destructor" << std::endl;
+	std::cout << "[GAME] se ejecuta destructor" << std::endl;
 	this->window = nullptr;
 	this->renderer = nullptr;
 	this->registry.reset();

@@ -70,16 +70,16 @@ void Registry::Update()
 Entity Registry::CreateEntity()
 {
 	int entityId;
-	if (freeIds.empty()) {
+	//if (freeIds.empty()) {
 		entityId = numEntity++;
 		if (static_cast<long unsigned int>(entityId) >= entityComponentSignatures.size()) {
 			entityComponentSignatures.resize(entityId + 100);
 		}
-	}
-	else {
-		entityId = freeIds.front();
-		freeIds.pop_front();
-	}
+	//}
+	//else {
+	//	entityId = freeIds.front();
+	//	freeIds.pop_front();
+	//}
 	Entity entity(entityId);
 	entity.registry = this;
 	entitiesToBeAdded.insert(entity);
@@ -116,7 +116,10 @@ void Registry::ClearAllEntities()
 	for (int i = 0; i < numEntity; i++) {
 		RemoveEntityFromSystems(Entity(i));
 		entityComponentSignatures[i].reset();
+		
 	}
-	numEntity = 0;
+	componentsPools.clear();
+	entityComponentSignatures.clear();
+	//numEntity = 0;
 	freeIds.clear();
 }

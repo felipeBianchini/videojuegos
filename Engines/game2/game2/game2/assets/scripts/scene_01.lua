@@ -48,6 +48,7 @@ scene = {
         [3] = {name = "left", key = 97},
         [4] = {name = "right", key = 100},
         [5] = {name = "jump", key = 32},
+        [6] = {name = "run", key = 1073742049},
     },
     buttons = {},
     maps = {
@@ -99,7 +100,7 @@ scene = {
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 3000.0, y = 2000.0}, -- x = 16.0, y = 3000.0 x = 3200.0, y = 2200.0
+                    position = {x = 10.0, y = 2000.0}, -- x = 16.0, y = 3000.0 x = 3200.0, y = 2200.0
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 },

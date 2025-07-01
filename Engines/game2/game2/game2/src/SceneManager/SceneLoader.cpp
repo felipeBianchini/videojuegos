@@ -173,6 +173,10 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 			// TransformComponent
 			sol::optional<sol::table> hasTransform = components["transform"];
 			if (hasTransform != sol::nullopt) {
+				float x = components["transform"]["position"]["x"];
+				float y = components["transform"]["position"]["y"];
+				std::cout << "Entity " << newEntity.GetId() << " pos: " << x
+						<< " ," << y << std::endl;
 				newEntity.AddComponent<TransformComponent>(
 					glm::vec2(
 						components["transform"]["position"]["x"],
@@ -415,6 +419,7 @@ void SceneLoader::LoadAnimations(const sol::table& animations, std::unique_ptr<A
 
 void SceneLoader::LoadScene(const std::string& scenePath, sol::state& lua, SDL_Renderer* renderer, std::unique_ptr<AnimationManager>& animationManager, std::unique_ptr<AssetManager>& assetManager, std::unique_ptr<ControllerManager>& controllerManager, std::unique_ptr<Registry>& registry)
 {
+	std::cout << "[SCENELOADER] Cargando escena " << scenePath << std::endl;
 	sol::load_result script_result = lua.load_file(scenePath);
 	if (!script_result.valid()) {
 		sol::error err = script_result;

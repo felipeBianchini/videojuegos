@@ -6,7 +6,7 @@ player_states = {
 }
 player_state = player_states["idle"]
 player_can_jump = false
-player_jump_force = -700.0 * 64.0
+player_jump_force = -2000.0 * 64.0
 player_ladder_velocity = -128.0
 player_on_ladder = false
 player_speed = 3.0 * 64.0
@@ -61,10 +61,12 @@ function on_collision(other)
 		play_soundEffect("win", 90)
         go_to_scene("victory")
     elseif tag == "deadly_obstacle" then
-		player_death(this)
+		kill_player()
+		--player_death(this)
 	elseif tag == "enemy_pig" or tag == "enemy_bird" then
 		if left_collision(this, other) or right_collision(this, other) then
-			player_death(this)
+			--player_death(this)
+			kill_player()
 		end
 	elseif tag == "enemy_turtle" then
         local x_vel, y_vel = get_velocity(this)

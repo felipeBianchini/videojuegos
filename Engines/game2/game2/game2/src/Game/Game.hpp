@@ -42,6 +42,7 @@ private:
 public:
 	int window_width = 0;
 	int window_height = 0;
+	bool isRestarting = false;
 
 	int mapHeigth = 0;
 	int mapWidth = 0;

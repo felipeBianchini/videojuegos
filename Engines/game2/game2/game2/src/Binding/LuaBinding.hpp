@@ -186,4 +186,9 @@ void KillEntity(Entity entity) {
 	entity.Kill();
 }
 
+void PlayerKilled() {
+	Game::GetInstance().isRestarting = true;
+	std::cout << "[LuaBinding] Player killed!\n";
+}
+
 #endif // !LUABINDING_HPP
