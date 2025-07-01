@@ -6,7 +6,7 @@ player_states = {
 }
 player_state = player_states["idle"]
 player_can_jump = false
-player_jump_force = -1100.0 * 64.0
+player_jump_force = -700.0 * 64.0
 player_ladder_velocity = -128.0
 player_on_ladder = false
 player_speed = 3.0 * 64.0

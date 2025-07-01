@@ -99,7 +99,7 @@ scene = {
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 16.0, y = 3000.0}, -- x = 16.0, y = 3000.0 x = 3200.0, y = 2200.0
+                    position = {x = 3000.0, y = 2000.0}, -- x = 16.0, y = 3000.0 x = 3200.0, y = 2200.0
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 },
@@ -135,7 +135,7 @@ scene = {
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 900.0, y = 3100.0},
+                    position = {x = 900.0, y = 2900.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 },
@@ -171,7 +171,7 @@ scene = {
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 1100.0, y = 3100.0},
+                    position = {x = 1100.0, y = 2900.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 },
@@ -207,7 +207,7 @@ scene = {
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 625.0, y = 3000.0},
+                    position = {x = 625.0, y = 2800.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 },
@@ -243,7 +243,7 @@ scene = {
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 705.0, y = 3000.0},
+                    position = {x = 705.0, y = 2800.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 },
@@ -279,7 +279,7 @@ scene = {
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 2000.0, y = 3000.0},
+                    position = {x = 2000.0, y = 2900.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 },
@@ -315,7 +315,7 @@ scene = {
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 2985.0, y = 2700.0},
+                    position = {x = 2985.0, y = 2600.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 },
@@ -351,7 +351,7 @@ scene = {
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 3050.0, y = 2700.0},
+                    position = {x = 3050.0, y = 2600.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 },
@@ -387,7 +387,7 @@ scene = {
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 3400.0, y = 2600.0},
+                    position = {x = 3400.0, y = 2500.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 },
@@ -423,7 +423,7 @@ scene = {
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 3500.0, y = 2600.0},
+                    position = {x = 3500.0, y = 2500.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 },
@@ -459,7 +459,7 @@ scene = {
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 3600.0, y = 2600.0},
+                    position = {x = 3600.0, y = 2500.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 },
@@ -495,7 +495,7 @@ scene = {
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 3700.0, y = 2600.0},
+                    position = {x = 3700.0, y = 2500.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 },
@@ -531,7 +531,7 @@ scene = {
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 3800.0, y = 2600.0},
+                    position = {x = 3800.0, y = 2500.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 },
@@ -567,7 +567,7 @@ scene = {
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 3400.0, y = 2400.0},
+                    position = {x = 3400.0, y = 2300.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 },
@@ -603,7 +603,7 @@ scene = {
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 3550.0, y = 2400.0},
+                    position = {x = 3550.0, y = 2300.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 },
@@ -639,7 +639,7 @@ scene = {
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 2975.0, y = 2100.0},
+                    position = {x = 2975.0, y = 2000.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 },
@@ -675,7 +675,7 @@ scene = {
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 2500.0, y = 2200.0},
+                    position = {x = 2500.0, y = 2100.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 },
@@ -711,7 +711,7 @@ scene = {
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 2500.0, y = 2050.0},
+                    position = {x = 2500.0, y = 1950.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 },
@@ -747,7 +747,7 @@ scene = {
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 2600.0, y = 2100.0},
+                    position = {x = 2600.0, y = 2000.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 },
@@ -783,7 +783,7 @@ scene = {
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 2750.0, y = 2100.0},
+                    position = {x = 2750.0, y = 2000.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 },
@@ -819,7 +819,7 @@ scene = {
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 3000.0, y = 2000.0},
+                    position = {x = 3000.0, y = 1900.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 },
@@ -855,7 +855,7 @@ scene = {
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 3100.0, y = 2000.0},
+                    position = {x = 3100.0, y = 1900.0},
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 },
