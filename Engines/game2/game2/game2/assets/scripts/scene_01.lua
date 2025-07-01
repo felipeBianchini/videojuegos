@@ -13,6 +13,8 @@ scene = {
         [11] = {assetId = "turtle_idle_spikes_in", filePath = "./assets/images/Enemies/Turtle/turtle_idle_spikes_in.png"},
         [12] = {assetId = "turtle_spikes_in", filePath = "./assets/images/Enemies/Turtle/turtle_spikes_in.png"},
         [13] = {assetId = "turtle_spikes_out", filePath = "./assets/images/Enemies/Turtle/turtle_spikes_out.png"},
+        [14] = {assetId = "bird_flying", filePath = "./assets/images/Enemies/BlueBird/bird_flying.png"},
+        [15] = {assetId = "bird_hit", filePath = "./assets/images/Enemies/BlueBird/bird_hit.png"},
     },
     animations = {
         [1] = {animation_id = "player_idle", texture_id = "player_idle", w = 32, h = 32, num_frames = 11, speed_rate = 15, is_loop = true},
@@ -22,10 +24,13 @@ scene = {
         [5] = {animation_id = "enemy_pig_idle", texture_id = "pig_idle", w = 36, h = 30, num_frames = 9, speed_rate = 15, is_loop = true},
         [6] = {animation_id = "enemy_pig_walk", texture_id = "pig_walk", w = 36, h = 30, num_frames = 16, speed_rate = 15, is_loop = true},
         [7] = {animation_id = "enemy_pig_hit", texture_id = "pig_hit", w = 36, h = 30, num_frames = 5, speed_rate = 15, is_loop = true},
-        [8] = {animation_id = "enemy_turtle_idle_spikes_out", texture_id = "turtle_idle_spikes_out", w = 44, h = 26, num_frames = 14, speed_rate = 15, is_loop = true},
-        [9] = {animation_id = "enemy_turtle_idle_spikes_in", texture_id = "turtle_idle_spikes_in", w = 44, h = 26, num_frames = 14, speed_rate = 15, is_loop = true},
-        [10] = {animation_id = "enemy_turtle_spikes_in", texture_id = "turtle_spikes_in", w = 44, h = 26, num_frames = 8, speed_rate = 15, is_loop = false},
-        [11] = {animation_id = "enemy_turtle_spikes_out", texture_id = "turtle_spikes_out", w = 44, h = 26, num_frames = 8, speed_rate = 15, is_loop = false},
+        [8] = {animation_id = "enemy_turtle_idle_spikes_out", texture_id = "turtle_idle_spikes_out", w = 44, h = 26, num_frames = 14, speed_rate = 14, is_loop = true},
+        [9] = {animation_id = "enemy_turtle_idle_spikes_in", texture_id = "turtle_idle_spikes_in", w = 44, h = 26, num_frames = 14, speed_rate = 14, is_loop = true},
+        [10] = {animation_id = "enemy_turtle_spikes_in", texture_id = "turtle_spikes_in", w = 44, h = 26, num_frames = 8, speed_rate = 8, is_loop = false},
+        [11] = {animation_id = "enemy_turtle_spikes_out", texture_id = "turtle_spikes_out", w = 44, h = 26, num_frames = 8, speed_rate = 8, is_loop = false},
+        [12] = {animation_id = "enemy_bird_flying", texture_id = "bird_flying", w = 32, h = 32, num_frames = 9, speed_rate = 9, is_loop = true},
+        [13] = {animation_id = "enemy_bird_hit", texture_id = "bird_hit", w = 32, h = 32, num_frames = 5, speed_rate = 5, is_loop = true},
+
     },
     fonts = {},
     soundEffects = {
@@ -94,7 +99,7 @@ scene = {
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 16.0, y = 3000.0}, -- x = 3100.0, y = 2900.0
+                    position = {x = 16.0, y = 3000.0}, -- x = 16.0, y = 3000.0 x = 3200.0, y = 2200.0
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 },
@@ -280,6 +285,582 @@ scene = {
                 },
                 tag = {
                     tag = "enemy_turtle",
+                },
+            }
+        },
+        [7] = {
+            components = {
+                animation = {
+                    num_frames = 9,
+                    speed_rate = 9,
+                    is_loop = true,
+                },
+                box_collider = {
+                    width = 32,
+                    heigth = 32,
+                    offset = {x = 0, y = 0}
+                },
+                rigid_body = {
+                    is_dynamic = true,
+                    is_solid = true,
+                    mass = 10,
+                },
+                script = {
+                    path = "./assets/scripts/enemy_bird.lua"
+                },
+                sprite = {
+                    assetId = "bird_flying",
+                    width = 32,
+                    heigth = 32,
+                    src_rect = {x = 0, y = 0},
+                },
+                transform = {
+                    position = {x = 2985.0, y = 2700.0},
+                    scale = {x = 1.0, y = 1.0},
+                    rotation = 0.0,
+                },
+                tag = {
+                    tag = "enemy_bird",
+                },
+            }
+        },
+       [8] = {
+            components = {
+                animation = {
+                    num_frames = 9,
+                    speed_rate = 9,
+                    is_loop = true,
+                },
+                box_collider = {
+                    width = 32,
+                    heigth = 32,
+                    offset = {x = 0, y = 0}
+                },
+                rigid_body = {
+                    is_dynamic = true,
+                    is_solid = true,
+                    mass = 10,
+                },
+                script = {
+                    path = "./assets/scripts/enemy_bird.lua"
+                },
+                sprite = {
+                    assetId = "bird_flying",
+                    width = 32,
+                    heigth = 32,
+                    src_rect = {x = 0, y = 0},
+                },
+                transform = {
+                    position = {x = 3050.0, y = 2700.0},
+                    scale = {x = 1.0, y = 1.0},
+                    rotation = 0.0,
+                },
+                tag = {
+                    tag = "enemy_bird",
+                },
+            }
+        },
+        [9] = {
+            components = {
+                animation = {
+                    num_frames = 16,
+                    speed_rate = 15,
+                    is_loop = true,
+                },
+                box_collider = {
+                    width = 36,
+                    heigth = 30,
+                    offset = {x = 0, y = 0}
+                },
+                rigid_body = {
+                    is_dynamic = true,
+                    is_solid = true,
+                    mass = 100,
+                },
+                script = {
+                    path = "./assets/scripts/enemy_pig.lua"
+                },
+                sprite = {
+                    assetId = "pig_walk",
+                    width = 36,
+                    heigth = 30,
+                    src_rect = {x = 0, y = 0},
+                },
+                transform = {
+                    position = {x = 3400.0, y = 2600.0},
+                    scale = {x = 1.0, y = 1.0},
+                    rotation = 0.0,
+                },
+                tag = {
+                    tag = "enemy_pig",
+                },
+            }
+        },
+        [10] = {
+            components = {
+                animation = {
+                    num_frames = 16,
+                    speed_rate = 15,
+                    is_loop = true,
+                },
+                box_collider = {
+                    width = 36,
+                    heigth = 30,
+                    offset = {x = 0, y = 0}
+                },
+                rigid_body = {
+                    is_dynamic = true,
+                    is_solid = true,
+                    mass = 100,
+                },
+                script = {
+                    path = "./assets/scripts/enemy_pig.lua"
+                },
+                sprite = {
+                    assetId = "pig_walk",
+                    width = 36,
+                    heigth = 30,
+                    src_rect = {x = 0, y = 0},
+                },
+                transform = {
+                    position = {x = 3500.0, y = 2600.0},
+                    scale = {x = 1.0, y = 1.0},
+                    rotation = 0.0,
+                },
+                tag = {
+                    tag = "enemy_pig",
+                },
+            }
+        },
+        [11] = {
+            components = {
+                animation = {
+                    num_frames = 16,
+                    speed_rate = 15,
+                    is_loop = true,
+                },
+                box_collider = {
+                    width = 36,
+                    heigth = 30,
+                    offset = {x = 0, y = 0}
+                },
+                rigid_body = {
+                    is_dynamic = true,
+                    is_solid = true,
+                    mass = 100,
+                },
+                script = {
+                    path = "./assets/scripts/enemy_pig.lua"
+                },
+                sprite = {
+                    assetId = "pig_walk",
+                    width = 36,
+                    heigth = 30,
+                    src_rect = {x = 0, y = 0},
+                },
+                transform = {
+                    position = {x = 3600.0, y = 2600.0},
+                    scale = {x = 1.0, y = 1.0},
+                    rotation = 0.0,
+                },
+                tag = {
+                    tag = "enemy_pig",
+                },
+            }
+        },
+        [12] = {
+            components = {
+                animation = {
+                    num_frames = 16,
+                    speed_rate = 15,
+                    is_loop = true,
+                },
+                box_collider = {
+                    width = 36,
+                    heigth = 30,
+                    offset = {x = 0, y = 0}
+                },
+                rigid_body = {
+                    is_dynamic = true,
+                    is_solid = true,
+                    mass = 100,
+                },
+                script = {
+                    path = "./assets/scripts/enemy_pig.lua"
+                },
+                sprite = {
+                    assetId = "pig_walk",
+                    width = 36,
+                    heigth = 30,
+                    src_rect = {x = 0, y = 0},
+                },
+                transform = {
+                    position = {x = 3700.0, y = 2600.0},
+                    scale = {x = 1.0, y = 1.0},
+                    rotation = 0.0,
+                },
+                tag = {
+                    tag = "enemy_pig",
+                },
+            }
+        },
+        [13] = {
+            components = {
+                animation = {
+                    num_frames = 16,
+                    speed_rate = 15,
+                    is_loop = true,
+                },
+                box_collider = {
+                    width = 36,
+                    heigth = 30,
+                    offset = {x = 0, y = 0}
+                },
+                rigid_body = {
+                    is_dynamic = true,
+                    is_solid = true,
+                    mass = 100,
+                },
+                script = {
+                    path = "./assets/scripts/enemy_pig.lua"
+                },
+                sprite = {
+                    assetId = "pig_walk",
+                    width = 36,
+                    heigth = 30,
+                    src_rect = {x = 0, y = 0},
+                },
+                transform = {
+                    position = {x = 3800.0, y = 2600.0},
+                    scale = {x = 1.0, y = 1.0},
+                    rotation = 0.0,
+                },
+                tag = {
+                    tag = "enemy_pig",
+                },
+            }
+        },
+        [14] = {
+            components = {
+                animation = {
+                    num_frames = 15,
+                    speed_rate = 15,
+                    is_loop = true,
+                },
+                box_collider = {
+                    width = 44,
+                    heigth = 26,
+                    offset = {x = 0, y = 0}
+                },
+                rigid_body = {
+                    is_dynamic = true,
+                    is_solid = true,
+                    mass = 1000,
+                },
+                script = {
+                    path = "./assets/scripts/enemy_turtle.lua"
+                },
+                sprite = {
+                    assetId = "turtle_idle_spikes_out",
+                    width = 36,
+                    heigth = 30,
+                    src_rect = {x = 0, y = 0},
+                },
+                transform = {
+                    position = {x = 3400.0, y = 2400.0},
+                    scale = {x = 1.0, y = 1.0},
+                    rotation = 0.0,
+                },
+                tag = {
+                    tag = "enemy_turtle",
+                },
+            }
+        },
+       [15] = {
+            components = {
+                animation = {
+                    num_frames = 9,
+                    speed_rate = 9,
+                    is_loop = true,
+                },
+                box_collider = {
+                    width = 32,
+                    heigth = 32,
+                    offset = {x = 0, y = 0}
+                },
+                rigid_body = {
+                    is_dynamic = true,
+                    is_solid = true,
+                    mass = 10,
+                },
+                script = {
+                    path = "./assets/scripts/enemy_bird.lua"
+                },
+                sprite = {
+                    assetId = "bird_flying",
+                    width = 32,
+                    heigth = 32,
+                    src_rect = {x = 0, y = 0},
+                },
+                transform = {
+                    position = {x = 3550.0, y = 2400.0},
+                    scale = {x = 1.0, y = 1.0},
+                    rotation = 0.0,
+                },
+                tag = {
+                    tag = "enemy_bird",
+                },
+            }
+        },
+       [16] = {
+            components = {
+                animation = {
+                    num_frames = 9,
+                    speed_rate = 9,
+                    is_loop = true,
+                },
+                box_collider = {
+                    width = 32,
+                    heigth = 32,
+                    offset = {x = 0, y = 0}
+                },
+                rigid_body = {
+                    is_dynamic = true,
+                    is_solid = true,
+                    mass = 10,
+                },
+                script = {
+                    path = "./assets/scripts/enemy_bird.lua"
+                },
+                sprite = {
+                    assetId = "bird_flying",
+                    width = 32,
+                    heigth = 32,
+                    src_rect = {x = 0, y = 0},
+                },
+                transform = {
+                    position = {x = 2975.0, y = 2100.0},
+                    scale = {x = 1.0, y = 1.0},
+                    rotation = 0.0,
+                },
+                tag = {
+                    tag = "enemy_bird",
+                },
+            }
+        },
+        [17] = {
+            components = {
+                animation = {
+                    num_frames = 16,
+                    speed_rate = 15,
+                    is_loop = true,
+                },
+                box_collider = {
+                    width = 36,
+                    heigth = 30,
+                    offset = {x = 0, y = 0}
+                },
+                rigid_body = {
+                    is_dynamic = true,
+                    is_solid = true,
+                    mass = 100,
+                },
+                script = {
+                    path = "./assets/scripts/enemy_pig.lua"
+                },
+                sprite = {
+                    assetId = "pig_walk",
+                    width = 36,
+                    heigth = 30,
+                    src_rect = {x = 0, y = 0},
+                },
+                transform = {
+                    position = {x = 2500.0, y = 2200.0},
+                    scale = {x = 1.0, y = 1.0},
+                    rotation = 0.0,
+                },
+                tag = {
+                    tag = "enemy_pig",
+                },
+            }
+        },
+        [18] = {
+            components = {
+                animation = {
+                    num_frames = 15,
+                    speed_rate = 15,
+                    is_loop = true,
+                },
+                box_collider = {
+                    width = 44,
+                    heigth = 26,
+                    offset = {x = 0, y = 0}
+                },
+                rigid_body = {
+                    is_dynamic = true,
+                    is_solid = true,
+                    mass = 1000,
+                },
+                script = {
+                    path = "./assets/scripts/enemy_turtle.lua"
+                },
+                sprite = {
+                    assetId = "turtle_idle_spikes_out",
+                    width = 36,
+                    heigth = 30,
+                    src_rect = {x = 0, y = 0},
+                },
+                transform = {
+                    position = {x = 2500.0, y = 2050.0},
+                    scale = {x = 1.0, y = 1.0},
+                    rotation = 0.0,
+                },
+                tag = {
+                    tag = "enemy_turtle",
+                },
+            }
+        },
+        [19] = {
+            components = {
+                animation = {
+                    num_frames = 16,
+                    speed_rate = 15,
+                    is_loop = true,
+                },
+                box_collider = {
+                    width = 36,
+                    heigth = 30,
+                    offset = {x = 0, y = 0}
+                },
+                rigid_body = {
+                    is_dynamic = true,
+                    is_solid = true,
+                    mass = 100,
+                },
+                script = {
+                    path = "./assets/scripts/enemy_pig.lua"
+                },
+                sprite = {
+                    assetId = "pig_walk",
+                    width = 36,
+                    heigth = 30,
+                    src_rect = {x = 0, y = 0},
+                },
+                transform = {
+                    position = {x = 2600.0, y = 2100.0},
+                    scale = {x = 1.0, y = 1.0},
+                    rotation = 0.0,
+                },
+                tag = {
+                    tag = "enemy_pig",
+                },
+            }
+        },
+        [20] = {
+            components = {
+                animation = {
+                    num_frames = 16,
+                    speed_rate = 15,
+                    is_loop = true,
+                },
+                box_collider = {
+                    width = 36,
+                    heigth = 30,
+                    offset = {x = 0, y = 0}
+                },
+                rigid_body = {
+                    is_dynamic = true,
+                    is_solid = true,
+                    mass = 100,
+                },
+                script = {
+                    path = "./assets/scripts/enemy_pig.lua"
+                },
+                sprite = {
+                    assetId = "pig_walk",
+                    width = 36,
+                    heigth = 30,
+                    src_rect = {x = 0, y = 0},
+                },
+                transform = {
+                    position = {x = 2750.0, y = 2100.0},
+                    scale = {x = 1.0, y = 1.0},
+                    rotation = 0.0,
+                },
+                tag = {
+                    tag = "enemy_pig",
+                },
+            }
+        },
+       [21] = {
+            components = {
+                animation = {
+                    num_frames = 9,
+                    speed_rate = 9,
+                    is_loop = true,
+                },
+                box_collider = {
+                    width = 32,
+                    heigth = 32,
+                    offset = {x = 0, y = 0}
+                },
+                rigid_body = {
+                    is_dynamic = true,
+                    is_solid = true,
+                    mass = 10,
+                },
+                script = {
+                    path = "./assets/scripts/enemy_bird.lua"
+                },
+                sprite = {
+                    assetId = "bird_flying",
+                    width = 32,
+                    heigth = 32,
+                    src_rect = {x = 0, y = 0},
+                },
+                transform = {
+                    position = {x = 3000.0, y = 2000.0},
+                    scale = {x = 1.0, y = 1.0},
+                    rotation = 0.0,
+                },
+                tag = {
+                    tag = "enemy_bird",
+                },
+            }
+        },
+       [22] = {
+            components = {
+                animation = {
+                    num_frames = 9,
+                    speed_rate = 9,
+                    is_loop = true,
+                },
+                box_collider = {
+                    width = 32,
+                    heigth = 32,
+                    offset = {x = 0, y = 0}
+                },
+                rigid_body = {
+                    is_dynamic = true,
+                    is_solid = true,
+                    mass = 10,
+                },
+                script = {
+                    path = "./assets/scripts/enemy_bird.lua"
+                },
+                sprite = {
+                    assetId = "bird_flying",
+                    width = 32,
+                    heigth = 32,
+                    src_rect = {x = 0, y = 0},
+                },
+                transform = {
+                    position = {x = 3100.0, y = 2000.0},
+                    scale = {x = 1.0, y = 1.0},
+                    rotation = 0.0,
+                },
+                tag = {
+                    tag = "enemy_bird",
                 },
             }
         },
