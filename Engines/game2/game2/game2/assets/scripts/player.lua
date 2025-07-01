@@ -10,6 +10,7 @@ player_jump_force = -1200.0 * 64.0
 player_ladder_velocity = -128.0
 player_on_ladder = false
 player_speed = 3.0 * 64.0
+jump_multiplier = 1.5
 
 function update()
 	local x_vel, y_vel = get_velocity(this)
@@ -32,6 +33,10 @@ function update()
 
 	if player_on_ladder and is_action_activated("up") then
 		final_y_vel = player_ladder_velocity
+	end
+
+	if is_action_activated("run") and (player_can_jump or player_on_ladder) then
+		x_vel = x_vel * jump_multiplier
 	end
 
 	set_velocity(this, x_vel, final_y_vel)

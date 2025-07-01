@@ -6,7 +6,9 @@ scene = {
         [2] = {fontId = "press_start_32", filePath = "./assets/fonts/press_start.ttf", fontSize = 32},
     },
     soundEffects = {},
-    backgroundMusic = {},
+    backgroundMusic = {
+        [1] = {backgroundMusicId = "background_music", filePath = "./assets/backgroundMusic/option1.wav"}
+    },
     keys = {},
     buttons = {
         [1] = {name = "mouse_left_button", button = 1},
