@@ -2,7 +2,7 @@
 #define CONTROLLERMANAGER_HPP
 
 #include <map>
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <string>
 #include <tuple>
 

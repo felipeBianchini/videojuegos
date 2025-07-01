@@ -1,8 +1,8 @@
 #ifndef RENDERTEXTSYSTEM_HPP
 #define RENDERTEXTSYSTEM_HPP
 
-#include <SDL.h>
-#include <SDL_ttf.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include <memory>
 
 #include "../ECS/ECS.hpp"

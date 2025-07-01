@@ -1,7 +1,7 @@
 #ifndef RENDERSYSTEM_HPP
 #define RENDERSYSTEM_HPP
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 #include "../AssetManager/AssetManager.hpp"
 #include "../Components/SpriteComponent.hpp"
@@ -39,4 +39,4 @@ public:
 	}
 };
 
-#endif RENDERSYSTEM_HPP
+#endif // RENDERSYSTEM_HPP

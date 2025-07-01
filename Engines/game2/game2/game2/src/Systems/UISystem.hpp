@@ -1,7 +1,7 @@
 #ifndef UISYSTEM_HPP
 #define UISYSTEM_HPP
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <memory>
 #include <string>
 

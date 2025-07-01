@@ -39,7 +39,7 @@ void SceneManager::LoadScene()
 	Game& game = Game::GetInstance();
 	std::string scenePath = scenes[nextScene];
 	sceneLoader->LoadScene(scenePath, game.lua, game.renderer, game.animationManager, game.assetManager, game.controllerManager, game.registry);
-	Mix_Music* music = Game::GetInstance().assetManager->GetBackgroundMusic("background_music");
+	Mix_Music* music = Game::GetInstance().assetManager->GetBackgroundMusic();
 	if (music != nullptr) {
 		Mix_PlayMusic(music, -1);
 	}

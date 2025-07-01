@@ -1,12 +1,12 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 #
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <glm/glm.hpp>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
+
+#include <SDL2/SDL_ttf.h>
 #include <sol/sol.hpp>
-#include <SDL_mixer.h>
+
 
 #include <memory>
 

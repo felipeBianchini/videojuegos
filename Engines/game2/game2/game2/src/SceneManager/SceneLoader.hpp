@@ -4,8 +4,8 @@
 #include <string>
 #include <memory>
 #include <sol/sol.hpp>
-#include <tinyxml2/tinyxml2.h>
-#include <SDL.h>
+#include <tinyxml/tinyxml2.h>
+#include <SDL2/SDL.h>
 
 #include "../AssetManager/AssetManager.hpp"
 #include "../ControllerManager/ControllerManager.hpp"
