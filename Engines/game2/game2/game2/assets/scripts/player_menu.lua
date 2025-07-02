@@ -75,10 +75,16 @@ function on_collision(other)
         local x_vel, y_vel = get_velocity(this)
         if y_vel == 0 then
             player_can_jump = true
-        end	
+        end
 	elseif tag == "ladder" then
 		player_on_ladder = true
-    end
+	elseif tag == "door1" and is_action_activated("open") then
+		go_to_scene("level_01");
+	elseif tag == "door2" and is_action_activated("open") then
+		go_to_scene("level_02");
+	elseif tag == "door3" and is_action_activated("open") then
+		go_to_scene("level_03");
+	end
 end
 
 function player_death(entity)

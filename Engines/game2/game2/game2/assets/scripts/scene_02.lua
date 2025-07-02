@@ -43,6 +43,8 @@ scene = {
         [3] = {name = "left", key = 97},
         [4] = {name = "right", key = 100},
         [5] = {name = "jump", key = 32},
+        [6] = {name = "run", key = 1073742049},
+        [7] = {name = "menu", key = 109},
     },
     buttons = {},
     maps = {

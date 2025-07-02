@@ -72,9 +72,13 @@ Mix_Chunk* AssetManager::GetSoundEffect(const std::string& soundEffectId)
 
 void AssetManager::SetBackgroundMusic(const std::string& backgroundMusicId, const std::string& filePath)
 {
-	if (backgroundMusicId == this->currentSong) return;
+	int dif = this->currentSong.compare(backgroundMusicId);
+	if (dif == 0) {
+		return;
+	}
 	std::cout << "[ASSETMANAGER] Se carga la cancion " << backgroundMusicId <<
 		" de " << filePath << std::endl;
+	
 	this->currentSong = backgroundMusicId;
 	backgroundMusic = Mix_LoadMUS(filePath.c_str());
 	if (!backgroundMusic) {
@@ -82,6 +86,9 @@ void AssetManager::SetBackgroundMusic(const std::string& backgroundMusicId, cons
 		std::cerr << "[ASSETMANAGER] " << error << std::endl;
 		this->currentSong = "none";
 		return;
+	}
+	if (Mix_PlayingMusic() == 0) {
+		Mix_HaltMusic();
 	}
 }
 
