@@ -5,7 +5,7 @@ scene = {
         [3] = {assetId = "player_jump", filePath = "./assets/images/MainCharacters/MaskedMan/player_jump.png"},
         [4] = {assetId = "player_fall", filePath = "./assets/images/MainCharacters/MaskedMan/player_fall.png"},
         [5] = {assetId = "tileset", filePath = "./assets/images/tileset2.png"},
-        [6] = {assetId = "background", filePath = "./assets/images/background2.png"},
+        [6] = {assetId = "background", filePath = "./assets/images/cave.png"},
     },
     animations = {
         [1] = {animation_id = "player_idle", texture_id = "player_idle", w = 32, h = 32, num_frames = 11, speed_rate = 15, is_loop = true},
@@ -36,6 +36,20 @@ scene = {
         map_path = "./assets/maps/map00/menu.tmx",
         tile_path = "./assets/maps/map00/Tiles.tsx",
         tile_name = "tileset"
+    },
+    backgrounds = {
+        [1] = {
+            texture_id = "background",
+            w = 1280,
+            h = 720,
+            src_x = 0,
+            src_y = 0,
+            x = 0,
+            y = 0,
+            scale_x = 1,
+            scale_y = 1,
+            rotation = 0
+        },
     },
     entities = {
         [1] = {

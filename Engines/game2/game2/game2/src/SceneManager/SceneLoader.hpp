@@ -55,6 +55,7 @@ private:
      * @param assetManager A unique pointer to the AssetManager for storing loaded background music.
      */
     void LoadBackgroundMusic(const sol::table& backgroundMusic, std::unique_ptr<AssetManager>& assetManager);
+    void LoadBackgroundImage(const sol::table& backgroundImages, std::unique_ptr<Registry>& registry);
 public:
 	SceneLoader();
 	~SceneLoader();

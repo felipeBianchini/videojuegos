@@ -5,7 +5,7 @@ scene = {
         [3] = {assetId = "player_jump", filePath = "./assets/images/MainCharacters/MaskedMan/player_jump.png"},
         [4] = {assetId = "player_fall", filePath = "./assets/images/MainCharacters/MaskedMan/player_fall.png"},
         [5] = {assetId = "tileset", filePath = "./assets/images/tileset.png"},
-        [6] = {assetId = "background", filePath = "./assets/images/background2.png"},
+        [6] = {assetId = "background", filePath = "./assets/images/Summer4.png"},
         [7] = {assetId = "pig_idle", filePath = "./assets/images/Enemies/AngryPig/pig_idle.png"},
         [8] = {assetId = "pig_walk", filePath = "./assets/images/Enemies/AngryPig/pig_walk.png"},
         [9] = {assetId = "pig_hit", filePath = "./assets/images/Enemies/AngryPig/pig_hit.png"},
@@ -45,12 +45,27 @@ scene = {
         [5] = {name = "jump", key = 32},
         [6] = {name = "run", key = 1073742049},
         [7] = {name = "menu", key = 109},
+        [8] = {name = "restart", key = 111},
     },
     buttons = {},
     maps = {
         map_path = "./assets/maps/map02/map02.tmx",
         tile_path = "./assets/maps/map02/tileset02.tsx",
         tile_name = "tileset"
+    },
+    backgrounds = {
+    [1] = {
+        texture_id = "background",
+        w = 2304,
+        h = 1296,
+        src_x = 0,
+        src_y = 0,
+        x = 0,
+        y = 0,
+        scale_x = 5,
+        scale_y = 5,
+        rotation = 0
+    },
     },
     entities = {
         --[1] = {

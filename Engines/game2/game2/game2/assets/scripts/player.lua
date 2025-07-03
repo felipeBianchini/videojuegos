@@ -10,7 +10,7 @@ player_jump_force = -2000.0 * 64.0
 player_ladder_velocity = -128.0
 player_on_ladder = false
 player_speed = 3.0 * 64.0
-jump_multiplier = 1.5
+jump_multiplier = 2.0
 
 function update()
 	local x_vel, y_vel = get_velocity(this)
@@ -35,8 +35,11 @@ function update()
 		final_y_vel = player_ladder_velocity
 	end
 
-	if is_action_activated("run") and (player_can_jump or player_on_ladder) then
+	if is_action_activated("run") then
 		x_vel = x_vel * jump_multiplier
+	end
+	if is_action_activated("restart") then
+		kill_player();
 	end
 	if is_action_activated("menu") then
 		go_to_scene("main_menu");
@@ -62,14 +65,14 @@ function on_collision(other)
 		add_force(this, 0, player_jump_force * 2.5)
     elseif tag == "goal" then
 		play_soundEffect("win", 90)
-        go_to_scene("victory")
+        go_to_scene("main_menu")
     elseif tag == "deadly_obstacle" then
-		kill_player()
+		kill_player();
 		--player_death(this)
 	elseif tag == "enemy_pig" or tag == "enemy_bird" then
 		if left_collision(this, other) or right_collision(this, other) then
 			--player_death(this)
-			kill_player()
+			kill_player();
 		end
 	elseif tag == "enemy_turtle" then
         local x_vel, y_vel = get_velocity(this)
