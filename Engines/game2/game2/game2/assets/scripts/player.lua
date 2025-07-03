@@ -73,12 +73,18 @@ function on_collision(other)
 		if left_collision(this, other) or right_collision(this, other) then
 			--player_death(this)
 			kill_player();
+		elseif bottom_collision(this, other) then
+			if is_action_activated("jump") then
+				add_force(this, 0, player_jump_force);
+			else
+				add_force(this, 0, player_jump_force * 0.5);
+			end
 		end
 	elseif tag == "enemy_turtle" then
         local x_vel, y_vel = get_velocity(this)
         if y_vel == 0 then
             player_can_jump = true
-        end	
+        end
 	elseif tag == "ladder" then
 		player_on_ladder = true
     end

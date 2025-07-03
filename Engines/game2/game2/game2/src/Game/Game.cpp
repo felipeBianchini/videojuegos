@@ -125,6 +125,10 @@ void Game::ProcessInput()
 				isDebugMode = !isDebugMode;
 				break;
 			}
+			if (sdlEvent.key.keysym.sym == SDLK_p) {
+				isPaused = !isPaused;
+				break;
+			}
 			controllerManager->KeyDown(sdlEvent.key.keysym.sym);
 			break;
 		case SDL_KEYUP:
@@ -184,14 +188,25 @@ void Game::Render()
 	SDL_RenderPresent(renderer);
 }
 
+bool Game::SecondHasPassed() {
+	return static_cast<double>(this->sceneStartTick - SDL_GetTicks()) / 1000.0 > 1.0;
+}
+
 void Game::RunScene()
 {
 	sceneManager->LoadScene();
+	this->sceneStartTick = SDL_GetTicks();
 	this->isRestarting = false;
 	while (sceneManager->IsSceneRunning() && !this->isRestarting) {
-		ProcessInput();
-		Update();
-		Render();
+		if (SecondHasPassed()) {
+			ProcessInput();
+			if (!isPaused) {
+				Update();
+				Render();
+			} else {
+				this->millisecsPreviousFrame = SDL_GetTicks();
+			}
+		}
 	}
 	assetManager->ClearAssets();
 	registry->ClearAllEntities();

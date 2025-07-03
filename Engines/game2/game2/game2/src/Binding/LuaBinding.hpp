@@ -188,6 +188,7 @@ void KillEntity(Entity entity) {
 
 void PlayerKilled() {
 	Game::GetInstance().isRestarting = true;
+	Game::GetInstance().currentDeaths ++;
 	std::cout << "[LuaBinding] Player killed!\n";
 }
 

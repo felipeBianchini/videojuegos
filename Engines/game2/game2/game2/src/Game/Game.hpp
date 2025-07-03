@@ -30,6 +30,10 @@ private:
 	void ProcessInput();
 	void Update();
 	void Render();
+	bool SecondHasPassed();
+	
+	int sceneStartTick = 0;
+	bool isPaused = false;
 
 	SDL_Window* window;
 
@@ -42,6 +46,7 @@ private:
 public:
 	int window_width = 0;
 	int window_height = 0;
+	int currentDeaths = 0;
 	bool isRestarting = false;
 
 	int mapHeigth = 0;
