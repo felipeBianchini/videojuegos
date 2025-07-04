@@ -98,7 +98,6 @@ function on_collision(other)
 			player_used_jumpable = true
 		end
 	elseif tag == "slowdown" then
-		print("slowdown")
 		add_force(this, 0, -1 * gravity * 0.8)
 	end
 
