@@ -17,6 +17,7 @@
 #include "../Systems/RenderBoxColliderSystem.hpp"
 #include "../Systems/PhysicsSystem.hpp"
 #include "../Systems/OverlapSystem.hpp"
+#include "../Systems/CounterSystem.hpp"
 
 Game::Game()
 {
@@ -98,6 +99,7 @@ void Game::Setup()
 	registry->AddSystem<RenderBoxColliderSystem>();
 	registry->AddSystem<PhysicsSystem>();
 	registry->AddSystem<OverlapSystem>();
+	registry->AddSystem<CounterSystem>();
 
 	sceneManager->LoadSceneFromScript("./assets/scripts/scenes.lua", lua);
 
@@ -174,6 +176,7 @@ void Game::Update()
 	registry->GetSystem<CircleCollisionSystem>().Update(eventManager);
 	registry->GetSystem<AnimationSystem>().Update();
 	registry->GetSystem<CameraMovementSystem>().Update(camera);
+	registry->GetSystem<CounterSystem>().Update(this->currentDeaths);
 }
 
 void Game::Render()
@@ -181,7 +184,7 @@ void Game::Render()
 	SDL_SetRenderDrawColor(renderer, 31, 31, 31, 255);
 	SDL_RenderClear(renderer);
 	registry->GetSystem<RenderSystem>().Update(renderer, assetManager, camera);
-	registry->GetSystem<RenderTextSystem>().Update(renderer, assetManager);
+	registry->GetSystem<RenderTextSystem>().Update(renderer, assetManager, camera);
 	if (isDebugMode) {
 		registry->GetSystem<RenderBoxColliderSystem>().Update(renderer, camera);
 	}
@@ -189,6 +192,9 @@ void Game::Render()
 }
 void Game::RunScene()
 {
+	if (sceneManager->GetNextScene().find("menu") != std::string::npos) {
+		this->currentDeaths = 0;
+	}
 	sceneManager->LoadScene();
 	this->millisecsPreviousFrame = SDL_GetTicks();
 	this->isRestarting = false;

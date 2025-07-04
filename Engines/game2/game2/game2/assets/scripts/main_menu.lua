@@ -46,8 +46,8 @@ scene = {
             src_y = 0,
             x = 0,
             y = 0,
-            scale_x = 1,
-            scale_y = 1,
+            scale_x = 2,
+            scale_y = 2,
             rotation = 0
         },
     },

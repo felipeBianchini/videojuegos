@@ -5,5 +5,4 @@ scenes = {
 	[3] = {name = "level_02", path = "./assets/scripts/scene_02.lua"},
 	[4] = {name = "level_03", path = "./assets/scripts/scene_03.lua"},
 	[5] = {name = "victory", path = "./assets/scripts/victory_scene.lua"},
-	[6] = {name = "defeat", path = "./assets/scripts/defeat_scene.lua"},
 }

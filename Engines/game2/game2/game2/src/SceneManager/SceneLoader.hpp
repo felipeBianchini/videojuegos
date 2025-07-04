@@ -21,6 +21,7 @@
 #include "../Components/BoxColliderComponent.hpp"
 #include "../Components/TagComponent.hpp"
 #include "../AnimationManager/AnimationManager.hpp"
+#include "../Components/CounterComponent.hpp"
 #include "../ECS/ECS.hpp"
 
 class SceneLoader {

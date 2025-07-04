@@ -104,12 +104,16 @@ public:
 		auto& aRigidbody = e.a.GetComponent<RigidBodyComponent>();
 		auto& bRigidbody = e.b.GetComponent<RigidBodyComponent>();
 		if (e.a.HasComponent<TagComponent>()) {
-			if (e.a.GetComponent<TagComponent>().tag.find("door") != std::string::npos) {
+			if (e.a.GetComponent<TagComponent>().tag.find("door") != std::string::npos ||
+				e.a.GetComponent<TagComponent>().tag.find("jumpable") != std::string::npos ||
+				e.a.GetComponent<TagComponent>().tag.find("slowdown") != std::string::npos) {
 				return;
 			}
 		}
 		if (e.b.HasComponent<TagComponent>()) {
-			if (e.b.GetComponent<TagComponent>().tag.find("door") != std::string::npos) {
+			if (e.b.GetComponent<TagComponent>().tag.find("door") != std::string::npos ||
+				e.b.GetComponent<TagComponent>().tag.find("jumpable") != std::string::npos ||
+				e.b.GetComponent<TagComponent>().tag.find("slowdown") != std::string::npos) {
 				return;
 			}
 		}

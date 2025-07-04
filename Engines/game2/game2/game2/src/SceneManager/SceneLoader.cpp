@@ -235,6 +235,12 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 				}
 				newEntity.AddComponent<ScriptComponent>(onCollision, update, onClick, enemyPigUpdate, enemyTurtleUpdate, enemyBirdUpdate);
 			}
+
+			sol::optional<sol::table> hasCounter = components["counter"];
+			if (hasCounter != sol::nullopt) {
+				newEntity.AddComponent<CounterComponent>();
+			}
+			
 		}
 		index++;
 	}
