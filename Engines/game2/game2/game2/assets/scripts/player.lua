@@ -68,7 +68,7 @@ function on_collision(other)
 		add_force(this, 0, player_jump_force * 2.5)
     elseif tag == "goal" then
 		play_soundEffect("win", 90)
-        go_to_scene("main_menu")
+        next_level()
 	elseif tag == "end" then
 		go_to_scene("victory")
     elseif tag == "deadly_obstacle" then
