@@ -1,10 +1,11 @@
 #ifndef ASSETMANAGER_HPP
 #define ASSETMANAGER_HPP
 
-#include <SDL.h>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
-#include <SDL_mixer.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h> 
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
+
 
 #include <map>
 #include <string>
@@ -72,15 +73,15 @@ public:
 	void SetBackgroundMusic(const std::string& backgroundMusicId, const std::string& filePath);
 	/**
 	 * @brief Retrieves the background music by its ID.
-	 * @param backgroundMusicId The ID of the background music.
 	 * @return Mix_Music* The requested music, or nullptr if not found.
 	 */
-	Mix_Music* GetBackgroundMusic(const std::string& backgroundMusicId);
+	Mix_Music* GetBackgroundMusic();
 private:
 	std::map<std::string, SDL_Texture*> textures;       ///< Map of texture IDs to SDL textures.
 	std::map<std::string, TTF_Font*> fonts;             ///< Map of font IDs to TTF fonts.
 	std::map<std::string, Mix_Chunk*> soundEffects;     ///< Map of sound effect IDs to sound chunks.
 	Mix_Music* backgroundMusic;                         ///< Pointer to the loaded background music.
+	std::string currentSong; 							///< Name of current song
 };
 
 #endif // !ASSET_MANAGER_HPP

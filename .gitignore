@@ -33,6 +33,7 @@
 *.app
 
 # VS Code
+.vscode/
 .vs/
 *.vcxproj
 *.vcxproj.filters
@@ -41,5 +42,7 @@
 # Carpetas generadas automáticamente
 Debug/
 Release/
+
+
 
 SpaceBackground.exe

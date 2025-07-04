@@ -5,7 +5,7 @@ scene = {
         [3] = {assetId = "player_jump", filePath = "./assets/images/MainCharacters/MaskedMan/player_jump.png"},
         [4] = {assetId = "player_fall", filePath = "./assets/images/MainCharacters/MaskedMan/player_fall.png"},
         [5] = {assetId = "tileset", filePath = "./assets/images/tileset2.png"},
-        [6] = {assetId = "background", filePath = "./assets/images/background2.png"},
+        [6] = {assetId = "background", filePath = "./assets/images/Summer3.png"},
         [7] = {assetId = "pig_idle", filePath = "./assets/images/Enemies/AngryPig/pig_idle.png"},
         [8] = {assetId = "pig_walk", filePath = "./assets/images/Enemies/AngryPig/pig_walk.png"},
         [9] = {assetId = "pig_hit", filePath = "./assets/images/Enemies/AngryPig/pig_hit.png"},
@@ -42,12 +42,29 @@ scene = {
     backgroundMusic = {
         [1] = {backgroundMusicId = "background_music", filePath = "./assets/backgroundMusic/option1.wav"},
     },
+    backgrounds = {
+        [1] = {
+            texture_id = "background",
+            w = 2304,
+            h = 1296,
+            src_x = 0,
+            src_y = 0,
+            x = 0,
+            y = 0,
+            scale_x = 5,
+            scale_y = 5,
+            rotation = 0
+        },
+    },
     keys = {
         [1] = {name = "up", key = 119},
         [2] = {name = "down", key = 115},
         [3] = {name = "left", key = 97},
         [4] = {name = "right", key = 100},
         [5] = {name = "jump", key = 32},
+        [6] = {name = "run", key = 1073742049},
+        [7] = {name = "menu", key = 109},
+        [8] = {name = "restart", key = 111},
     },
     buttons = {},
     maps = {
@@ -99,7 +116,7 @@ scene = {
                     src_rect = {x = 0, y = 0},
                 },
                 transform = {
-                    position = {x = 3000.0, y = 2000.0}, -- x = 16.0, y = 3000.0 x = 3200.0, y = 2200.0
+                    position = {x = 10.0, y = 2000.0}, -- x = 16.0, y = 3000.0 x = 3200.0, y = 2200.0
                     scale = {x = 1.0, y = 1.0},
                     rotation = 0.0,
                 },

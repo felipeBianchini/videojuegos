@@ -117,6 +117,8 @@ void Registry::ClearAllEntities()
 		RemoveEntityFromSystems(Entity(i));
 		entityComponentSignatures[i].reset();
 	}
+	componentsPools.clear();
+	entityComponentSignatures.clear();
 	numEntity = 0;
 	freeIds.clear();
 }

@@ -1,7 +1,7 @@
 #ifndef TEXTCOMPONENT_HPP
 #define TEXTCOMPONENT_HPP
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <string>
 
 struct TextComponent {

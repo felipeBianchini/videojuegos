@@ -1,7 +1,7 @@
 #ifndef RENDERBOXCOLLIDERSYSTEM_HPP
 #define RENDERBOXCOLLIDERSYSTEM_HPP
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 #include "../Components/BoxColliderComponent.hpp"
 #include "../Components/TransformComponent.hpp"

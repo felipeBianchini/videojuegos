@@ -4,8 +4,8 @@
 #include <string>
 #include <memory>
 #include <sol/sol.hpp>
-#include <tinyxml2/tinyxml2.h>
-#include <SDL.h>
+#include <tinyxml/tinyxml2.h>
+#include <SDL2/SDL.h>
 
 #include "../AssetManager/AssetManager.hpp"
 #include "../ControllerManager/ControllerManager.hpp"
@@ -21,6 +21,7 @@
 #include "../Components/BoxColliderComponent.hpp"
 #include "../Components/TagComponent.hpp"
 #include "../AnimationManager/AnimationManager.hpp"
+#include "../Components/CounterComponent.hpp"
 #include "../ECS/ECS.hpp"
 
 class SceneLoader {
@@ -55,6 +56,7 @@ private:
      * @param assetManager A unique pointer to the AssetManager for storing loaded background music.
      */
     void LoadBackgroundMusic(const sol::table& backgroundMusic, std::unique_ptr<AssetManager>& assetManager);
+    void LoadBackgroundImage(const sol::table& backgroundImages, std::unique_ptr<Registry>& registry);
 public:
 	SceneLoader();
 	~SceneLoader();

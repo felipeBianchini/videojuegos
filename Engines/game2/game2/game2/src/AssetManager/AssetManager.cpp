@@ -5,6 +5,7 @@
 AssetManager::AssetManager()
 {
 	std::cout << "[AssetManager] Se ejecuta constructor" << std::endl;
+	this->currentSong = "none";
 }
 
 AssetManager::~AssetManager()
@@ -71,16 +72,27 @@ Mix_Chunk* AssetManager::GetSoundEffect(const std::string& soundEffectId)
 
 void AssetManager::SetBackgroundMusic(const std::string& backgroundMusicId, const std::string& filePath)
 {
-	std::cout << filePath << std::endl;
+	int dif = this->currentSong.compare(backgroundMusicId);
+	if (dif == 0) {
+		return;
+	}
+	std::cout << "[ASSETMANAGER] Se carga la cancion " << backgroundMusicId <<
+		" de " << filePath << std::endl;
+	
+	this->currentSong = backgroundMusicId;
 	backgroundMusic = Mix_LoadMUS(filePath.c_str());
 	if (!backgroundMusic) {
 		std::string error = Mix_GetError();
 		std::cerr << "[ASSETMANAGER] " << error << std::endl;
+		this->currentSong = "none";
 		return;
+	}
+	if (Mix_PlayingMusic() == 0) {
+		Mix_HaltMusic();
 	}
 }
 
-Mix_Music* AssetManager::GetBackgroundMusic(const std::string& backgroundMusicId)
+Mix_Music* AssetManager::GetBackgroundMusic()
 {
 	return backgroundMusic;
 }

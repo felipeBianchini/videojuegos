@@ -36,6 +36,7 @@ public:
 		lua.set_function("flip_sprite", FlipSprite);
 		lua.set_function("play_soundEffect", PlaySoundEffect);
 		lua.set_function("kill_entity", KillEntity);
+		lua.set_function("kill_player", PlayerKilled);
 	}
 
 	void Update(sol::state& lua, double dt) {

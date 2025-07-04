@@ -1,7 +1,7 @@
 #ifndef SPRITECOMPONENT_HPP
 #define SPRITECOMPONENT_HPP
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 #include <string>
 

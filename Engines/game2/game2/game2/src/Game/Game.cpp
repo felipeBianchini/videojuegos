@@ -17,6 +17,7 @@
 #include "../Systems/RenderBoxColliderSystem.hpp"
 #include "../Systems/PhysicsSystem.hpp"
 #include "../Systems/OverlapSystem.hpp"
+#include "../Systems/CounterSystem.hpp"
 
 Game::Game()
 {
@@ -98,6 +99,7 @@ void Game::Setup()
 	registry->AddSystem<RenderBoxColliderSystem>();
 	registry->AddSystem<PhysicsSystem>();
 	registry->AddSystem<OverlapSystem>();
+	registry->AddSystem<CounterSystem>();
 
 	sceneManager->LoadSceneFromScript("./assets/scripts/scenes.lua", lua);
 
@@ -123,6 +125,10 @@ void Game::ProcessInput()
 			}
 			if (sdlEvent.key.keysym.sym == SDLK_i) {
 				isDebugMode = !isDebugMode;
+				break;
+			}
+			if (sdlEvent.key.keysym.sym == SDLK_p) {
+				isPaused = !isPaused;
 				break;
 			}
 			controllerManager->KeyDown(sdlEvent.key.keysym.sym);
@@ -170,6 +176,7 @@ void Game::Update()
 	registry->GetSystem<CircleCollisionSystem>().Update(eventManager);
 	registry->GetSystem<AnimationSystem>().Update();
 	registry->GetSystem<CameraMovementSystem>().Update(camera);
+	registry->GetSystem<CounterSystem>().Update(this->currentDeaths);
 }
 
 void Game::Render()
@@ -177,20 +184,28 @@ void Game::Render()
 	SDL_SetRenderDrawColor(renderer, 31, 31, 31, 255);
 	SDL_RenderClear(renderer);
 	registry->GetSystem<RenderSystem>().Update(renderer, assetManager, camera);
-	registry->GetSystem<RenderTextSystem>().Update(renderer, assetManager);
+	registry->GetSystem<RenderTextSystem>().Update(renderer, assetManager, camera);
 	if (isDebugMode) {
 		registry->GetSystem<RenderBoxColliderSystem>().Update(renderer, camera);
 	}
 	SDL_RenderPresent(renderer);
 }
-
 void Game::RunScene()
 {
+	if (sceneManager->GetNextScene().find("menu") != std::string::npos) {
+		this->currentDeaths = 0;
+	}
 	sceneManager->LoadScene();
-	while (sceneManager->IsSceneRunning()) {
+	this->millisecsPreviousFrame = SDL_GetTicks();
+	this->isRestarting = false;
+	while (sceneManager->IsSceneRunning() && !this->isRestarting) {
 		ProcessInput();
-		Update();
-		Render();
+		if (!isPaused) {
+			Update();
+			Render();
+		} else {
+			this->millisecsPreviousFrame = SDL_GetTicks();
+		}
 	}
 	assetManager->ClearAssets();
 	registry->ClearAllEntities();
@@ -215,7 +230,7 @@ void Game::Destroy()
 
 Game::~Game()
 {
-	std::cout << "GAME se ejecuta destructor" << std::endl;
+	std::cout << "[GAME] se ejecuta destructor" << std::endl;
 	this->window = nullptr;
 	this->renderer = nullptr;
 	this->registry.reset();

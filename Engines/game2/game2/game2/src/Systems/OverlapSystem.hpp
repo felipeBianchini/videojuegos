@@ -2,6 +2,7 @@
 #define OVERLAPSYSTEM_HPP
 
 #include <memory>
+#include <string>
 
 #include "../Components/BoxColliderComponent.hpp"
 #include "../Components/RigidBodyComponent.hpp"
@@ -102,6 +103,20 @@ public:
 	void OnCollisionEvent(CollisionEvent& e) {
 		auto& aRigidbody = e.a.GetComponent<RigidBodyComponent>();
 		auto& bRigidbody = e.b.GetComponent<RigidBodyComponent>();
+		if (e.a.HasComponent<TagComponent>()) {
+			if (e.a.GetComponent<TagComponent>().tag.find("door") != std::string::npos ||
+				e.a.GetComponent<TagComponent>().tag.find("jumpable") != std::string::npos ||
+				e.a.GetComponent<TagComponent>().tag.find("slowdown") != std::string::npos) {
+				return;
+			}
+		}
+		if (e.b.HasComponent<TagComponent>()) {
+			if (e.b.GetComponent<TagComponent>().tag.find("door") != std::string::npos ||
+				e.b.GetComponent<TagComponent>().tag.find("jumpable") != std::string::npos ||
+				e.b.GetComponent<TagComponent>().tag.find("slowdown") != std::string::npos) {
+				return;
+			}
+		}
 		if (aRigidbody.isSolid && bRigidbody.isSolid) {
 			if (aRigidbody.mass >= bRigidbody.mass) {
 				AvoidOverlap(e.a, e.b);

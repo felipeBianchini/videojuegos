@@ -1,12 +1,12 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 #
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <glm/glm.hpp>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
+
+#include <SDL2/SDL_ttf.h>
 #include <sol/sol.hpp>
-#include <SDL_mixer.h>
+
 
 #include <memory>
 
@@ -30,6 +30,8 @@ private:
 	void ProcessInput();
 	void Update();
 	void Render();
+	
+	bool isPaused = false;
 
 	SDL_Window* window;
 
@@ -42,6 +44,8 @@ private:
 public:
 	int window_width = 0;
 	int window_height = 0;
+	int currentDeaths = 0;
+	bool isRestarting = false;
 
 	int mapHeigth = 0;
 	int mapWidth = 0;

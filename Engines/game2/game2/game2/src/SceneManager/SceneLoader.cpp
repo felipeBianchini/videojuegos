@@ -235,6 +235,12 @@ void SceneLoader::LoadEntities(sol::state& lua, const sol::table& entities, std:
 				}
 				newEntity.AddComponent<ScriptComponent>(onCollision, update, onClick, enemyPigUpdate, enemyTurtleUpdate, enemyBirdUpdate);
 			}
+
+			sol::optional<sol::table> hasCounter = components["counter"];
+			if (hasCounter != sol::nullopt) {
+				newEntity.AddComponent<CounterComponent>();
+			}
+			
 		}
 		index++;
 	}
@@ -413,8 +419,36 @@ void SceneLoader::LoadAnimations(const sol::table& animations, std::unique_ptr<A
 	}
 }
 
+void SceneLoader::LoadBackgroundImage(const sol::table& backgroundImages, std::unique_ptr<Registry>& registry) {
+	int index = 1;
+	while (true) {
+		sol::optional<sol::table> hasBackground = backgroundImages[index];
+		if (hasBackground == sol::nullopt) {
+			break;
+		}
+		sol::table background = backgroundImages[index];
+		std::string textureId = background["texture_id"];
+		int width = background["w"];
+		int height = background["h"];
+		int srcX = background["src_x"];
+		int srcY = background["src_y"];
+		double x = background["x"];
+		double y = background["y"];
+		double scaleX = background["scale_x"];
+		double scaleY = background["scale_y"];
+		double rotation = background["rotation"];
+		Entity backgroundEnt = registry->CreateEntity();
+		backgroundEnt.AddComponent<SpriteComponent>(textureId, width, height, srcX, srcY);
+		backgroundEnt.AddComponent<TransformComponent>(
+			glm::vec2(x, y), glm::vec2(scaleX, scaleY), rotation
+		);
+		index++;
+	}
+}
+
 void SceneLoader::LoadScene(const std::string& scenePath, sol::state& lua, SDL_Renderer* renderer, std::unique_ptr<AnimationManager>& animationManager, std::unique_ptr<AssetManager>& assetManager, std::unique_ptr<ControllerManager>& controllerManager, std::unique_ptr<Registry>& registry)
 {
+	std::cout << "[SCENELOADER] Cargando escena " << scenePath << std::endl;
 	sol::load_result script_result = lua.load_file(scenePath);
 	if (!script_result.valid()) {
 		sol::error err = script_result;
@@ -434,6 +468,8 @@ void SceneLoader::LoadScene(const std::string& scenePath, sol::state& lua, SDL_R
 	LoadButtons(buttons, controllerManager);
 	sol::table keys = scene["keys"];
 	LoadKeys(keys, controllerManager);
+	sol::table backgrounds = scene["backgrounds"];
+	LoadBackgroundImage(backgrounds, registry);
 	sol::table maps = scene["maps"];
 	LoadMap(maps, registry);
 	sol::table soundEffects = scene["soundEffects"];

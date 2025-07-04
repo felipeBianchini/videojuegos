@@ -4,7 +4,6 @@ player_states = {
 	jump = 3,
 	fall = 4,
 }
-gravity = 9.8 * 10 * 64
 player_state = player_states["idle"]
 player_can_jump = false
 player_jump_force = -2000.0 * 64.0
@@ -12,13 +11,11 @@ player_ladder_velocity = -128.0
 player_on_ladder = false
 player_speed = 3.0 * 64.0
 jump_multiplier = 2.0
-player_used_jumpable = false
 
 function update()
 	local x_vel, y_vel = get_velocity(this)
 	x_vel = 0
 	local final_y_vel = y_vel
-	player_used_jumpable = false
 
 	if is_action_activated("jump") then
 		if player_can_jump then
@@ -40,9 +37,6 @@ function update()
 
 	if is_action_activated("run") then
 		x_vel = x_vel * jump_multiplier
-	end
-	if is_action_activated("restart") then
-		kill_player();
 	end
 	if is_action_activated("menu") then
 		go_to_scene("main_menu");
@@ -68,22 +62,14 @@ function on_collision(other)
 		add_force(this, 0, player_jump_force * 2.5)
     elseif tag == "goal" then
 		play_soundEffect("win", 90)
-        go_to_scene("main_menu")
-	elseif tag == "end" then
-		go_to_scene("victory")
+        go_to_scene("victory")
     elseif tag == "deadly_obstacle" then
-		kill_player();
+		kill_player()
 		--player_death(this)
 	elseif tag == "enemy_pig" or tag == "enemy_bird" then
 		if left_collision(this, other) or right_collision(this, other) then
 			--player_death(this)
-			kill_player();
-		elseif bottom_collision(this, other) then
-			if is_action_activated("jump") then
-				add_force(this, 0, player_jump_force);
-			else
-				add_force(this, 0, player_jump_force * 0.5);
-			end
+			kill_player()
 		end
 	elseif tag == "enemy_turtle" then
         local x_vel, y_vel = get_velocity(this)
@@ -92,16 +78,13 @@ function on_collision(other)
         end
 	elseif tag == "ladder" then
 		player_on_ladder = true
-	elseif tag == "jumpable" then
-		if is_action_activated("jump") and not player_used_jumpable then
-			add_force(this, 0, player_jump_force * 0.1);
-			player_used_jumpable = true
-		end
-	elseif tag == "slowdown" then
-		print("slowdown")
-		add_force(this, 0, -1 * gravity * 0.8)
+	elseif tag == "door1" and is_action_activated("open") then
+		go_to_scene("level_01");
+	elseif tag == "door2" and is_action_activated("open") then
+		go_to_scene("level_02");
+	elseif tag == "door3" and is_action_activated("open") then
+		go_to_scene("level_03");
 	end
-
 end
 
 function player_death(entity)

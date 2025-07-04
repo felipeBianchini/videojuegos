@@ -3,7 +3,7 @@
 
 #include <string>
 #include <tuple>
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 #include "../Components/RigidBodyComponent.hpp"
 #include "../Components/TagComponent.hpp"
@@ -91,12 +91,10 @@ bool BottomCollision(Entity e, Entity other) {
 	float eX = eTransform.previousPosition.x;
 	float eY = eTransform.previousPosition.y;
 	float eW = static_cast<float>(eCollider.width);
-	float eH = static_cast<float>(eCollider.heigth);
 
 	float oX = otherTransform.previousPosition.x;
 	float oY = otherTransform.previousPosition.y;
 	float oW = static_cast<float>(otherCollider.width);
-	float oH = static_cast<float>(otherCollider.heigth);
 
 	return (
 		oX < eX + eW &&
@@ -114,7 +112,6 @@ bool TopCollision(Entity e, Entity other) {
 	float eX = eTransform.previousPosition.x;
 	float eY = eTransform.previousPosition.y;
 	float eW = static_cast<float>(eCollider.width);
-	float eH = static_cast<float>(eCollider.heigth);
 
 	float oX = otherTransform.previousPosition.x;
 	float oY = otherTransform.previousPosition.y;
@@ -187,6 +184,12 @@ void PlaySoundEffect(const std::string& soundEffectId, int volume) {
 
 void KillEntity(Entity entity) {
 	entity.Kill();
+}
+
+void PlayerKilled() {
+	Game::GetInstance().isRestarting = true;
+	Game::GetInstance().currentDeaths ++;
+	std::cout << "[LuaBinding] Player killed!\n";
 }
 
 #endif // !LUABINDING_HPP

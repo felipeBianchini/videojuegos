@@ -1,7 +1,7 @@
 #ifndef CAMERAMOVEMENTSYSTEM_HPP
 #define CAMERAMOVEMENTSYSTEM_HPP
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include "../Components/CameraFollowComponent.hpp"
 #include "../Components/TransformComponent.hpp"
 #include "../ECS/ECS.hpp"
