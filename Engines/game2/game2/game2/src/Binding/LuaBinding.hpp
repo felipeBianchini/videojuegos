@@ -192,4 +192,15 @@ void PlayerKilled() {
 	std::cout << "[LuaBinding] Player killed!\n";
 }
 
+void NextLevel() {
+	std::string currentScene = Game::GetInstance().sceneManager->GetNextScene();
+	if (currentScene.find("level_01") != std::string::npos) {
+		GoToScene("level_02");
+	} else if (currentScene.find("level_02") != std::string::npos) {
+		GoToScene("level_03");
+	} else {
+		GoToScene("main_menu");
+	}
+}
+
 #endif // !LUABINDING_HPP

@@ -37,6 +37,7 @@ public:
 		lua.set_function("play_soundEffect", PlaySoundEffect);
 		lua.set_function("kill_entity", KillEntity);
 		lua.set_function("kill_player", PlayerKilled);
+		lua.set_function("next_level", NextLevel);
 	}
 
 	void Update(sol::state& lua, double dt) {

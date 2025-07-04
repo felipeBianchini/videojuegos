@@ -27,7 +27,7 @@ scene = {
         [4] = {soundEffectId = "win", filePath = "./assets/soundEffects/win.wav"},
     },
     backgroundMusic = {
-        [1] = {backgroundMusicId = "background_music", filePath = "./assets/backgroundMusic/option1.wav"},
+        [1] = {backgroundMusicId = "victory", filePath = "./assets/backgroundMusic/Victory.wav"},
     },
     keys = {
         [1] = {name = "up", key = 119},
